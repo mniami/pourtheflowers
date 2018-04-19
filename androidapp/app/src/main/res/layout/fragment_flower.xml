@@ -3,12 +3,32 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="2dp"
               android:background="@color/white"
+              android:layout_marginBottom="1dp"
+              android:layout_marginRight="2dp"
+              android:paddingBottom="@dimen/text_margin"
               android:orientation="horizontal">
 
-    <LinearLayout
+    <ImageView
         android:layout_margin="@dimen/text_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@android:drawable/btn_star"/>
+
+    <TextView
+        android:id="@+id/frequency"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="34sp"
+        tools:text="@sample/flowers.json/data/frequency"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/text_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -17,25 +37,20 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:paddingBottom="10dp"
             tools:text="@sample/flowers.json/data/name"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
-            android:id="@+id/frequency"
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:text="@sample/flowers.json/data/frequency"
+            android:textColor="@color/darker_gray"
+            tools:text="@sample/flowers.json/data/description"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        tools:text="@sample/flowers.json/data/description"
-        android:textAppearance="?attr/textAppearanceListItem"/>
 
 </LinearLayout>
