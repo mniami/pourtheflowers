@@ -10,8 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import guideme.bydgoszcz.pl.pourtheflower.dummy.DummyContent
-import guideme.bydgoszcz.pl.pourtheflower.dummy.DummyContent.DummyItem
+import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
 
 /**
  * A fragment representing a list of Items.
@@ -44,7 +44,9 @@ class FlowerFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = FlowerRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                val flowersProvider = FlowersProvider(context)
+                flowersProvider.load()
+                adapter = FlowerRecyclerViewAdapter(flowersProvider.items, listener)
             }
         }
         return view
@@ -77,7 +79,7 @@ class FlowerFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: FlowerItem?)
     }
 
     companion object {

@@ -7,8 +7,7 @@
     android:name="guideme.bydgoszcz.pl.pourtheflower.FlowerFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:background="@color/gray"
     app:layoutManager="LinearLayoutManager"
     tools:context=".FlowerFragment"
     tools:listitem="@layout/fragment_flower"/>
