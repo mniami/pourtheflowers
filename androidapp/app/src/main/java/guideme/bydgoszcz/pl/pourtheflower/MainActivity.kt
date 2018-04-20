@@ -1,8 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +16,9 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerFragment.OnListFragmentInteractionListener {
     override fun onListFragmentInteraction(item: FlowersContent.FlowerItem?) {
-        //too
+        startActivity(Intent()
+                .setClass(this, FlowerActivity::class.java)
+                .putExtra("Flower", item))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +36,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(frame_layout.id, FlowerFragment(), "flowerList")
-                    .addToBackStack("flowerList")
                     .commit()
         }
 

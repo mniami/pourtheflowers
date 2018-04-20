@@ -25,8 +25,9 @@ class FlowersProvider(val context: Context) {
             val name = jsonItem.getString("name")
             val description = jsonItem.getString("description")
             val frequency = jsonItem.getInt("frequency")
+            val imageUrl = jsonItem.getString("imageUrl")
 
-            newFlowersList.add(FlowersContent.FlowerItem(id, name, description, frequency))
+            newFlowersList.add(FlowersContent.FlowerItem(id, name, description, frequency, imageUrl))
         }
         flowers = newFlowersList
     }

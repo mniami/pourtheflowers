@@ -1,5 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.dummy
 
+import java.io.Serializable
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -36,7 +37,7 @@ object FlowersContent {
     }
 
     private fun createDummyItem(position: Int): FlowerItem {
-        return FlowerItem(position.toString(), "Flower " + position, makeDetails(position), 1)
+        return FlowerItem(position.toString(), "Flower " + position, makeDetails(position), 1, "https://www.zielonyogrodek.pl/images/media2/31680czerwony_rozanecznik_rododendron_fot._Hans_Braxmeier_-_Pixabay.jpg")
     }
 
     private fun makeDetails(position: Int): String {
@@ -51,7 +52,7 @@ object FlowersContent {
     /**
      * A dummy item representing a piece of content.
      */
-    data class FlowerItem(val id: String, val content: String, val description: String, val frequency : Int) {
+    data class FlowerItem(val id: String, val content: String, val description: String, val frequency : Int, val imageUrl: String) : Serializable {
         override fun toString(): String = content
     }
 }
