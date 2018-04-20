@@ -5,7 +5,7 @@ jdk:
 
 before_install:
  - chmod +x androidapp/gradlew
- - cp androidapp/travis.local.properties androidapp/local.properties
+ - cp travis.local.properties local.properties
  
 install:
   - echo yes | sdkmanager "tools" &>/dev/null
