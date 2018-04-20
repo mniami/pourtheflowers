@@ -4,8 +4,8 @@ jdk:
   - oraclejdk8
 
 before_install:
- - chmod +x gradlew
- - cp travis.local.properties local.properties
+ - chmod +x androidapp/gradlew
+ - cp androidapp/travis.local.properties androidapp/local.properties
  
 install:
   - echo yes | sdkmanager "tools" &>/dev/null
