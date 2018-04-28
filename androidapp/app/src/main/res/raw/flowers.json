@@ -1,6 +1,8 @@
 {
   "data" :[
-    {"id": "1", "name" : "Zamioculcas Zamiolistny", "frequency": 1, "description": "Fiolek to kwiat wymagajacy czestego podlewania", "imageUrl" : "https://www.zielonyogrodek.pl/images/media2/31680czerwony_rozanecznik_rododendron_fot._Hans_Braxmeier_-_Pixabay.jpg"},
+    {"id": "1", "name" : "Zamioculcas Zamiolistny", "frequency": 1,
+      "description": "Kwiat niezwykle wytrzymały, odporny na szkodniki, posiada niewielkie wymagania świetlne, podlewanie oszczędne - dopiero gdy podłoże jest lekko suche (podlewanie nawet co dwa miesiące), szeroki zakres temperatur od 16 stopni zimą do nawet 30 stopni. (najlepiej 22-25)",
+      "imageUrl" : "https://zielony-parapet.pl/allegro/zdjecia_sadzonek/zamioculcas_zamiifolia_14.jpg"},
     {"id": "1", "name" : "Palma hawajska", "frequency": 1, "description": "Fiolek to kwiat wymagajacy czestego podlewania", "imageUrl" : "https://www.zielonyogrodek.pl/images/media2/31680czerwony_rozanecznik_rododendron_fot._Hans_Braxmeier_-_Pixabay.jpg"},
     {"id": "1", "name" : "Dzbanecznik ", "frequency": 1, "description": "Fiolek to kwiat wymagajacy czestego podlewania", "imageUrl" : "https://www.zielonyogrodek.pl/images/media2/31680czerwony_rozanecznik_rododendron_fot._Hans_Braxmeier_-_Pixabay.jpg"},
     {"id": "1", "name" : "Pachira wodna", "frequency": 1, "description": "Fiolek to kwiat wymagajacy czestego podlewania", "imageUrl" : "https://www.zielonyogrodek.pl/images/media2/31680czerwony_rozanecznik_rododendron_fot._Hans_Braxmeier_-_Pixabay.jpg"},
