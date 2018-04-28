@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 
 
 import guideme.bydgoszcz.pl.pourtheflower.FlowerFragment.OnListFragmentInteractionListener
@@ -45,6 +47,14 @@ class FlowerRecyclerViewAdapter(
         holder.mDescriptionView.text = item.description
         holder.mFrequencyView.text = item.frequency.toString()
 
+        holder.mView.post {
+            Picasso.get()
+                    .load(item.imageUrl)
+                    .resize(holder.mView.measuredWidth, holder.mView.measuredHeight)
+                    .centerInside()
+                    .into(holder.mFlowerImageView)
+        }
+
         with(holder.mView) {
             tag = item
             setOnClickListener(mOnClickListener)
@@ -57,6 +67,7 @@ class FlowerRecyclerViewAdapter(
         val mNameView: TextView = mView.name
         val mDescriptionView: TextView = mView.description
         val mFrequencyView: TextView = mView.frequency
+        val mFlowerImageView : ImageView = mView.flowerImage
 
         override fun toString(): String {
             return super.toString() + " '" + mNameView.text + "'"

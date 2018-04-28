@@ -5,6 +5,7 @@ import android.graphics.Matrix
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.ViewGroup
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoProvider
@@ -32,7 +33,22 @@ class FlowerActivity : AppCompatActivity() {
             toolbar_layout.title = flower.content
             flowerDescription.text = flower.description
 
-            Picasso.get().load(flower.imageUrl).fit().transform(FlipTransformation()).into(toolbar_imageView)
+
+        }
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        val flower = item
+        if (flower != null){
+            val parentView = toolbar_imageView.parent as ViewGroup
+            parentView.post {
+                Picasso.get().load(flower.imageUrl)
+                        .resize(parentView.measuredWidth, parentView.measuredHeight)
+                        .centerInside()
+                        .transform(FlipTransformation())
+                        .into(toolbar_imageView)
+            }
         }
     }
 }
