@@ -19,7 +19,7 @@ class FlowersProvider(val context: Context) {
         val foodJson = jsonObj.getJSONArray("data")
         val newFlowersList = mutableListOf<FlowersContent.FlowerItem>()
 
-        for (i in 0..foodJson!!.length() - 1) {
+        for (i in 0 until foodJson!!.length()) {
             val jsonItem = foodJson.getJSONObject(i)
             val id = jsonItem.getString("id")
             val name = jsonItem.getString("name")

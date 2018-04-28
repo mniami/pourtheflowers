@@ -43,6 +43,9 @@ class FlowerActivity : AppCompatActivity() {
         if (flower != null){
             val parentView = toolbar_imageView.parent as ViewGroup
             parentView.post {
+                if (flower.imageUrl.isEmpty()){
+                    return@post
+                }
                 Picasso.get().load(flower.imageUrl)
                         .resize(parentView.measuredWidth, parentView.measuredHeight)
                         .centerInside()
