@@ -44,7 +44,7 @@ class FlowerRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.mNameView.text = item.content
-        holder.mDescriptionView.text = item.description
+        holder.mDescriptionView.text = getShorted(item.description)
         holder.mFrequencyView.text = item.frequency.toString()
 
         holder.mView.post {
@@ -61,6 +61,21 @@ class FlowerRecyclerViewAdapter(
             tag = item
             setOnClickListener(mOnClickListener)
         }
+    }
+
+    private fun getShorted(description: String): CharSequence? {
+        val maxLength = 100
+        if (description.length > maxLength){
+            val idx = description.indexOfAny(charArrayOf(',','.'), maxLength)
+            if (idx > -1){
+                description.indexOfAny(charArrayOf(',','.'))
+                return description.substring(0, idx) + "."
+            }
+            else {
+                return description.substring(0, maxLength)
+            }
+        }
+        return description
     }
 
     override fun getItemCount(): Int = mValues.size
