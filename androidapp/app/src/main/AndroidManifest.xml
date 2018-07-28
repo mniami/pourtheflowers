@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FlowerActivity"
+            android:name=".flower.FlowerActivity"
             android:label="@string/title_activity_flower"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

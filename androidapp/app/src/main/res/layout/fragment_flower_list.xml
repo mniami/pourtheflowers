@@ -9,5 +9,5 @@
     android:layout_height="match_parent"
     android:background="@color/gray"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".FlowerFragment"
+    tools:context=".flower.FlowerFragment"
     tools:listitem="@layout/fragment_flower"/>

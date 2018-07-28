@@ -1,6 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -9,14 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.flower.FlowerActivity
+import guideme.bydgoszcz.pl.pourtheflower.flower.FlowerFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.app.SearchManager
-import android.content.Context
-import android.os.Build
-import android.widget.SearchView
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerFragment.OnListFragmentInteractionListener {
