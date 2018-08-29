@@ -13,13 +13,9 @@ import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.app.SearchManager
-import android.content.Context
-import android.os.Build
-import android.widget.SearchView
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener {
     override fun onListFragmentInteraction(item: FlowersContent.FlowerItem?) {
         startActivity(Intent()
                 .setClass(this, FlowerActivity::class.java)
@@ -43,7 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(frame_layout.id, FlowerFragment(), "flowerList")
+                    .add(frame_layout.id, FlowerListFragment(), "flowerList")
                     .commit()
         }
 
@@ -56,29 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            val search = menu.findItem(R.id.search).actionView as SearchView
-
-            search.setSearchableInfo(manager.getSearchableInfo(componentName))
-            search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return true
-                }
-            })
-        }
-
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

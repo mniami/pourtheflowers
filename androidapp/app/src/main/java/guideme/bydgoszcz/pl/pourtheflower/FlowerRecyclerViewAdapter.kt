@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 
 
-import guideme.bydgoszcz.pl.pourtheflower.FlowerFragment.OnListFragmentInteractionListener
+import guideme.bydgoszcz.pl.pourtheflower.FlowerListFragment.OnListFragmentInteractionListener
 import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
 
 import kotlinx.android.synthetic.main.fragment_flower.view.*
@@ -23,8 +23,8 @@ class FlowerRecyclerViewAdapter(
         private val mValues: List<FlowerItem>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
-
     private val mOnClickListener: View.OnClickListener
+    private var filteredList = mValues
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -61,6 +61,17 @@ class FlowerRecyclerViewAdapter(
             tag = item
             setOnClickListener(mOnClickListener)
         }
+    }
+
+    fun filter(text: String) {
+        if (text.isBlank()) {
+            filteredList = mValues
+        } else {
+            filteredList = mValues.filter { item ->
+                item.content.contains(text, true) || item.description.contains(text, true)
+            }
+        }
+        notifyDataSetChanged()
     }
 
     private fun getShorted(description: String): CharSequence? {
