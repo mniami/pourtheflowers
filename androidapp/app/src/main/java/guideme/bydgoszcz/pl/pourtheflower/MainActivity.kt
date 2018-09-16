@@ -7,16 +7,15 @@ import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener {
-    override fun onListFragmentInteraction(item: FlowersContent.FlowerItem?) {
+    override fun onListFragmentInteraction(item: Flower?) {
         startActivity(Intent()
                 .setClass(this, FlowerActivity::class.java)
                 .putExtra("Flower", item))

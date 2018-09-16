@@ -5,12 +5,12 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.activity_flower.*
 import kotlinx.android.synthetic.main.content_flower.*
 
 class FlowerActivity : AppCompatActivity() {
-    private var item: FlowersContent.FlowerItem? = null
+    private var item: Flower? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class FlowerActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        item = intent.getSerializableExtra("Flower") as FlowersContent.FlowerItem?
+        item = intent.getSerializableExtra("Flower") as Flower?
         val flower = item
         if (flower != null) {
             toolbar_layout.title = flower.content
