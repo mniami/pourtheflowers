@@ -1,25 +1,29 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
-import android.content.Intent
+import android.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener {
-    override fun onListFragmentInteraction(item: FlowersContent.FlowerItem?) {
-        startActivity(Intent()
-                .setClass(this, FlowerActivity::class.java)
-                .putExtra("Flower", item))
+    private val flowerListBackStackName = "flowerList"
+    private val flowerBackStackName = "flower"
+    private lateinit var toggle: ActionBarDrawerToggle
+
+    override fun onListFragmentInteraction(item: FlowersContent.FlowerItem) {
+        supportFragmentManager.beginTransaction()
+                .replace(frame_layout.id, FlowerFragment.create(item), "flower")
+                .addToBackStack(flowerBackStackName)
+                .commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,16 +35,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Dodanie nowej rośliny, w aktualnej wersji nie jest dostępne", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val toggle = ActionBarDrawerToggle(
+        toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        toggle.setToolbarNavigationClickListener {
+            onBackPressed()
+        }
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(frame_layout.id, FlowerListFragment(), "flowerList")
+                    .add(frame_layout.id, FlowerListFragment(), flowerListBackStackName)
+                    .addToBackStack(flowerListBackStackName)
                     .commit()
+        }
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount == 1) {
+                showBackButton(false)
+            }
         }
 
         nav_view.setNavigationItemSelectedListener(this)
@@ -50,7 +66,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            if (supportFragmentManager.backStackEntryCount == 1) {
+                finish()
+            } else {
+                supportFragmentManager.popBackStack(flowerBackStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
         }
     }
 
@@ -58,9 +78,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -86,8 +106,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         }
-
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun showBackButton(showBackButton: Boolean) {
+        toggle.isDrawerIndicatorEnabled = !showBackButton
+    }
 }
+
+interface MainActivityHelper {
+    fun showBackButton(value: Boolean)
+}
+

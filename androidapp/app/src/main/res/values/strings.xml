@@ -98,4 +98,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="search_title">search</string>
+    <string name="flower_information">Flower information</string>
 </resources>

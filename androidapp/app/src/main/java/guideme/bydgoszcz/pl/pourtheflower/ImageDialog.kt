@@ -2,7 +2,10 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.view.*
+import android.view.LayoutInflater
+import android.view.ScaleGestureDetector
+import android.view.View
+import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 
@@ -20,11 +23,24 @@ class ImageDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fullscreen_image_dialog, container, false)
+        val view = inflater.inflate(R.layout.fullscreen_image_dialog, container, false)
+        view?.afterMeasured {
+            showImage()
+        }
+        return view
     }
 
     override fun onResume() {
         super.onResume()
+
+        scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
+        imageView.setOnTouchListener { view, motionView ->
+            scaleGestureDetector?.onTouchEvent(motionView)
+            true
+        }
+    }
+
+    private fun showImage() {
         val url = imageUrl
         if (url != null) {
             Picasso.get().load(url)
@@ -32,14 +48,6 @@ class ImageDialog : DialogFragment() {
                     .transform(FlipTransformation(url))
                     .into(imageView)
         }
-        scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
-
-        imageView.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-                scaleGestureDetector?.onTouchEvent(p1)
-                return true
-            }
-        })
     }
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
@@ -49,7 +57,7 @@ class ImageDialog : DialogFragment() {
             scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f))
             imageView.scaleX = scaleFactor
             imageView.scaleY = scaleFactor
-            return true;
+            return true
         }
     }
 }

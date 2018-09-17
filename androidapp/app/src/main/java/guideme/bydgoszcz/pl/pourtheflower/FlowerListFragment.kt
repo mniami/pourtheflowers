@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.SearchView
-
 import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 
@@ -86,7 +85,7 @@ class FlowerListFragment : Fragment() {
     }
 
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: FlowerItem?)
+        fun onListFragmentInteraction(item: FlowerItem)
     }
 
     companion object {

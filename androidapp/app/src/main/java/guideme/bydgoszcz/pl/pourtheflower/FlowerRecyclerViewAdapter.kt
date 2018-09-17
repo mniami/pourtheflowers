@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.FlowerListFragment.OnListFragmentInteractionListener
 import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
 
-import kotlinx.android.synthetic.main.fragment_flower.view.*
+import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
 /**
  * [RecyclerView.Adapter] that can display a [FlowerItem] and makes a call to the
@@ -37,7 +37,7 @@ class FlowerRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_flower, parent, false)
+                .inflate(R.layout.fragment_flower_item, parent, false)
         return ViewHolder(view)
     }
 
