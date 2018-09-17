@@ -118,4 +118,3 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 interface MainActivityHelper {
     fun showBackButton(value: Boolean)
 }
-
