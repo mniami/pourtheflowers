@@ -7,16 +7,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.fragment_flower.*
 
 class FlowerFragment : Fragment() {
-    private lateinit var flower: FlowersContent.FlowerItem
+    private lateinit var flower: Flower
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        flower = arguments?.getSerializable("Flower") as FlowersContent.FlowerItem
+        flower = arguments?.getSerializable("Flower") as Flower
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +52,7 @@ class FlowerFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun openImageFullScreen(flower: FlowersContent.FlowerItem) {
-        if (flower == null) {
-            return
-        }
+    private fun openImageFullScreen(flower: Flower) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         val dialog = activity?.supportFragmentManager?.findFragmentByTag("dialog")
         if (transaction == null) {
@@ -73,7 +70,7 @@ class FlowerFragment : Fragment() {
         imageDialog.show(transaction, "dialog")
     }
 
-    private fun loadImage(flower: FlowersContent.FlowerItem) {
+    private fun loadImage(flower: Flower) {
         val parentView = flowerImage.parent as ViewGroup
         parentView.afterMeasured {
             if (flower.imageUrl.isEmpty()) {
@@ -87,7 +84,7 @@ class FlowerFragment : Fragment() {
     }
 
     companion object {
-        fun create(flower: FlowersContent.FlowerItem): FlowerFragment {
+        fun create(flower: Flower): FlowerFragment {
             val fragment = FlowerFragment()
             val bundle = Bundle()
             bundle.putSerializable("Flower", flower)

@@ -10,17 +10,17 @@ import com.squareup.picasso.Picasso
 
 
 import guideme.bydgoszcz.pl.pourtheflower.FlowerListFragment.OnListFragmentInteractionListener
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [FlowerItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Flower] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
 class FlowerRecyclerViewAdapter(
-        private val mValues: List<FlowerItem>,
+        private val mValues: List<Flower>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
     private val mOnClickListener: View.OnClickListener
@@ -28,7 +28,7 @@ class FlowerRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as FlowerItem
+            val item = v.tag as Flower
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)

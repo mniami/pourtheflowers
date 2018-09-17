@@ -34,7 +34,7 @@ class ImageDialog : DialogFragment() {
         super.onResume()
 
         scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
-        imageView.setOnTouchListener { view, motionView ->
+        imageView.setOnTouchListener { _, motionView ->
             scaleGestureDetector?.onTouchEvent(motionView)
             true
         }

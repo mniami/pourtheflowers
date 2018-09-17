@@ -1,23 +1,27 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
 import android.content.Context
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.threads.runInBackground
+import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
 import org.json.JSONObject
 
 class FlowersProvider(val context: Context) {
-    private var flowers: List<FlowersContent.FlowerItem> = listOf()
-
-    val items: List<FlowersContent.FlowerItem>
-        get() {
-            return flowers
+    fun load(listener: (List<Flower>) -> Unit) {
+        runInBackground {
+            val flowers = _load()
+            runOnUi {
+                listener.invoke(flowers)
+            }
         }
+    }
 
-    fun load() {
+    private fun _load(): List<Flower> {
         val json = context.resources.openRawResource(R.raw.flowers)
                 .bufferedReader().use { it.readText() }
         val jsonObj = JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1))
         val foodJson = jsonObj.getJSONArray("data")
-        val newFlowersList = mutableListOf<FlowersContent.FlowerItem>()
+        val newFlowersList = mutableListOf<Flower>()
 
         for (i in 0 until foodJson!!.length()) {
             val jsonItem = foodJson.getJSONObject(i)
@@ -27,8 +31,8 @@ class FlowersProvider(val context: Context) {
             val frequency = jsonItem.getInt("frequency")
             val imageUrl = jsonItem.getString("imageUrl")
 
-            newFlowersList.add(FlowersContent.FlowerItem(id, name, description, frequency, imageUrl))
+            newFlowersList.add(Flower(id, name, description, frequency, imageUrl))
         }
-        flowers = newFlowersList
+        return newFlowersList
     }
 }

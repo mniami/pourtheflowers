@@ -1,6 +1,5 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
-import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.SearchView
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent.FlowerItem
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 
 class FlowerListFragment : Fragment() {
@@ -18,7 +17,6 @@ class FlowerListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
@@ -42,18 +40,16 @@ class FlowerListFragment : Fragment() {
                 else -> GridLayoutManager(context, columnCount)
             }
             val flowersProvider = FlowersProvider(context)
-            flowersProvider.load()
-            adapter = FlowerRecyclerViewAdapter(flowersProvider.items, listener)
+            flowersProvider.load {
+                adapter = FlowerRecyclerViewAdapter(it, listener)
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         menuInflater?.inflate(R.menu.main, menu)
 
-        val manager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager?
         val search = menu?.findItem(R.id.search)?.actionView as SearchView?
-
-        search?.setSearchableInfo(manager?.getSearchableInfo(activity?.componentName))
         search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText === null) {
@@ -85,7 +81,7 @@ class FlowerListFragment : Fragment() {
     }
 
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: FlowerItem)
+        fun onListFragmentInteraction(item: Flower)
     }
 
     companion object {

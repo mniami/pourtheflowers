@@ -8,7 +8,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import guideme.bydgoszcz.pl.pourtheflower.dummy.FlowersContent
+import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val flowerBackStackName = "flower"
     private lateinit var toggle: ActionBarDrawerToggle
 
-    override fun onListFragmentInteraction(item: FlowersContent.FlowerItem) {
+    override fun onListFragmentInteraction(item: Flower) {
         supportFragmentManager.beginTransaction()
                 .replace(frame_layout.id, FlowerFragment.create(item), "flower")
                 .addToBackStack(flowerBackStackName)
