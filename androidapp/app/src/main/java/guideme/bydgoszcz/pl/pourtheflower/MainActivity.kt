@@ -1,6 +1,5 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
-import android.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -15,15 +14,11 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
 
-    private val flowerListBackStackName = "flowerList"
-    private val flowerBackStackName = "flower"
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var viewPresenter: ViewPresenter
 
     override fun onListFragmentInteraction(item: Flower) {
-        supportFragmentManager.beginTransaction()
-                .replace(frame_layout.id, FlowerFragment.create(item), "flower")
-                .addToBackStack(flowerBackStackName)
-                .commit()
+        viewPresenter.showFlower(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +30,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Dodanie nowej rośliny, w aktualnej wersji nie jest dostępne", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+        viewPresenter = ViewPresenter(supportFragmentManager, frame_layout.id)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -46,15 +43,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .add(frame_layout.id, FlowerListFragment(), flowerListBackStackName)
-                    .addToBackStack(flowerListBackStackName)
-                    .commit()
+            viewPresenter.showAllFlowers()
         }
         supportFragmentManager.addOnBackStackChangedListener {
-            if (supportFragmentManager.backStackEntryCount == 1) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
                 showBackButton(false)
             }
         }
@@ -66,10 +59,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            if (supportFragmentManager.backStackEntryCount == 1) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
                 finish()
             } else {
-                supportFragmentManager.popBackStack(flowerBackStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                supportFragmentManager.popBackStack()
             }
         }
     }
@@ -87,22 +80,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
+            R.id.navList -> {
+                viewPresenter.showAllFlowers()
             }
-            R.id.nav_gallery -> {
-
+            R.id.navMyList -> {
+                Snackbar.make(nav_view, "Wyświetlenie własnych kwiatów", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
+            R.id.navAddNew -> {
+                Snackbar.make(nav_view, "Dodanie nowego kwiatu", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
 
             }
         }

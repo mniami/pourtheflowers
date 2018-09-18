@@ -5,34 +5,30 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Wszystkie rośliny"/>
+            android:id="@+id/navList"
+            android:icon="@drawable/ic_list"
+            android:title="Wszystkie kwiaty"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/navMyList"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Moje rośliny"/>
+            android:title="Moje kwiaty"/>
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Historia"/>
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Ustawienia"/>
+            android:id="@+id/navAddNew"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Dodaj nowy"/>
     </group>
 
-    <item android:title="Społeczność">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Udostępnij"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Wyślij"/>
-        </menu>
-    </item>
+    <!--<item android:title="Społeczność">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@drawable/ic_menu_share"-->
+    <!--android:title="Udostępnij"/>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@drawable/ic_menu_send"-->
+    <!--android:title="Wyślij"/>-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>

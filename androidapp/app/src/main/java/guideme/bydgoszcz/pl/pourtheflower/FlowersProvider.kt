@@ -7,9 +7,13 @@ import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
 import org.json.JSONObject
 
 class FlowersProvider(val context: Context) {
+    private lateinit var flowers: List<Flower>
+
     fun load(listener: (List<Flower>) -> Unit) {
         runInBackground {
-            val flowers = _load()
+            if (!::flowers.isInitialized) {
+                flowers = _load()
+            }
             runOnUi {
                 listener.invoke(flowers)
             }
