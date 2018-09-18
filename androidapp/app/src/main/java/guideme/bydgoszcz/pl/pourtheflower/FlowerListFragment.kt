@@ -3,22 +3,27 @@ package guideme.bydgoszcz.pl.pourtheflower
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.fragment_flower_list.*
+import javax.inject.Inject
 
 class FlowerListFragment : Fragment() {
-    private var columnCount = 1
+    private var listType = ALL_LIST_TYPE
     private var listener: OnListFragmentInteractionListener? = null
+    @Inject
+    lateinit var flowersProvider: FlowersProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (activity?.application as PourTheFlowerApplication).component.inject(this)
+
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            listType = it.getInt(ARG_LIST_TYPE)
         }
     }
 
@@ -35,13 +40,15 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            layoutManager = when {
-                columnCount <= 1 -> LinearLayoutManager(context)
-                else -> GridLayoutManager(context, columnCount)
-            }
-            val flowersProvider = FlowersProvider(context)
+            layoutManager = LinearLayoutManager(context)
+
             flowersProvider.load {
-                adapter = FlowerRecyclerViewAdapter(it, listener)
+                var flowers: List<Flower> = when (listType) {
+                    USER_LIST_TYPE -> it.getUser().flowers
+                    ALL_LIST_TYPE -> it.getAllFlowers()
+                    else -> it.getAllFlowers()
+                }
+                adapter = FlowerRecyclerViewAdapter(flowers, listener)
             }
         }
     }
@@ -85,13 +92,15 @@ class FlowerListFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_COLUMN_COUNT = "column-count"
+        const val USER_LIST_TYPE = 1
+        const val ALL_LIST_TYPE = 2
+        const val ARG_LIST_TYPE = "list_type"
 
         @JvmStatic
-        fun newInstance(columnCount: Int) =
+        fun newInstance(listType: Int) =
                 FlowerListFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_COLUMN_COUNT, columnCount)
+                        putInt(ARG_LIST_TYPE, listType)
                     }
                 }
     }

@@ -2,41 +2,44 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.content.Context
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.model.User
+import guideme.bydgoszcz.pl.pourtheflower.serialization.DataCache
+import guideme.bydgoszcz.pl.pourtheflower.serialization.UserSerializer
 import guideme.bydgoszcz.pl.pourtheflower.threads.runInBackground
 import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
-import org.json.JSONObject
+import java.nio.ByteBuffer
+import javax.inject.Inject
 
-class FlowersProvider(val context: Context) {
+class FlowersProvider @Inject constructor(val context: Context) {
     private lateinit var flowers: List<Flower>
+    private lateinit var user: User
 
-    fun load(listener: (List<Flower>) -> Unit) {
+    private val userListCacheName = "userList"
+    private val dataCache: DataCache = DataCache(context.cacheDir.absolutePath)
+    private val flowersListLoader = FlowersListLoader()
+
+    fun load(onFinished: (FlowersProvider) -> Unit) {
         runInBackground {
-            if (!::flowers.isInitialized) {
-                flowers = _load()
-            }
+            loadUserList()
+            loadFlowers()
             runOnUi {
-                listener.invoke(flowers)
+                onFinished(this)
             }
         }
     }
 
-    private fun _load(): List<Flower> {
-        val json = context.resources.openRawResource(R.raw.flowers)
-                .bufferedReader().use { it.readText() }
-        val jsonObj = JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1))
-        val foodJson = jsonObj.getJSONArray("data")
-        val newFlowersList = mutableListOf<Flower>()
+    fun getUser(): User = user
+    fun getAllFlowers(): List<Flower> = flowers
 
-        for (i in 0 until foodJson!!.length()) {
-            val jsonItem = foodJson.getJSONObject(i)
-            val id = jsonItem.getString("id")
-            val name = jsonItem.getString("name")
-            val description = jsonItem.getString("description")
-            val frequency = jsonItem.getInt("frequency")
-            val imageUrl = jsonItem.getString("imageUrl")
+    private fun loadUserList() {
+        val buffer = ByteBuffer.allocate(1024 * 8)
+        dataCache.load(userListCacheName, buffer)
+        user = UserSerializer().deserialize(buffer)
+    }
 
-            newFlowersList.add(Flower(id, name, description, frequency, imageUrl))
+    private fun loadFlowers() {
+        if (!::flowers.isInitialized) {
+            flowers = flowersListLoader.load(context)
         }
-        return newFlowersList
     }
 }

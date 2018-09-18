@@ -8,9 +8,10 @@ class UserSerializer {
         FlowerSerializer().serialize(byteBuffer, user.flowers)
     }
 
-    companion object {
-        fun deserialize(byteBuffer: ByteBuffer): User {
-            return User(FlowerSerializer().deserializeList(byteBuffer))
+    fun deserialize(byteBuffer: ByteBuffer): User {
+        if (!byteBuffer.hasRemaining()) {
+            return User(emptyList())
         }
+        return User(FlowerSerializer().deserializeList(byteBuffer))
     }
 }

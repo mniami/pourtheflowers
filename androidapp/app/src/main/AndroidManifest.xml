@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_garden_center_15"
         android:supportsRtl="true"
+        android:name=".PourTheFlowerApplication"
         android:theme="@style/AppTheme">
 
         <activity

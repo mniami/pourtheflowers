@@ -20,7 +20,10 @@ class FlowerSerializer {
     }
 
     fun deserializeList(byteBuffer: ByteBuffer): List<Flower> {
-        val size = byteBuffer.getInt()
+        if (!byteBuffer.hasRemaining()) {
+            return emptyList()
+        }
+        val size = byteBuffer.int
         val list = ArrayList<Flower>(size)
         val flowerSerializer = FlowerSerializer()
         for (i in 0..size) {
@@ -34,7 +37,7 @@ class FlowerSerializer {
             Flower(getString(),
                     getString(),
                     getString(),
-                    getInt(),
+                    int,
                     getString())
         }
     }

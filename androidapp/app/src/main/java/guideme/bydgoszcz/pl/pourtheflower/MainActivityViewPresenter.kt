@@ -3,8 +3,8 @@ package guideme.bydgoszcz.pl.pourtheflower
 import android.support.v4.app.FragmentManager
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 
-class ViewPresenter(private val supportFragmentManager: FragmentManager,
-                    private val frameLayoutId: Int) {
+class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
+                                private val frameLayoutId: Int) {
     private val flowerListBackStackName = "flowerList"
     private val flowerBackStackName = "flower"
 
@@ -15,9 +15,15 @@ class ViewPresenter(private val supportFragmentManager: FragmentManager,
                 .commit()
     }
 
+    fun showUserFlowers() {
+        supportFragmentManager.beginTransaction()
+                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), flowerListBackStackName)
+                .commit()
+    }
+
     fun showAllFlowers() {
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, FlowerListFragment(), flowerListBackStackName)
+                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), flowerListBackStackName)
                 .commit()
     }
 }

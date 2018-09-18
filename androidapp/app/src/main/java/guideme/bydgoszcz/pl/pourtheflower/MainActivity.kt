@@ -15,14 +15,15 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
 
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewPresenter: ViewPresenter
+    private lateinit var mainActivityViewPresenter: MainActivityViewPresenter
 
     override fun onListFragmentInteraction(item: Flower) {
-        viewPresenter.showFlower(item)
+        mainActivityViewPresenter.showFlower(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Dodanie nowej rośliny, w aktualnej wersji nie jest dostępne", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        viewPresenter = ViewPresenter(supportFragmentManager, frame_layout.id)
+        mainActivityViewPresenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         if (savedInstanceState == null) {
-            viewPresenter.showAllFlowers()
+            mainActivityViewPresenter.showAllFlowers()
         }
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportFragmentManager.backStackEntryCount == 0) {
@@ -81,16 +82,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.navList -> {
-                viewPresenter.showAllFlowers()
+                mainActivityViewPresenter.showAllFlowers()
             }
             R.id.navMyList -> {
-                Snackbar.make(nav_view, "Wyświetlenie własnych kwiatów", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                mainActivityViewPresenter.showUserFlowers()
             }
             R.id.navAddNew -> {
                 Snackbar.make(nav_view, "Dodanie nowego kwiatu", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
-
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
