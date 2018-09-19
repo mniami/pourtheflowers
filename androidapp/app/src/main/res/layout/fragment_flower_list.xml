@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".FlowerListFragment"
+    tools:context=".views.fragments.FlowerListFragment"
     tools:listitem="@layout/fragment_flower_item"/>

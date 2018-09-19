@@ -1,4 +1,5 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.views.fragments
+
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,11 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-
-
-import guideme.bydgoszcz.pl.pourtheflower.FlowerListFragment.OnListFragmentInteractionListener
+import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
-
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
 /**

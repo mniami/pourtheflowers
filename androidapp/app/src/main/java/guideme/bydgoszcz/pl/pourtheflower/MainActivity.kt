@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -102,5 +103,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 }
 
 interface MainActivityHelper {
-    fun showBackButton(value: Boolean)
+    fun showBackButton(showBackButton: Boolean)
 }

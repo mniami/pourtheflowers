@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.SearchView
+import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
+import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -43,7 +46,7 @@ class FlowerListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
 
             flowersProvider.load {
-                var flowers: List<Flower> = when (listType) {
+                val flowers: List<Flower> = when (listType) {
                     USER_LIST_TYPE -> it.getUser().flowers
                     ALL_LIST_TYPE -> it.getAllFlowers()
                     else -> it.getAllFlowers()

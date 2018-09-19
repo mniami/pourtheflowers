@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.utils
 
 import android.view.View
 

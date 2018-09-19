@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.views.dialogs
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -7,6 +7,9 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
+import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 
 

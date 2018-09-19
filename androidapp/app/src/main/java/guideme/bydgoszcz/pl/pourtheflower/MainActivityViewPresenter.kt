@@ -2,6 +2,8 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.support.v4.app.FragmentManager
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerFragment
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) {

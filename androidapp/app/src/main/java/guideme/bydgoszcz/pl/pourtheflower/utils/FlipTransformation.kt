@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -20,10 +20,10 @@ class FlipTransformation(val textToDraw : String) : Transformation {
 
         val newBitmap = Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
         val canvas = Canvas(newBitmap)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG);
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-        paint.style = Paint.Style.FILL;
-        paint.textSize = 20f;
+        paint.style = Paint.Style.FILL
+        paint.textSize = 20f
 
         canvas.drawText(textToDraw, 0f, source.height - 30f, paint)
 

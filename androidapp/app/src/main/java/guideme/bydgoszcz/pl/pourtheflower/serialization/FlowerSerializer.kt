@@ -1,9 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower.serialization
 
-import guideme.bydgoszcz.pl.pourtheflower.getString
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
-import guideme.bydgoszcz.pl.pourtheflower.putString
-import guideme.bydgoszcz.pl.pourtheflower.putStrings
+import guideme.bydgoszcz.pl.pourtheflower.utils.getString
+import guideme.bydgoszcz.pl.pourtheflower.utils.putString
+import guideme.bydgoszcz.pl.pourtheflower.utils.putStrings
 import java.nio.ByteBuffer
 
 class FlowerSerializer {

@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.utils
 
 import java.nio.ByteBuffer
 
@@ -15,7 +15,7 @@ fun ByteBuffer.putStrings(vararg texts: String) {
 }
 
 fun ByteBuffer.getString(): String {
-    val size = getInt()
+    val size = int
     val byteArray = ByteArray(size)
     get(byteArray)
     return byteArray.toString(Charsets.UTF_8)

@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import guideme.bydgoszcz.pl.pourtheflower.FlowersProvider
+import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
 import javax.inject.Singleton
 
 @Module

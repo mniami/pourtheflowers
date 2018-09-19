@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower
+package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
+import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
+import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
+import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
 import kotlinx.android.synthetic.main.fragment_flower.*
 
 class FlowerFragment : Fragment() {
