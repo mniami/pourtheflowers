@@ -1,7 +1,7 @@
 package guideme.bydgoszcz.pl.pourtheflower.viewModels
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import guideme.bydgoszcz.pl.pourtheflower.model.Library
 import guideme.bydgoszcz.pl.pourtheflower.model.User
