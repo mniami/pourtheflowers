@@ -1,6 +1,7 @@
 package guideme.bydgoszcz.pl.pourtheflower.dagger
 
 import dagger.Component
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import javax.inject.Singleton
 
@@ -14,4 +15,5 @@ import javax.inject.Singleton
 ])
 interface AppComponent {
     fun inject(target: FlowerListFragment)
+    fun inject(target: FlowerFragment)
 }

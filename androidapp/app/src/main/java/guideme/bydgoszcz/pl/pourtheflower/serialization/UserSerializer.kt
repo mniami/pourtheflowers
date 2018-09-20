@@ -10,7 +10,7 @@ class UserSerializer {
 
     fun deserialize(byteBuffer: ByteBuffer): User {
         if (!byteBuffer.hasRemaining()) {
-            return User(emptyList())
+            return User(mutableListOf())
         }
         return User(FlowerSerializer().deserializeList(byteBuffer))
     }

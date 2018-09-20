@@ -1,6 +1,8 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -8,14 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
+import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
+import javax.inject.Inject
 
 class FlowerFragment : Fragment() {
     private lateinit var flower: Flower
+    @Inject
+    lateinit var flowersProvider: FlowersProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +41,30 @@ class FlowerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity?.application as PourTheFlowerApplication).component.inject(this)
+
         val activity = activity
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
+            activity.toolbar.title = flower.content
+        }
+        if (activity == null) {
+            return
         }
 
         descriptionTextView.text = flower.description
         flowerImage.setOnClickListener {
             openImageFullScreen(flower)
+        }
+        val fab = activity.findViewById<FloatingActionButton>(R.id.fab)
+        fab?.setOnClickListener {
+            val user = flowersProvider.getUser()
+            user.flowers.add(flower)
+            flowersProvider.save(user) {
+                Snackbar.make(view, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                activity.supportFragmentManager?.popBackStack()
+            }
         }
         loadImage(flower)
     }

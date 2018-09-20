@@ -19,9 +19,9 @@ class FlowerSerializer {
         }
     }
 
-    fun deserializeList(byteBuffer: ByteBuffer): List<Flower> {
+    fun deserializeList(byteBuffer: ByteBuffer): MutableList<Flower> {
         if (!byteBuffer.hasRemaining()) {
-            return emptyList()
+            return mutableListOf()
         }
         val size = byteBuffer.int
         val list = ArrayList<Flower>(size)

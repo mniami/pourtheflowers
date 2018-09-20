@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
 import android.widget.SearchView
+import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
+
 
 class FlowerListFragment : Fragment() {
     private var listType = ALL_LIST_TYPE
@@ -37,14 +41,42 @@ class FlowerListFragment : Fragment() {
             return view
         }
         setHasOptionsMenu(true)
+
+        view.layoutManager = LinearLayoutManager(context)
+
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                // Remove item from backing list here
+                recyclerView.adapter.notifyDataSetChanged()
+            }
+        })
+
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
         loadAdapter(view)
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val act = activity
+        if (act is MainActivityHelper) {
+            when (listType) {
+                ALL_LIST_TYPE ->
+                    act.toolbar.title = getString(R.string.all_flowers_title)
+                USER_LIST_TYPE ->
+                    act.toolbar.title = getString(R.string.user_flowers_title)
+            }
+        }
+    }
+
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            layoutManager = LinearLayoutManager(context)
-
             flowersProvider.load {
                 val flowers: List<Flower> = when (listType) {
                     USER_LIST_TYPE -> it.getUser().flowers
