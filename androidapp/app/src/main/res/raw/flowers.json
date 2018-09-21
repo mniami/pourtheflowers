@@ -64,27 +64,6 @@
       "frequency": 1,
       "description": "(Chamedora wyniosła, Palma koralowa) Preferuje stanowiska półcieniste z rozproszonym światłem. Optymalna temperatura waha się w granicach 16-20 st. C (zima trochę niższa). Podlewać obficie ale dopiero po przesuszeniu podłoża 2xtydzień",
       "imageUrl": "https://static01.leroymerlin.pl/files/media/image/799/1697799/Palma_koralowa_4.jpg"
-    },
-    {
-      "id": "8",
-      "name": "Skrzydłokwiat",
-      "frequency": 1,
-      "description": "",
-      "imageUrl": ""
-    },
-    {
-      "id": "9",
-      "name": "Rosiczka",
-      "frequency": 1,
-      "description": "",
-      "imageUrl": ""
-    },
-    {
-      "id": "10",
-      "name": "Lithops",
-      "frequency": 1,
-      "description": "",
-      "imageUrl": ""
     }
   ]
 }

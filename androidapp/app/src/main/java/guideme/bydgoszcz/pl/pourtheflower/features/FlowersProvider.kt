@@ -18,6 +18,10 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
     private val flowersResourcesLoader = FlowersResourcesLoader()
 
     fun load(onFinished: (FlowersProvider) -> Unit) {
+        if (::user.isInitialized) {
+            onFinished(this)
+            return
+        }
         runInBackground {
             loadFlowersFromResources()
             loadUser()
@@ -46,7 +50,9 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
 
     private fun loadUser() {
         val deSerializedUser = userSerializer.deserializeUser(dataCache)
-        user = flowerMapper.mapUserToUi(deSerializedUser)
+        val userUi = flowerMapper.mapUserToUi(deSerializedUser)
+        userUi.flowers.sortBy { it.flower.content }
+        user = userUi
     }
 
     private fun markUsersFlowers() {
@@ -59,7 +65,7 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
 
     private fun loadFlowersFromResources() {
         if (!::flowersLibrary.isInitialized) {
-            val unSerializedFlowers = flowersResourcesLoader.load(context)
+            val unSerializedFlowers = flowersResourcesLoader.load(context).sortedBy { it.content }
             flowersLibrary = flowerMapper.mapFlowersToUi(unSerializedFlowers)
         }
     }
