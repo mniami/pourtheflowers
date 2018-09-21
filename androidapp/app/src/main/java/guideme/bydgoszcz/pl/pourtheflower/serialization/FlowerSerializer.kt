@@ -7,7 +7,12 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.putStrings
 import java.nio.ByteBuffer
 
 class FlowerSerializer {
-    fun serialize(byteBuffer: ByteBuffer, flowers: Iterable<Flower>) {
+    companion object {
+        private const val MAX_FLOWERS_SIZE = 10000
+    }
+
+    fun serialize(byteBuffer: ByteBuffer, flowers: List<Flower>) {
+        byteBuffer.putInt(flowers.size)
         flowers.forEach { flower ->
             with(flower) {
                 byteBuffer.apply {
@@ -26,7 +31,11 @@ class FlowerSerializer {
         val size = byteBuffer.int
         val list = ArrayList<Flower>(size)
         val flowerSerializer = FlowerSerializer()
-        for (i in 0..size) {
+
+        if (size > MAX_FLOWERS_SIZE) {
+            return mutableListOf()
+        }
+        for (i in 0 until size) {
             list.add(flowerSerializer.deserialize(byteBuffer))
         }
         return list

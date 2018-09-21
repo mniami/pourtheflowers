@@ -19,11 +19,13 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
 
     fun load(onFinished: (FlowersProvider) -> Unit) {
         runInBackground {
-            loadUserList()
             loadFlowers()
+            loadUserList()
             runOnUi {
                 onFinished(this)
             }
+        }.onError {
+            runOnUi { onFinished(this) }
         }
     }
 

@@ -10,6 +10,26 @@ fun runOnUi(task: () -> Unit) {
 }
 
 val backgroundThread = Executors.newSingleThreadExecutor()
-fun runInBackground(task: () -> Unit) {
-    backgroundThread.submit(task)
+fun runInBackground(task: () -> Unit): ThreadHandler {
+    val threadHandler = ThreadHandler()
+    backgroundThread.submit {
+        try {
+            task()
+        } catch (ex: Exception) {
+            threadHandler.fireError(ex)
+        }
+    }
+    return threadHandler
+}
+
+class ThreadHandler {
+    private var errorHandler: (Exception) -> Unit = {}
+
+    fun onError(handler: (Exception) -> Unit) {
+        errorHandler = handler
+    }
+
+    fun fireError(ex: Exception) {
+        errorHandler(ex)
+    }
 }

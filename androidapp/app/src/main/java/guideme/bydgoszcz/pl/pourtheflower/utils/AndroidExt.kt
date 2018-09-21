@@ -9,3 +9,11 @@ inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
         }
     }, 50)
 }
+
+fun ByteArray.toHex(): String {
+    return ByteHex.Singleton.Instance.bytesToHex(this)
+}
+
+fun String.fromHexToByteArray(): ByteArray {
+    return ByteHex.Singleton.Instance.hexStringToByteArray(this)
+}
