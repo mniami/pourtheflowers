@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
@@ -22,20 +19,28 @@ import javax.inject.Inject
 
 class FlowerFragment : Fragment() {
     private lateinit var flowerUiItem: FlowerUiItem
+
     @Inject
     lateinit var flowersProvider: FlowersProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        flowerUiItem = arguments?.getSerializable("Flower") as FlowerUiItem
+        flowerUiItem = arguments?.getSerializable(FLOWER_PARAM_NAME) as FlowerUiItem
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-
         return inflater.inflate(R.layout.fragment_flower, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        if (flowerUiItem.isUser) {
+            inflater?.inflate(R.menu.menu_flower, menu)
+        } else {
+            super.onCreateOptionsMenu(menu, inflater)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,9 +63,7 @@ class FlowerFragment : Fragment() {
         }
         val fab = activity.findViewById<FloatingActionButton>(R.id.fab)
         fab?.setOnClickListener {
-            val user = flowersProvider.getUser()
-            user.flowers.add(flowerUiItem)
-            flowersProvider.save(user) {
+            flowersProvider.addFlowerToUser(flowerUiItem) {
                 Snackbar.make(view, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 activity.supportFragmentManager?.popBackStack()
@@ -74,6 +77,11 @@ class FlowerFragment : Fragment() {
             android.R.id.home -> {
                 activity?.supportFragmentManager?.popBackStack()
                 return true
+            }
+            R.id.remove_item -> {
+                flowersProvider.removeFlowerFromUser(flowerUiItem) {
+                    activity?.supportFragmentManager?.popBackStack()
+                }
             }
         }
 
@@ -112,10 +120,11 @@ class FlowerFragment : Fragment() {
     }
 
     companion object {
+        private const val FLOWER_PARAM_NAME = "Flower"
         fun create(flower: FlowerUiItem): FlowerFragment {
             val fragment = FlowerFragment()
             val bundle = Bundle()
-            bundle.putSerializable("Flower", flower)
+            bundle.putSerializable(FLOWER_PARAM_NAME, flower)
             fragment.arguments = bundle
             return fragment
         }

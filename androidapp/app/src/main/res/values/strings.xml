@@ -102,4 +102,5 @@
     <string name="flower_image_description">Kwiat</string>
     <string name="all_flowers_title">Wszystkie kwiaty</string>
     <string name="user_flowers_title">Twoje kwiaty</string>
+    <string name="remove_item">Usuń</string>
 </resources>

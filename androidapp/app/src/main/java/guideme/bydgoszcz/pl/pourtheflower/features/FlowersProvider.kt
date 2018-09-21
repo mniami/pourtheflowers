@@ -10,7 +10,7 @@ import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
 import javax.inject.Inject
 
 class FlowersProvider @Inject constructor(private val context: Context, private val dataCache: DataCache) {
-    private lateinit var flowersLibrary: List<FlowerUiItem>
+    private lateinit var flowersLibrary: MutableList<FlowerUiItem>
     private lateinit var user: UserUiItem
 
     private val userSerializer = UserDataCache()
@@ -25,7 +25,7 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
         runInBackground {
             loadFlowersFromResources()
             loadUser()
-            markUsersFlowers()
+            replaceUserFlowers()
             runOnUi {
                 onFinished(this)
             }
@@ -40,7 +40,23 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
     fun getUser(): UserUiItem = user
     fun getAllFlowers(): List<FlowerUiItem> = flowersLibrary
 
-    fun save(userUi: UserUiItem, onFinished: () -> Unit) {
+    fun addFlowerToUser(flowerUiItem: FlowerUiItem, onFinished: () -> Unit) {
+        flowerUiItem.isUser = true
+        user.flowers.add(flowerUiItem)
+        replaceUserFlowers()
+
+        save(user, onFinished)
+    }
+
+    fun removeFlowerFromUser(flowerUiItem: FlowerUiItem, onFinished: () -> Unit) {
+        flowersLibrary.filter {
+            it.flower.id == flowerUiItem.flower.id
+        }.forEach { it.isUser = false }
+        user.flowers.remove(flowerUiItem)
+        save(user, onFinished)
+    }
+
+    private fun save(userUi: UserUiItem, onFinished: () -> Unit) {
         runInBackground {
             val user = flowerMapper.mapUserUiToUser(userUi)
             userSerializer.serializeUser(user, dataCache)
@@ -55,11 +71,14 @@ class FlowersProvider @Inject constructor(private val context: Context, private 
         user = userUi
     }
 
-    private fun markUsersFlowers() {
-        flowersLibrary.filter { allFlower ->
-            user.flowers.any { it.flower.id == allFlower.flower.id }
-        }.forEach {
-            it.isUser = true
+    private fun replaceUserFlowers() {
+        val lib = flowersLibrary
+        lib.forEach { allFlower ->
+            val flower = user.flowers.firstOrNull { it.flower.id == allFlower.flower.id }
+            if (flower != null) {
+                flower.isUser = true
+                lib[lib.indexOf(allFlower)] = flower
+            }
         }
     }
 

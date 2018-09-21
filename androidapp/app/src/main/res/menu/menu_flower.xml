@@ -3,8 +3,8 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerFragment">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/remove_item"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/remove_item"
         app:showAsAction="never"/>
 </menu>
