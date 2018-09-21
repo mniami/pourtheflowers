@@ -14,9 +14,4 @@ fun ByteBuffer.putStrings(vararg texts: String) {
     }
 }
 
-fun ByteBuffer.getString(): String {
-    val size = int
-    val byteArray = ByteArray(size)
-    get(byteArray)
-    return byteArray.toString(Charsets.UTF_8)
-}
+fun ByteBuffer.getString(): String = ByteBufferHelper.getString(this)

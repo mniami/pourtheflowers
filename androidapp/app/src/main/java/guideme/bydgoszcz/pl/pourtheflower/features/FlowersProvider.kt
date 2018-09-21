@@ -1,57 +1,66 @@
 package guideme.bydgoszcz.pl.pourtheflower.features
 
 import android.content.Context
-import guideme.bydgoszcz.pl.pourtheflower.model.Flower
-import guideme.bydgoszcz.pl.pourtheflower.model.User
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
+import guideme.bydgoszcz.pl.pourtheflower.model.UserUiItem
 import guideme.bydgoszcz.pl.pourtheflower.serialization.DataCache
-import guideme.bydgoszcz.pl.pourtheflower.serialization.UserSerializer
+import guideme.bydgoszcz.pl.pourtheflower.serialization.UserDataCache
 import guideme.bydgoszcz.pl.pourtheflower.threads.runInBackground
 import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
-import java.nio.ByteBuffer
 import javax.inject.Inject
 
 class FlowersProvider @Inject constructor(private val context: Context, private val dataCache: DataCache) {
-    private lateinit var flowers: List<Flower>
-    private lateinit var user: User
+    private lateinit var flowersLibrary: List<FlowerUiItem>
+    private lateinit var user: UserUiItem
 
-    private val userListCacheName = "userList"
-    private val flowersListLoader = FlowersListLoader()
+    private val userSerializer = UserDataCache()
+    private val flowerMapper = FlowerUiMapper()
+    private val flowersResourcesLoader = FlowersResourcesLoader()
 
     fun load(onFinished: (FlowersProvider) -> Unit) {
         runInBackground {
-            loadFlowers()
-            loadUserList()
+            loadFlowersFromResources()
+            loadUser()
+            markUsersFlowers()
             runOnUi {
                 onFinished(this)
             }
         }.onError {
+            if (!::user.isInitialized) {
+                user = UserUiItem(mutableListOf())
+            }
             runOnUi { onFinished(this) }
         }
     }
 
-    fun getUser(): User = user
-    fun getAllFlowers(): List<Flower> = flowers
+    fun getUser(): UserUiItem = user
+    fun getAllFlowers(): List<FlowerUiItem> = flowersLibrary
 
-    private fun loadUserList() {
-        val buffer = ByteBuffer.allocate(1024 * 8)
-        dataCache.load(userListCacheName, buffer)
-        buffer.flip()
-        user = UserSerializer().deserialize(buffer)
-    }
-
-    private fun loadFlowers() {
-        if (!::flowers.isInitialized) {
-            flowers = flowersListLoader.load(context)
+    fun save(userUi: UserUiItem, onFinished: () -> Unit) {
+        runInBackground {
+            val user = flowerMapper.mapUserUiToUser(userUi)
+            userSerializer.serializeUser(user, dataCache)
+            runOnUi(onFinished)
         }
     }
 
-    fun save(user: User, onFinished: () -> Unit) {
-        runInBackground {
-            val buffer = ByteBuffer.allocate(1024 * 8)
-            UserSerializer().serialize(user, buffer)
-            dataCache.save(userListCacheName, buffer)
+    private fun loadUser() {
+        val deSerializedUser = userSerializer.deserializeUser(dataCache)
+        user = flowerMapper.mapUserToUi(deSerializedUser)
+    }
 
-            runOnUi(onFinished)
+    private fun markUsersFlowers() {
+        flowersLibrary.filter { allFlower ->
+            user.flowers.any { it.flower.id == allFlower.flower.id }
+        }.forEach {
+            it.isUser = true
+        }
+    }
+
+    private fun loadFlowersFromResources() {
+        if (!::flowersLibrary.isInitialized) {
+            val unSerializedFlowers = flowersResourcesLoader.load(context)
+            flowersLibrary = flowerMapper.mapFlowersToUi(unSerializedFlowers)
         }
     }
 }

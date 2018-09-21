@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_flower_item.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class FlowerRecyclerViewAdapter(
-        private val mValues: List<Flower>,
+        private val mValues: List<FlowerUiItem>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
     private val mOnClickListener: View.OnClickListener
@@ -27,7 +29,7 @@ class FlowerRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Flower
+            val item = v.tag as FlowerUiItem
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,16 +44,19 @@ class FlowerRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mNameView.text = item.content
-        holder.mDescriptionView.text = getShorted(item.description)
-        holder.mFrequencyView.text = item.frequency.toString()
+        val backgroundColorResource = if (item.isUser) R.color.user_item_background else R.color.default_item_background
+
+        holder.itemView.setBackgroundColor(holder.itemView.resources.getColorFromResource(backgroundColorResource))
+        holder.mNameView.text = item.flower.content
+        holder.mDescriptionView.text = getShorted(item.flower.description)
+        holder.mFrequencyView.text = item.flower.frequency.toString()
 
         holder.mView.post {
-            if (item.imageUrl.isEmpty()) {
+            if (item.flower.imageUrl.isEmpty()) {
                 return@post
             }
             Picasso.get()
-                    .load(item.imageUrl)
+                    .load(item.flower.imageUrl)
                     .resize(holder.mView.measuredWidth, holder.mView.measuredHeight)
                     .centerInside()
                     .into(holder.mFlowerImageView)
@@ -67,7 +72,7 @@ class FlowerRecyclerViewAdapter(
             filteredList = mValues
         } else {
             filteredList = mValues.filter { item ->
-                item.content.contains(text, true) || item.description.contains(text, true)
+                item.flower.content.contains(text, true) || item.flower.description.contains(text, true)
             }
         }
         notifyDataSetChanged()

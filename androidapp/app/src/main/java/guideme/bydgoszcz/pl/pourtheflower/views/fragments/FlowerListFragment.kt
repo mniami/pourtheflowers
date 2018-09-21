@@ -12,7 +12,7 @@ import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
-import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -21,6 +21,7 @@ import javax.inject.Inject
 class FlowerListFragment : Fragment() {
     private var listType = ALL_LIST_TYPE
     private var listener: OnListFragmentInteractionListener? = null
+
     @Inject
     lateinit var flowersProvider: FlowersProvider
 
@@ -30,7 +31,7 @@ class FlowerListFragment : Fragment() {
         (activity?.application as PourTheFlowerApplication).component.inject(this)
 
         arguments?.let {
-            listType = it.getInt(ARG_LIST_TYPE)
+            listType = it.getInt(ARG_LIST_TYPE_NAME)
         }
     }
 
@@ -75,19 +76,6 @@ class FlowerListFragment : Fragment() {
         }
     }
 
-    private fun loadAdapter(view: RecyclerView) {
-        with(view) {
-            flowersProvider.load {
-                val flowers: List<Flower> = when (listType) {
-                    USER_LIST_TYPE -> it.getUser().flowers
-                    ALL_LIST_TYPE -> it.getAllFlowers()
-                    else -> it.getAllFlowers()
-                }
-                adapter = FlowerRecyclerViewAdapter(flowers, listener)
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         menuInflater?.inflate(R.menu.main, menu)
 
@@ -122,20 +110,34 @@ class FlowerListFragment : Fragment() {
         listener = null
     }
 
+    private fun loadAdapter(view: RecyclerView) {
+        with(view) {
+            flowersProvider.load {
+                val flowers: List<FlowerUiItem> = when (listType) {
+                    USER_LIST_TYPE -> it.getUser().flowers
+                    ALL_LIST_TYPE -> it.getAllFlowers()
+                    else -> it.getAllFlowers()
+                }
+                adapter = FlowerRecyclerViewAdapter(flowers, listener)
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: Flower)
+        fun onListFragmentInteraction(item: FlowerUiItem)
     }
 
     companion object {
         const val USER_LIST_TYPE = 1
         const val ALL_LIST_TYPE = 2
-        const val ARG_LIST_TYPE = "list_type"
+        const val ARG_LIST_TYPE_NAME = "list_type"
 
         @JvmStatic
         fun newInstance(listType: Int) =
                 FlowerListFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_LIST_TYPE, listType)
+                        putInt(ARG_LIST_TYPE_NAME, listType)
                     }
                 }
     }

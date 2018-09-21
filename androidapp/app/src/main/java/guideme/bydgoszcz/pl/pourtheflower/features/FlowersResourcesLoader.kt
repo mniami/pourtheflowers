@@ -5,7 +5,7 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import org.json.JSONObject
 
-class FlowersListLoader {
+class FlowersResourcesLoader {
     fun load(context: Context): List<Flower> {
         val json = context.resources.openRawResource(R.raw.flowers)
                 .bufferedReader().use { it.readText() }

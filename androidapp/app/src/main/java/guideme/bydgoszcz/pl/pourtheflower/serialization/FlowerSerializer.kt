@@ -41,7 +41,7 @@ class FlowerSerializer {
         return list
     }
 
-    fun deserialize(byteBuffer: ByteBuffer): Flower {
+    private fun deserialize(byteBuffer: ByteBuffer): Flower {
         return with(byteBuffer) {
             Flower(getString(),
                     getString(),

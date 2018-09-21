@@ -1,7 +1,7 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
 import android.support.v4.app.FragmentManager
-import guideme.bydgoszcz.pl.pourtheflower.model.Flower
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 
@@ -10,7 +10,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     private val flowerListBackStackName = "flowerList"
     private val flowerBackStackName = "flower"
 
-    fun showFlower(flower: Flower) {
+    fun showFlower(flower: FlowerUiItem) {
         supportFragmentManager.beginTransaction()
                 .replace(frameLayoutId, FlowerFragment.create(flower), "flower")
                 .addToBackStack(flowerBackStackName)
