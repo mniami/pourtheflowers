@@ -10,10 +10,20 @@ class AddFlowerToUser @Inject constructor(private val repo: FlowersRepository,
                                           private val replaceUserFlowers: ReplaceUserFlowers,
                                           private val saveChanges: SaveUserChanges) {
     fun add(flowerUiItem: FlowerUiItem, onFinished: () -> Unit) {
+        if (alreadyExists(flowerUiItem)) {
+            onFinished()
+            return
+        }
         flowerUiItem.isUser = true
         repo.user.flowers.add(flowerUiItem)
 
         replaceUserFlowers.replace()
         saveChanges.save(onFinished)
+    }
+
+    private fun alreadyExists(flowerUiItem: FlowerUiItem): Boolean {
+        return repo.user.flowers.any {
+            it.flower == flowerUiItem.flower
+        }
     }
 }
