@@ -11,8 +11,8 @@ import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
-import guideme.bydgoszcz.pl.pourtheflower.model.FlowersRepository
+import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
+import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class FlowerListFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null
 
     @Inject
-    lateinit var repo: FlowersRepository
+    lateinit var repo: ItemsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,8 +115,8 @@ class FlowerListFragment : Fragment() {
             val lib = repo.lib
             val user = repo.user
 
-            val flowers: List<FlowerUiItem> = when (listType) {
-                USER_LIST_TYPE -> user.flowers
+            val flowers: List<UiItem> = when (listType) {
+                USER_LIST_TYPE -> user.items
                 ALL_LIST_TYPE -> lib
                 else -> lib
             }
@@ -126,7 +126,7 @@ class FlowerListFragment : Fragment() {
     }
 
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: FlowerUiItem)
+        fun onListFragmentInteraction(item: UiItem)
     }
 
     companion object {

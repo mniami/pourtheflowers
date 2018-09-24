@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class FlowerModule @Inject constructor(private val application: Application) {
+class ItemModule @Inject constructor(private val application: Application) {
 
     @Singleton
     @Provides

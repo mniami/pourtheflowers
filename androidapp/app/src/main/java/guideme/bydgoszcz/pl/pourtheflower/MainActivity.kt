@@ -8,8 +8,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
-import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
-import guideme.bydgoszcz.pl.pourtheflower.model.FlowersRepository
+import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
+import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var mainActivityViewPresenter: MainActivityViewPresenter
     @Inject
-    lateinit var repo: FlowersRepository
+    lateinit var repo: ItemsRepository
     @Inject
     lateinit var dataLoader: DataLoader
 
-    override fun onListFragmentInteraction(item: FlowerUiItem) {
+    override fun onListFragmentInteraction(item: UiItem) {
         mainActivityViewPresenter.showFlower(item)
     }
 
@@ -56,10 +56,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             (application as PourTheFlowerApplication).component.inject(this)
             dataLoader.load {
                 val user = repo.user
-                if (user.flowers.isEmpty()) {
-                    mainActivityViewPresenter.showAllFlowers()
+                if (user.items.isEmpty()) {
+                    mainActivityViewPresenter.showAllItems()
                 } else {
-                    mainActivityViewPresenter.showUserFlowers()
+                    mainActivityViewPresenter.showUserItems()
                 }
             }
         }
@@ -98,10 +98,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.navList -> {
-                mainActivityViewPresenter.showAllFlowers()
+                mainActivityViewPresenter.showAllItems()
             }
             R.id.navMyList -> {
-                mainActivityViewPresenter.showUserFlowers()
+                mainActivityViewPresenter.showUserItems()
             }
             R.id.navAddNew -> {
                 Snackbar.make(nav_view, "Dodanie nowego kwiatu", Snackbar.LENGTH_LONG)

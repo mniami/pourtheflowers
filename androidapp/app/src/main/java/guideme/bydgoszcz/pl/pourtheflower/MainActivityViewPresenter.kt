@@ -1,31 +1,31 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
 import android.support.v4.app.FragmentManager
-import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
-import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerFragment
+import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ItemDetailsFragment
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) {
-    private val flowerListBackStackName = "flowerList"
-    private val flowerBackStackName = "flower"
+    private val itemListBackStackName = "itemList"
+    private val itemBackStackName = "item"
 
-    fun showFlower(flower: FlowerUiItem) {
+    fun showFlower(uiItem: UiItem) {
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, FlowerFragment.create(flower), "flower")
-                .addToBackStack(flowerBackStackName)
+                .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), itemBackStackName)
+                .addToBackStack(itemBackStackName)
                 .commit()
     }
 
-    fun showUserFlowers() {
+    fun showUserItems() {
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), flowerListBackStackName)
+                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), itemListBackStackName)
                 .commit()
     }
 
-    fun showAllFlowers() {
+    fun showAllItems() {
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), flowerListBackStackName)
+                .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), itemListBackStackName)
                 .commit()
     }
 }

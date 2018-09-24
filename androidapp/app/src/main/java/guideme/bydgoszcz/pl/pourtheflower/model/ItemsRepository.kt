@@ -4,8 +4,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FlowersRepository @Inject constructor() {
+class ItemsRepository @Inject constructor() {
     var isInitialized: Boolean = false
     var user: UserUiItem = UserUiItem(mutableListOf())
-    var lib: MutableList<FlowerUiItem> = mutableListOf()
+    var lib: MutableList<UiItem> = mutableListOf()
 }

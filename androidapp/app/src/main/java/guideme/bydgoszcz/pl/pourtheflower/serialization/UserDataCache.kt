@@ -22,13 +22,13 @@ class UserDataCache @Inject constructor(private val dataCache: DataCache) {
     }
 
     private fun serialize(user: User, byteBuffer: ByteBuffer) {
-        FlowerSerializer().serialize(byteBuffer, user.flowers)
+        ItemsSerializer().serialize(byteBuffer, user.items)
     }
 
     private fun deserialize(byteBuffer: ByteBuffer): User {
         if (!byteBuffer.hasRemaining()) {
             return User(mutableListOf())
         }
-        return User(FlowerSerializer().deserializeList(byteBuffer))
+        return User(ItemsSerializer().deserializeList(byteBuffer))
     }
 }

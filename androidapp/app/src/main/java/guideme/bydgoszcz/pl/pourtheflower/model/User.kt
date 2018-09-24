@@ -1,4 +1,4 @@
 package guideme.bydgoszcz.pl.pourtheflower.model
 
-data class User(val flowers: List<Flower>)
-data class UserUiItem(var flowers: MutableList<FlowerUiItem>)
+data class User(val items: List<Item>)
+data class UserUiItem(var items: MutableList<UiItem>)
