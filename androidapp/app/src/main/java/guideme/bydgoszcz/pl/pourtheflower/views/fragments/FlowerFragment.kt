@@ -9,8 +9,10 @@ import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
+import guideme.bydgoszcz.pl.pourtheflower.features.AddFlowerToUser
+import guideme.bydgoszcz.pl.pourtheflower.features.RemoveFlowerFromUser
 import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowersRepository
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -21,7 +23,11 @@ class FlowerFragment : Fragment() {
     private lateinit var flowerUiItem: FlowerUiItem
 
     @Inject
-    lateinit var flowersProvider: FlowersProvider
+    lateinit var flowersProvider: FlowersRepository
+    @Inject
+    lateinit var addFlowerToUser: AddFlowerToUser
+    @Inject
+    lateinit var removeFlowerFromUser: RemoveFlowerFromUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +69,7 @@ class FlowerFragment : Fragment() {
         }
         val fab = activity.findViewById<FloatingActionButton>(R.id.fab)
         fab?.setOnClickListener {
-            flowersProvider.addFlowerToUser(flowerUiItem) {
+            addFlowerToUser.add(flowerUiItem) {
                 Snackbar.make(view, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 activity.supportFragmentManager?.popBackStack()
@@ -79,7 +85,7 @@ class FlowerFragment : Fragment() {
                 return true
             }
             R.id.remove_item -> {
-                flowersProvider.removeFlowerFromUser(flowerUiItem) {
+                removeFlowerFromUser.remove(flowerUiItem) {
                     activity?.supportFragmentManager?.popBackStack()
                 }
             }

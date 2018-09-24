@@ -1,13 +1,14 @@
-package guideme.bydgoszcz.pl.pourtheflower.features
+package guideme.bydgoszcz.pl.pourtheflower.loaders
 
-import android.content.Context
+import android.app.Application
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Flower
 import org.json.JSONObject
+import javax.inject.Inject
 
-class FlowersResourcesLoader {
-    fun load(context: Context): List<Flower> {
-        val json = context.resources.openRawResource(R.raw.flowers)
+class FlowersResourcesLoader @Inject constructor(private val application: Application) {
+    fun load(): List<Flower> {
+        val json = application.resources.openRawResource(R.raw.flowers)
                 .bufferedReader().use { it.readText() }
         val jsonObj = JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1))
         val foodJson = jsonObj.getJSONArray("data")

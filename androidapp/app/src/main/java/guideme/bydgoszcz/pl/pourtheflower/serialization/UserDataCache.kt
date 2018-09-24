@@ -2,11 +2,12 @@ package guideme.bydgoszcz.pl.pourtheflower.serialization
 
 import guideme.bydgoszcz.pl.pourtheflower.model.User
 import java.nio.ByteBuffer
+import javax.inject.Inject
 
-class UserDataCache {
+class UserDataCache @Inject constructor(private val dataCache: DataCache) {
     private val userListCacheName = "userList"
 
-    fun deserializeUser(dataCache: DataCache): User {
+    fun deserializeUser(): User {
         val buffer = ByteBuffer.allocate(1024 * 8)
         dataCache.load(userListCacheName, buffer)
         buffer.flip()
@@ -14,7 +15,7 @@ class UserDataCache {
         return deserialize(buffer)
     }
 
-    fun serializeUser(user: User, dataCache: DataCache) {
+    fun serializeUser(user: User) {
         val buffer = ByteBuffer.allocate(1024 * 8)
         serialize(user, buffer)
         dataCache.save(userListCacheName, buffer)

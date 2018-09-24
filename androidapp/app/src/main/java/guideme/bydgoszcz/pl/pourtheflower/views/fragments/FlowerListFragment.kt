@@ -11,8 +11,8 @@ import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowersRepository
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class FlowerListFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null
 
     @Inject
-    lateinit var flowersProvider: FlowersProvider
+    lateinit var repo: FlowersRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,15 +112,16 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            flowersProvider.load {
-                val flowers: List<FlowerUiItem> = when (listType) {
-                    USER_LIST_TYPE -> it.getUser().flowers
-                    ALL_LIST_TYPE -> it.getAllFlowers()
-                    else -> it.getAllFlowers()
-                }
-                adapter = FlowerRecyclerViewAdapter(flowers, listener)
-                adapter.notifyDataSetChanged()
+            val lib = repo.lib
+            val user = repo.user
+
+            val flowers: List<FlowerUiItem> = when (listType) {
+                USER_LIST_TYPE -> user.flowers
+                ALL_LIST_TYPE -> lib
+                else -> lib
             }
+            adapter = FlowerRecyclerViewAdapter(flowers, listener)
+            adapter.notifyDataSetChanged()
         }
     }
 

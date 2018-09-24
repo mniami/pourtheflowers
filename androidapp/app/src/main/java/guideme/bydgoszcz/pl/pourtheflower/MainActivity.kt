@@ -7,8 +7,9 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import guideme.bydgoszcz.pl.pourtheflower.features.FlowersProvider
+import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.FlowerUiItem
+import guideme.bydgoszcz.pl.pourtheflower.model.FlowersRepository
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var mainActivityViewPresenter: MainActivityViewPresenter
     @Inject
-    lateinit var flowersProvider: FlowersProvider
+    lateinit var repo: FlowersRepository
+    @Inject
+    lateinit var dataLoader: DataLoader
 
     override fun onListFragmentInteraction(item: FlowerUiItem) {
         mainActivityViewPresenter.showFlower(item)
@@ -51,8 +54,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (savedInstanceState == null) {
             (application as PourTheFlowerApplication).component.inject(this)
-            flowersProvider.load {
-                if (it.getUser().flowers.isEmpty()) {
+            dataLoader.load {
+                val user = repo.user
+                if (user.flowers.isEmpty()) {
                     mainActivityViewPresenter.showAllFlowers()
                 } else {
                     mainActivityViewPresenter.showUserFlowers()
