@@ -4,7 +4,7 @@ import android.content.res.Resources
 import android.support.v4.content.res.ResourcesCompat
 import android.view.View
 
-inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
+fun <T : View> T.afterMeasured(f: T.() -> Unit) {
     postDelayed({
         if (measuredWidth > 0 && measuredHeight > 0) {
             f()

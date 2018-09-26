@@ -1,36 +1,42 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:layout_margin="8dp"
-                                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.fragments.ItemDetailsFragment"
-                                             tools:showIn="@layout/fragment_flower">
+    tools:showIn="@layout/fragment_flower">
 
     <ImageView
         android:id="@+id/flowerImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/gallery_background"
         android:contentDescription="@string/flower_image_description"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flowerImage"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="178dp"/>
+        app:layout_constraintGuide_begin="178dp" />
 
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:text="How much wood could a woodchuck chuck
+If a woodchuck could chuck wood?
+As much wood as a woodchuck could chuck,
+If a woodchuck could chuck wood."
+        android:textColor="@color/descriptionTextColor"
+        android:textSize="@dimen/descriptionTextSize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flowerImage" />
 
 </android.support.constraint.ConstraintLayout>

@@ -12,6 +12,7 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -104,7 +105,7 @@ class ItemDetailsFragment : Fragment() {
 
         val imageDialog = ImageDialog()
         imageDialog.arguments = Bundle().apply {
-            putString(imageDialog.IMAGE_URL, uiItem.item.imageUrl)
+            putString(ImageDialog.IMAGE_URL, uiItem.item.imageUrl)
         }
         imageDialog.show(transaction, "dialog")
     }
@@ -118,6 +119,7 @@ class ItemDetailsFragment : Fragment() {
             Picasso.get().load(flowerUiItem.item.imageUrl)
                     .resize(parentView.measuredWidth, parentView.measuredHeight)
                     .centerInside()
+                    .transform(FlipTransformation(flowerUiItem.item.imageUrl))
                     .into(flowerImage)
         }
     }

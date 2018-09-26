@@ -6,7 +6,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import com.squareup.picasso.Transformation
 
-class FlipTransformation(val textToDraw : String) : Transformation {
+class FlipTransformation(private val textToDraw: String) : Transformation {
     override fun key(): String {
         return "flip"
     }

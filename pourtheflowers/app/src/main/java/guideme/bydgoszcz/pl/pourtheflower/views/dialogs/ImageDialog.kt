@@ -12,9 +12,10 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 
-
 class ImageDialog : DialogFragment() {
-    val IMAGE_URL = "imageUrl"
+    companion object {
+        const val IMAGE_URL = "imageUrl"
+    }
 
     private var scaleFactor = 1.0f
     private var scaleGestureDetector: ScaleGestureDetector? = null
@@ -25,12 +26,25 @@ class ImageDialog : DialogFragment() {
         imageUrl = args?.getString(IMAGE_URL)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fullscreen_image_dialog, container, false)
-        view?.afterMeasured {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fullscreen_image_dialog, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        imageView?.afterMeasured {
             showImage()
         }
-        return view
+        closeButton.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+        val height = ViewGroup.LayoutParams.MATCH_PARENT
+        dialog.window.setLayout(width, height)
     }
 
     override fun onResume() {
@@ -44,13 +58,11 @@ class ImageDialog : DialogFragment() {
     }
 
     private fun showImage() {
-        val url = imageUrl
-        if (url != null) {
-            Picasso.get().load(url)
-                    .centerInside()
-                    .transform(FlipTransformation(url))
-                    .into(imageView)
-        }
+        val url = imageUrl ?: return
+
+        Picasso.get().load(url)
+                .transform(FlipTransformation(url))
+                .into(imageView)
     }
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
