@@ -17,6 +17,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
+import java.net.URL
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
@@ -116,10 +117,13 @@ class ItemDetailsFragment : Fragment() {
             if (flowerUiItem.item.imageUrl.isEmpty()) {
                 return@afterMeasured
             }
-            Picasso.get().load(flowerUiItem.item.imageUrl)
+            val imageUrl = flowerUiItem.item.imageUrl
+            val description = String.format("Source: %s", URL(imageUrl).host)
+
+            Picasso.get().load(imageUrl)
                     .resize(parentView.measuredWidth, parentView.measuredHeight)
                     .centerInside()
-                    .transform(FlipTransformation(flowerUiItem.item.imageUrl))
+                    .transform(FlipTransformation(description))
                     .into(flowerImage)
         }
     }

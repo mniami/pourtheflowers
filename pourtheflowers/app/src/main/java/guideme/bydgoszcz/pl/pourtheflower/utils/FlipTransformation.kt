@@ -19,13 +19,14 @@ class FlipTransformation(private val textToDraw: String) : Transformation {
         matrix.postScale(-1f, 1f, source.width / 2f, source.height / 2f)
 
         val newBitmap = Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+
         val canvas = Canvas(newBitmap)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
         paint.style = Paint.Style.FILL
-        paint.textSize = 20f
+        paint.textSize = 30f
 
-        canvas.drawText(textToDraw, 0f, source.height - 30f, paint)
+        canvas.drawText(textToDraw, 10f, source.height.toFloat() - 2f, paint)
 
         source.recycle()
 
