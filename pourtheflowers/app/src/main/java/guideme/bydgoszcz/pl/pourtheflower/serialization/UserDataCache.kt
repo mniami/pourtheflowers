@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UserDataCache @Inject constructor(private val dataCache: DataCache) {
     private val userListCacheName = "userList"
 
-    fun deserializeUser(): User {
+    fun load(): User {
         val buffer = ByteBuffer.allocate(1024 * 8)
         dataCache.load(userListCacheName, buffer)
         buffer.flip()
@@ -15,7 +15,7 @@ class UserDataCache @Inject constructor(private val dataCache: DataCache) {
         return deserialize(buffer)
     }
 
-    fun serializeUser(user: User) {
+    fun save(user: User) {
         val buffer = ByteBuffer.allocate(1024 * 8)
         serialize(user, buffer)
         dataCache.save(userListCacheName, buffer)

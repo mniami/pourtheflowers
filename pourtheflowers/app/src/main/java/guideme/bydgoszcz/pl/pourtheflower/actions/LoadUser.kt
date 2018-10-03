@@ -9,7 +9,7 @@ class LoadUser @Inject constructor(private val flowersRepository: ItemsRepositor
                                    private val userDataCache: UserDataCache,
                                    private val flowerUiMapper: ItemUiMapper) {
     fun load() {
-        val deSerializedUser = userDataCache.deserializeUser()
+        val deSerializedUser = userDataCache.load()
         val userUi = flowerUiMapper.mapUserToUi(deSerializedUser)
         userUi.items.sortBy { it.item.content }
         flowersRepository.user = userUi

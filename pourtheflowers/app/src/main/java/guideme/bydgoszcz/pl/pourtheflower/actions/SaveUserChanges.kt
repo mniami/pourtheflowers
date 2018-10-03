@@ -14,7 +14,7 @@ class SaveUserChanges @Inject constructor(private val repo: ItemsRepository,
         runInBackground {
             val userUi = repo.user
             val user = flowerMapper.mapUserUiToUser(userUi)
-            userDataCache.serializeUser(user)
+            userDataCache.save(user)
             runOnUi(onFinished)
         }
     }

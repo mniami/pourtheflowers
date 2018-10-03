@@ -16,6 +16,7 @@ class ItemsSerializer {
             with(item) {
                 byteBuffer.apply {
                     putStrings(id, content, description, imageUrl)
+                    TagSerializer().serialize(byteBuffer, tags)
                 }
             }
         }
@@ -38,11 +39,13 @@ class ItemsSerializer {
     }
 
     private fun deserialize(byteBuffer: ByteBuffer): Item {
+        val tagSerializer = TagSerializer()
         return with(byteBuffer) {
             Item(getString(),
                     getString(),
                     getString(),
-                    getString())
+                    getString(),
+                    tagSerializer.deserialize(byteBuffer))
         }
     }
 }
