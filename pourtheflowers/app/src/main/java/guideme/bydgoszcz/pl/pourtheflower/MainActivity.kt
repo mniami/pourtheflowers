@@ -10,6 +10,9 @@ import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
+import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationMonitor
+import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (user.items.isEmpty()) {
                     presenter.showAllItems()
                 } else {
+                    ItemsNotifications(this).setUpNotifications(user.items)
                     presenter.showUserItems()
                 }
             }
@@ -73,6 +77,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         nav_view.setNavigationItemSelectedListener(this)
+        NotificationMonitor(this)
+                .createNotificationChannel()
     }
 
     override fun onBackPressed() {
@@ -118,6 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun showBackButton(showBackButton: Boolean) {
         toggle.isDrawerIndicatorEnabled = !showBackButton
     }
+
 }
 
 interface MainActivityHelper {

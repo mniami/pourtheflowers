@@ -44,6 +44,7 @@ dependencies {
     implementation "com.android.support:design:$android_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation "com.android.support:support-v4:$android_version"
+    implementation "com.android.support:support-compat:$android_version"
     implementation "com.android.support:support-annotations:$android_version"
     implementation "com.android.support:exifinterface:$android_version"
     implementation('com.squareup.picasso:picasso:2.71828') {

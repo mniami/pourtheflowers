@@ -13,6 +13,7 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import javax.inject.Inject
 
@@ -75,12 +76,16 @@ class EditDetailsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+        val activity = activity ?: return
+
         repository.user.items.filter {
             it.item.id == uiItem.item.id
         }.forEach {
             repository.user.items.remove(it)
         }
         repository.user.items.add(uiItem)
+
+        ItemsNotifications(activity).setUpNotifications(repository.user.items)
         saveUserChanges.save {
             // noop
         }

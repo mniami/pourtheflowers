@@ -2,6 +2,7 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.support.v4.app.FragmentManager
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.EditDetailsFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ItemDetailsFragment

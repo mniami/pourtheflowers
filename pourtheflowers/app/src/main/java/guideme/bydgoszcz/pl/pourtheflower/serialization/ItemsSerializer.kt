@@ -58,13 +58,13 @@ class NotificationSerializer {
     fun serialize(byteBuffer: ByteBuffer, notification: Notification) {
         byteBuffer.put(if (notification.enabled) 0x1.toByte() else 0x0.toByte())
         byteBuffer.putInt(notification.repeatDays)
-        byteBuffer.putInt(notification.lastNotificationDay)
+        byteBuffer.putLong(notification.lastNotificationTimeMillis)
     }
 
     fun deserialize(byteBuffer: ByteBuffer): Notification {
         return Notification(byteBuffer.get().toBoolean(),
                 byteBuffer.int,
-                byteBuffer.int)
+                byteBuffer.long)
     }
 
     private fun Byte.toBoolean(): Boolean = this == 1.toByte()
