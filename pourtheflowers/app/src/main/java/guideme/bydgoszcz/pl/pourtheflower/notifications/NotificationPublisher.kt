@@ -14,8 +14,8 @@ class NotificationPublisher : BroadcastReceiver() {
 
         val notification = intent.getParcelableExtra<Notification>(NOTIFICATION)
         val id = intent.getIntExtra(NOTIFICATION_ID, 0)
-        notificationManager.notify(id, notification)
 
+        notificationManager.notify(id, notification)
     }
 
     companion object {
