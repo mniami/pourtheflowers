@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+
 
 class NotificationPublisher : BroadcastReceiver() {
 
@@ -14,7 +16,9 @@ class NotificationPublisher : BroadcastReceiver() {
 
         val notification = intent.getParcelableExtra<Notification>(NOTIFICATION)
         val id = intent.getIntExtra(NOTIFICATION_ID, 0)
-
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val ringtone = RingtoneManager.getRingtone(context, alarmSound)
+        ringtone.play()
         notificationManager.notify(id, notification)
     }
 

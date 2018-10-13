@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat
 import guideme.bydgoszcz.pl.pourtheflower.MainActivity
 import guideme.bydgoszcz.pl.pourtheflower.R
 
+
 class NotificationMonitor(private val activity: FragmentActivity) {
     private val CHANNEL_ID = "podlewacz"
     fun createNotificationChannel(): NotificationMonitor {
@@ -35,16 +36,16 @@ class NotificationMonitor(private val activity: FragmentActivity) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
-
-        val mBuilder = NotificationCompat.Builder(activity, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+        val notificationBuilder = NotificationCompat.Builder(activity, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_garden_center_15)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-        scheduleNotification(id, mBuilder.build(), delay)
+                .setAutoCancel(false)
+        scheduleNotification(id, notificationBuilder.build(), delay)
     }
 
     private fun scheduleNotification(id: String, notification: Notification, delay: Int) {
