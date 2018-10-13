@@ -17,16 +17,19 @@ import kotlinx.android.synthetic.main.content_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
+    override fun getViewChanger(): ViewChanger {
+        return presenter
+    }
 
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var mainActivityViewPresenter: MainActivityViewPresenter
+    private lateinit var presenter: MainActivityViewPresenter
     @Inject
     lateinit var repo: ItemsRepository
     @Inject
     lateinit var dataLoader: DataLoader
 
     override fun onListFragmentInteraction(item: UiItem) {
-        mainActivityViewPresenter.showFlower(item)
+        presenter.showItem(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Dodanie nowej rośliny, w aktualnej wersji nie jest dostępne", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        mainActivityViewPresenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
+        presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -57,9 +60,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             dataLoader.load {
                 val user = repo.user
                 if (user.items.isEmpty()) {
-                    mainActivityViewPresenter.showAllItems()
+                    presenter.showAllItems()
                 } else {
-                    mainActivityViewPresenter.showUserItems()
+                    presenter.showUserItems()
                 }
             }
         }
@@ -98,10 +101,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.navList -> {
-                mainActivityViewPresenter.showAllItems()
+                presenter.showAllItems()
             }
             R.id.navMyList -> {
-                mainActivityViewPresenter.showUserItems()
+                presenter.showUserItems()
             }
             R.id.navAddNew -> {
                 Snackbar.make(nav_view, "Dodanie nowego kwiatu", Snackbar.LENGTH_LONG)
@@ -119,4 +122,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 interface MainActivityHelper {
     fun showBackButton(showBackButton: Boolean)
+    fun getViewChanger(): ViewChanger
 }

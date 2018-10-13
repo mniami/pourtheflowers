@@ -103,4 +103,5 @@
     <string name="all_flowers_title">Wszystkie kwiaty</string>
     <string name="user_flowers_title">Twoje kwiaty</string>
     <string name="remove_item">Usuń</string>
+    <string name="frequency_day_label">%s dzień</string>
 </resources>

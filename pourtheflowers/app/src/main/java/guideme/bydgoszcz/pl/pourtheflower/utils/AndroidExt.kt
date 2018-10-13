@@ -1,6 +1,7 @@
 package guideme.bydgoszcz.pl.pourtheflower.utils
 
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.support.v4.content.res.ResourcesCompat
 import android.view.View
 
@@ -22,4 +23,8 @@ fun String.fromHexToByteArray(): ByteArray {
 
 fun Resources.getColorFromResource(colorId: Int): Int {
     return ResourcesCompat.getColor(this, colorId, null)
+}
+
+fun Resources.getDrawableFromResources(drawableId: Int): Drawable? {
+    return ResourcesCompat.getDrawable(this, drawableId, null)
 }

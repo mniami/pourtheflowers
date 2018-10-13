@@ -5,32 +5,40 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.*
-import com.squareup.picasso.Picasso
+import android.widget.ImageView
+import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
-import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
-import guideme.bydgoszcz.pl.pourtheflower.views.dialogs.ImageDialog
+import guideme.bydgoszcz.pl.pourtheflower.utils.getDrawableFromResources
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower.*
-import java.net.URL
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
     private lateinit var uiItem: UiItem
+    private lateinit var itemImage: ImageView
+
+    private val viewChanger by lazy {
+        (activity as MainActivityHelper).getViewChanger()
+    }
+    private val imageLoader by lazy {
+        ImageLoader(itemImage)
+    }
+    private val fullScreenImage by lazy {
+        val a = activity ?: return@lazy null
+        FullScreenImage(a)
+    }
 
     @Inject
     lateinit var addItemToUser: AddItemToUser
     @Inject
     lateinit var removeItemFromUser: RemoveItemFromUser
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun setArguments(args: Bundle?) {
+        super.setArguments(args)
         uiItem = arguments?.getSerializable(ITEM_PARAM_NAME) as UiItem
     }
 
@@ -48,33 +56,42 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onResume() {
         (activity?.application as PourTheFlowerApplication).component.inject(this)
+        val activity = activity ?: return
 
-        val activity = activity
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
             activity.toolbar.title = uiItem.item.content
         }
-        if (activity == null) {
-            return
-        }
+        val descriptionTextView = activity.findViewById<TextView>(R.id.descriptionTextView)
+        descriptionTextView?.text = uiItem.item.description
 
-        descriptionTextView.text = uiItem.item.description
-        flowerImage.setOnClickListener {
-            openImageFullScreen(uiItem)
+        itemImage = activity.findViewById(R.id.itemImage)
+        itemImage.setOnClickListener {
+            fullScreenImage?.open(uiItem)
         }
-        val fab = activity.findViewById<FloatingActionButton>(R.id.fab)
-        fab?.setOnClickListener {
-            addItemToUser.add(uiItem) {
-                Snackbar.make(view, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-                activity.supportFragmentManager?.popBackStack()
+        initFabButton()
+        imageLoader.load(uiItem)
+        super.onResume()
+    }
+
+    private fun initFabButton() {
+        val fab: FloatingActionButton = activity?.findViewById(R.id.fab) ?: return
+        val fabDrawableId = if (uiItem.isUser) R.drawable.fab_edit else R.drawable.fab_add
+        fab.setImageDrawable(resources.getDrawableFromResources(fabDrawableId))
+        fab.setOnClickListener {
+            if (uiItem.isUser) {
+                viewChanger.editItem(uiItem)
+            } else {
+                addItemToUser.add(uiItem) {
+                    Snackbar.make(it, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    activity?.supportFragmentManager?.popBackStack()
+                }
             }
         }
-        loadImage(uiItem)
+        fab.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -93,43 +110,9 @@ class ItemDetailsFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun openImageFullScreen(uiItem: UiItem) {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        val dialog = activity?.supportFragmentManager?.findFragmentByTag("dialog")
-        if (transaction == null) {
-            return
-        }
-        if (dialog != null) {
-            transaction.remove(dialog)
-        }
-        transaction.addToBackStack(null)
-
-        val imageDialog = ImageDialog()
-        imageDialog.arguments = Bundle().apply {
-            putString(ImageDialog.IMAGE_URL, uiItem.item.imageUrl)
-        }
-        imageDialog.show(transaction, "dialog")
-    }
-
-    private fun loadImage(flowerUiItem: UiItem) {
-        val parentView = flowerImage.parent as ViewGroup
-        parentView.afterMeasured {
-            if (flowerUiItem.item.imageUrl.isEmpty()) {
-                return@afterMeasured
-            }
-            val imageUrl = flowerUiItem.item.imageUrl
-            val description = String.format("Source: %s", URL(imageUrl).host)
-
-            Picasso.get().load(imageUrl)
-                    .resize(parentView.measuredWidth, parentView.measuredHeight)
-                    .centerInside()
-                    .transform(FlipTransformation(description))
-                    .into(flowerImage)
-        }
-    }
-
     companion object {
         private const val ITEM_PARAM_NAME = "Item"
+
         fun create(uiItem: UiItem): ItemDetailsFragment {
             val fragment = ItemDetailsFragment()
             val bundle = Bundle()

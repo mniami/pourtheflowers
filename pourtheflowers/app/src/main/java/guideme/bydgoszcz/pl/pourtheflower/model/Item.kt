@@ -2,7 +2,12 @@ package guideme.bydgoszcz.pl.pourtheflower.model
 
 import java.io.Serializable
 
-data class Item(val id: String, val content: String, val description: String, val imageUrl: String, val tags : List<Tag>) : Serializable {
+data class Item(val id: String,
+                val content: String,
+                val description: String,
+                val imageUrl: String,
+                val tags: List<Tag>,
+                val notification: Notification) : Serializable {
     override fun toString(): String = content
 }
 

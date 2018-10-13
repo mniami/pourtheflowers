@@ -7,5 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">8dp</dimen>
     <dimen name="app_bar_height">?android:attr/actionBarSize</dimen>
+    <dimen name="headerTextSize">22sp</dimen>
     <dimen name="descriptionTextSize">16sp</dimen>
 </resources>

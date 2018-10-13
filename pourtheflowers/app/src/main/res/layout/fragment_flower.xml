@@ -1,14 +1,13 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".views.fragments.ItemDetailsFragment"
-    tools:showIn="@layout/fragment_flower">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                             tools:context=".views.fragments.ItemDetailsFragment">
 
     <ImageView
-        android:id="@+id/flowerImage"
+        android:id="@+id/itemImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/gallery_background"
@@ -30,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:text="How much wood could a woodchuck chuck
 If a woodchuck could chuck wood?
 As much wood as a woodchuck could chuck,
@@ -37,6 +37,7 @@ If a woodchuck could chuck wood."
         android:textColor="@color/descriptionTextColor"
         android:textSize="@dimen/descriptionTextSize"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flowerImage" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        tools:layout_editor_absoluteX="8dp"/>
 
 </android.support.constraint.ConstraintLayout>

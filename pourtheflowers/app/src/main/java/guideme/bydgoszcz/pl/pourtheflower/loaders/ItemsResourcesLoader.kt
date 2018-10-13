@@ -3,6 +3,7 @@ package guideme.bydgoszcz.pl.pourtheflower.loaders
 import android.app.Application
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
+import guideme.bydgoszcz.pl.pourtheflower.model.Notification
 import guideme.bydgoszcz.pl.pourtheflower.model.Tag
 import org.json.JSONObject
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class ItemsResourcesLoader @Inject constructor(private val application: Applicat
                 }
             }
 
-            items.add(Item(id, name, description, imageUrl, tags))
+            items.add(Item(id, name, description, imageUrl, tags, Notification(false, 0, 0)))
         }
         return items
     }

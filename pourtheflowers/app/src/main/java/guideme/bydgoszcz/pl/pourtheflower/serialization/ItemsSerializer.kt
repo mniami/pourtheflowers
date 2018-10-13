@@ -1,6 +1,7 @@
 package guideme.bydgoszcz.pl.pourtheflower.serialization
 
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
+import guideme.bydgoszcz.pl.pourtheflower.model.Notification
 import guideme.bydgoszcz.pl.pourtheflower.utils.getString
 import guideme.bydgoszcz.pl.pourtheflower.utils.putStrings
 import java.nio.ByteBuffer
@@ -17,6 +18,7 @@ class ItemsSerializer {
                 byteBuffer.apply {
                     putStrings(id, content, description, imageUrl)
                     TagSerializer().serialize(byteBuffer, tags)
+                    NotificationSerializer().serialize(byteBuffer, notification)
                 }
             }
         }
@@ -45,7 +47,25 @@ class ItemsSerializer {
                     getString(),
                     getString(),
                     getString(),
-                    tagSerializer.deserialize(byteBuffer))
+                    tagSerializer.deserialize(byteBuffer),
+                    NotificationSerializer().deserialize(byteBuffer)
+            )
         }
     }
+}
+
+class NotificationSerializer {
+    fun serialize(byteBuffer: ByteBuffer, notification: Notification) {
+        byteBuffer.put(if (notification.enabled) 0x1.toByte() else 0x0.toByte())
+        byteBuffer.putInt(notification.repeatDays)
+        byteBuffer.putInt(notification.lastNotificationDay)
+    }
+
+    fun deserialize(byteBuffer: ByteBuffer): Notification {
+        return Notification(byteBuffer.get().toBoolean(),
+                byteBuffer.int,
+                byteBuffer.int)
+    }
+
+    private fun Byte.toBoolean(): Boolean = this == 1.toByte()
 }
