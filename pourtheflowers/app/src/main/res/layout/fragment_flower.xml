@@ -10,7 +10,6 @@
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/gallery_background"
         android:contentDescription="@string/flower_image_description"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"

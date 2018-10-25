@@ -27,6 +27,14 @@
             </intent-filter>
         </activity>
         <receiver android:name=".notifications.NotificationPublisher"/>
+        <service android:name=".services.MainService" />
+        <receiver
+            android:name=".receivers.MainReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
-
 </manifest>
