@@ -1,8 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -14,6 +15,7 @@ import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationMonitor
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.TakingPictureThumbnail
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -41,9 +43,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Dodanie nowej rośliny, w aktualnej wersji nie jest dostępne", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener {
+            presenter.showNewItemAdd()
         }
         presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
@@ -103,6 +104,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == TakingPicture.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val currentFragment = presenter.getCurrentFragment()
+
+            if (currentFragment is TakingPictureThumbnail) {
+                currentFragment.onThumbnail(imageBitmap)
+            }
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -113,8 +125,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 presenter.showUserItems()
             }
             R.id.navAddNew -> {
-                Snackbar.make(nav_view, "Dodanie nowego kwiatu", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                presenter.showNewItemAdd()
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -124,10 +135,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun showBackButton(showBackButton: Boolean) {
         toggle.isDrawerIndicatorEnabled = !showBackButton
     }
-
 }
 
-interface MainActivityHelper {
-    fun showBackButton(showBackButton: Boolean)
-    fun getViewChanger(): ViewChanger
-}

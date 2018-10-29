@@ -1,11 +1,13 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.EditDetailsFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ItemDetailsFragment
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.NewItemFragment
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) : ViewChanger {
@@ -36,5 +38,15 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
         supportFragmentManager.beginTransaction()
                 .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), itemListBackStackName)
                 .commit()
+    }
+
+    override fun showNewItemAdd() {
+        supportFragmentManager.beginTransaction()
+                .replace(frameLayoutId, NewItemFragment(), itemBackStackName)
+                .commit()
+    }
+
+    override fun getCurrentFragment(): Fragment? {
+        return supportFragmentManager.findFragmentByTag(itemBackStackName)
     }
 }

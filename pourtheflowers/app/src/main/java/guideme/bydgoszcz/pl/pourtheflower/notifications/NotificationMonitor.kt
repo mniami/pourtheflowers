@@ -45,10 +45,11 @@ class NotificationMonitor(private val activity: FragmentActivity) {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
-        scheduleNotification(id, notificationBuilder.build(), delay)
+        val notificationId = id.sumBy { it.toInt() }
+        scheduleNotification(notificationId, notificationBuilder.build(), delay)
     }
 
-    private fun scheduleNotification(id: String, notification: Notification, delay: Int) {
+    private fun scheduleNotification(id: Int, notification: Notification, delay: Int) {
         val notificationIntent = Intent(activity, NotificationPublisher::class.java)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id)
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification)
