@@ -7,5 +7,5 @@ import javax.inject.Singleton
 class ItemsRepository @Inject constructor() {
     var isInitialized: Boolean = false
     var user: UserUiItem = UserUiItem(mutableListOf())
-    var lib: MutableList<UiItem> = mutableListOf()
+    var itemsStore: MutableList<UiItem> = mutableListOf()
 }

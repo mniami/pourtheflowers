@@ -8,10 +8,10 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
-import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
+import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.getDrawableFromResources
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -57,7 +57,8 @@ class ItemDetailsFragment : Fragment() {
     }
 
     override fun onResume() {
-        (activity?.application as PourTheFlowerApplication).component.inject(this)
+        injector { inject(this@ItemDetailsFragment) }
+
         val activity = activity ?: return
 
         if (activity is MainActivityHelper) {

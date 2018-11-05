@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RemoveItemFromUser @Inject constructor(private val repo: ItemsRepository,
                                              private val saveUserChanges: SaveUserChanges) {
     fun remove(flowerUiItem: UiItem, onFinished: () -> Unit) {
-        val lib = repo.lib
+        val lib = repo.itemsStore
         val user = repo.user
         lib.filter {
             it.item.id == flowerUiItem.item.id

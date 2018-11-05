@@ -112,7 +112,7 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            val lib = repo.lib
+            val lib = repo.itemsStore
             val user = repo.user
 
             val flowers: List<UiItem> = when (listType) {

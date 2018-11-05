@@ -13,6 +13,7 @@ import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationMonitor
+import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.TakingPictureThumbnail
@@ -105,7 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == TakingPicture.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == TakePicture.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             val currentFragment = presenter.getCurrentFragment()
 
