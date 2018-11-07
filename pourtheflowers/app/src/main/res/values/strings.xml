@@ -97,11 +97,15 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="search_title">search</string>
-    <string name="flower_information">Flower information</string>
+    <string name="search_title">szukaj</string>
+    <string name="flower_information">Informacje</string>
     <string name="flower_image_description">Kwiat</string>
     <string name="all_flowers_title">Wszystkie kwiaty</string>
     <string name="user_flowers_title">Twoje kwiaty</string>
     <string name="remove_item">Usuń</string>
     <string name="frequency_day_label">%s dzień</string>
+
+    <!-- Errors -->
+    <string name="image_file_not_found">Nie udało się zapisać zdjęcia</string>
+    <string name="accept_menu_button">Zaakceptuj</string>
 </resources>

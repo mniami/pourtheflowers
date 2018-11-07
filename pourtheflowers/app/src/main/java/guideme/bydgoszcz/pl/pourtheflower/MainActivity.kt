@@ -107,11 +107,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == TakePicture.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val thumbnailImageBitmap = data?.extras?.get("data") as Bitmap?
             val currentFragment = presenter.getCurrentFragment()
 
             if (currentFragment is TakingPictureThumbnail) {
-                currentFragment.onThumbnail(imageBitmap)
+                if (thumbnailImageBitmap != null) {
+                    currentFragment.onThumbnail(thumbnailImageBitmap)
+                } else {
+                    currentFragment.onPictureCaptured()
+                }
             }
         }
     }

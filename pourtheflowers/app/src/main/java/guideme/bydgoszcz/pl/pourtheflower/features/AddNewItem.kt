@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class AddNewItem @Inject constructor(private val repo: ItemsRepository,
                                      private val updateUserItems: UpdateUserItems,
-                                     private val saveChanges: SaveUserChanges) {
+                                     private val saveChanges: SaveUserChanges,
+                                     private val random: Random) {
     fun add(name: String, description: String, tags: List<Tag>, imageUrl: String, onFinished: () -> Unit) {
-        val random = Random()
         val item = Item(
                 id = random.nextInt().toString(),
                 content = name,

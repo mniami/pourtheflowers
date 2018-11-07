@@ -7,13 +7,13 @@ import guideme.bydgoszcz.pl.pourtheflower.model.UserUiItem
 import javax.inject.Inject
 
 class ItemUiMapper @Inject constructor() {
-    fun mapUserToUi(user: User): UserUiItem {
-        return UserUiItem(mapToUi(user.items))
+    fun mapUserToUi(user: User, isUser: Boolean): UserUiItem {
+        return UserUiItem(mapToUi(user.items, isUser))
     }
 
-    fun mapToUi(items: List<Item>): MutableList<UiItem> {
+    fun mapToUi(items: List<Item>, isUser: Boolean): MutableList<UiItem> {
         return items.asSequence().map {
-            UiItem(it, false)
+            UiItem(it, isUser)
         }.toMutableList()
     }
 

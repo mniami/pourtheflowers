@@ -5,6 +5,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import guideme.bydgoszcz.pl.pourtheflower.serialization.DataCache
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,5 +24,7 @@ class ItemModule @Inject constructor(private val application: Application) {
     @Provides
     fun provideApplication(): Application = application
 
-
+    @Singleton
+    @Provides
+    fun provideRandom(): Random = Random()
 }

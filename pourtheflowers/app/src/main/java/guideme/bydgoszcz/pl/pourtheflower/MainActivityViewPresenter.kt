@@ -15,16 +15,17 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     private val itemBackStackName = "item"
 
     override fun showItem(uiItem: UiItem) {
+        val info = "details" + uiItem.item.id
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), itemBackStackName)
-                .addToBackStack(itemBackStackName)
+                .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), info)
+                .addToBackStack(info)
                 .commit()
     }
 
     override fun editItem(uiItem: UiItem) {
+        val info = "edit" + uiItem.item.id
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, EditDetailsFragment.create(uiItem), itemBackStackName)
-                .addToBackStack(itemBackStackName)
+                .replace(frameLayoutId, EditDetailsFragment.create(uiItem), info)
                 .commit()
     }
 
@@ -43,6 +44,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showNewItemAdd() {
         supportFragmentManager.beginTransaction()
                 .replace(frameLayoutId, NewItemFragment(), itemBackStackName)
+                .addToBackStack(itemBackStackName)
                 .commit()
     }
 

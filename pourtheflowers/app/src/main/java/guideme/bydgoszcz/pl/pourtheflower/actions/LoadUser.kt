@@ -5,13 +5,13 @@ import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.serialization.UserDataCache
 import javax.inject.Inject
 
-class LoadUser @Inject constructor(private val flowersRepository: ItemsRepository,
+class LoadUser @Inject constructor(private val repository: ItemsRepository,
                                    private val userDataCache: UserDataCache,
-                                   private val flowerUiMapper: ItemUiMapper) {
+                                   private val itemUiMapper: ItemUiMapper) {
     fun load() {
         val deSerializedUser = userDataCache.load()
-        val userUi = flowerUiMapper.mapUserToUi(deSerializedUser)
+        val userUi = itemUiMapper.mapUserToUi(deSerializedUser, true)
         userUi.items.sortBy { it.item.content }
-        flowersRepository.user = userUi
+        repository.user = userUi
     }
 }

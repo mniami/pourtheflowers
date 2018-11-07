@@ -16,6 +16,9 @@ class ImageLoader(private val itemImage: ImageView) {
                 return@afterMeasured
             }
             val imageUrl = flowerUiItem.item.imageUrl
+//            if (!URLUtil.isFileUrl(imageUrl) && !URLUtil.isNetworkUrl(imageUrl)) {
+//                return@afterMeasured
+//            }
             val description = String.format("Source: %s", URL(imageUrl).host)
 
             Picasso.get().load(imageUrl)

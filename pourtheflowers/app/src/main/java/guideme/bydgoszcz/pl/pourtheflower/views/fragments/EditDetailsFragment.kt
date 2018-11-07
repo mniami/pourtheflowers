@@ -3,11 +3,8 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
-import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
@@ -45,8 +42,9 @@ class EditDetailsFragment : Fragment() {
         val fab: FloatingActionButton = activity?.findViewById(R.id.fab) ?: return
         fab.hide()
 
-        val headerTextView = activity?.findViewById<TextView>(R.id.headerTextView)
-        headerTextView?.text = uiItem.item.content
+        etName?.setText(uiItem.item.content)
+        etDescription?.setText(uiItem.item.description)
+
         turnNotificationSwitch.isChecked = uiItem.item.notification.enabled
         turnNotificationSwitch.setOnClickListener {
             uiItem.item.notification.enabled = turnNotificationSwitch.isChecked
@@ -88,6 +86,15 @@ class EditDetailsFragment : Fragment() {
         ItemsNotifications(activity).setUpNotifications(repository.user.items)
         saveUserChanges.save {
             // noop
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+        menuInflater?.inflate(R.menu.edit_item_menu, menu)
+
+        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+            true
         }
     }
 
