@@ -52,7 +52,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             return
         }
         val imageUri = File(photoFilePath).toURI().toString()
-        addNewItem.add(etName.text.toString(), "", emptyList(), imageUri) {
+        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri) {
             val activity = activity ?: return@add
             activity.supportFragmentManager.popBackStack()
         }

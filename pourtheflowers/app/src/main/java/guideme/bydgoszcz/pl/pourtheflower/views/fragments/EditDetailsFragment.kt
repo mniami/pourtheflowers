@@ -76,6 +76,9 @@ class EditDetailsFragment : Fragment() {
         super.onPause()
         val activity = activity ?: return
 
+        uiItem.item.content = etName.text.toString()
+        uiItem.item.description = etDescription.text.toString()
+
         repository.user.items.filter {
             it.item.id == uiItem.item.id
         }.forEach {
