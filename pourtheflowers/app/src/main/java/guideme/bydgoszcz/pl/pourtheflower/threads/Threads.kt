@@ -2,6 +2,7 @@ package guideme.bydgoszcz.pl.pourtheflower.threads
 
 import android.os.Handler
 import android.os.Looper
+import guideme.bydgoszcz.pl.pourtheflower.utils.asyncIO
 import java.util.concurrent.Executors
 
 fun runOnUi(task: () -> Unit) {
@@ -9,10 +10,9 @@ fun runOnUi(task: () -> Unit) {
     handler.post { task.invoke() }
 }
 
-val backgroundThread = Executors.newSingleThreadExecutor()
 fun runInBackground(task: () -> Unit): ThreadHandler {
     val threadHandler = ThreadHandler()
-    backgroundThread.submit {
+    asyncIO {
         try {
             task()
         } catch (ex: Exception) {

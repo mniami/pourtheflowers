@@ -7,4 +7,3 @@ inline fun <reified T : Fragment> T.injector(d: AppComponent.() -> Unit) {
     val component = (activity?.application as PourTheFlowerApplication).component
     component.apply(d)
 }
-

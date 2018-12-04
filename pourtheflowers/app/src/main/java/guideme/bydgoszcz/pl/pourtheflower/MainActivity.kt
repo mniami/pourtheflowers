@@ -9,10 +9,12 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
+import guideme.bydgoszcz.pl.pourtheflower.loaders.ImageLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationMonitor
+import guideme.bydgoszcz.pl.pourtheflower.utils.asyncIO
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
@@ -20,6 +22,9 @@ import guideme.bydgoszcz.pl.pourtheflower.views.fragments.TakingPictureThumbnail
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
