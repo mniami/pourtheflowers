@@ -11,8 +11,9 @@ import android.view.*
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddNewItem
 import guideme.bydgoszcz.pl.pourtheflower.injector
+import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
-import kotlinx.android.synthetic.main.new_item_layout.*
+import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import java.io.File
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     @Inject
     lateinit var addNewItem: AddNewItem
 
-    private var photoFilePath: String? = null
+    private var photoFilePath: File? = null
 
     companion object {
         const val MY_CAMERA_REQUEST_CODE = 100
@@ -29,7 +30,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.new_item_layout, container, false)
+        return inflater.inflate(R.layout.fragment_flower_edit, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState != null) {
-            photoFilePath = savedInstanceState.getString("photoFilePath")
+            photoFilePath = savedInstanceState.getSerializable("photoFilePath") as File?
         }
         if (photoFilePath == null) {
             requestTakePicture()
@@ -51,7 +52,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             Snackbar.make(view ?: return, getString(R.string.image_file_not_found), 2000)
             return
         }
-        val imageUri = File(photoFilePath).toURI().toString()
+        val imageUri = File(photoFilePath.absolutePath).toURI().toString()
         addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri) {
             val activity = activity ?: return@add
             activity.supportFragmentManager.popBackStack()
@@ -72,7 +73,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         super.onSaveInstanceState(outState)
 
         if (photoFilePath != null) {
-            outState.putString("photoFilePath", photoFilePath)
+            outState.putSerializable("photoFilePath", photoFilePath)
         }
     }
 
@@ -85,8 +86,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
-        menuInflater?.inflate(R.menu.edit_item_menu, menu)
-
+        setMenu(menu, menuInflater, R.menu.edit_item_menu)
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
             saveItem()
             true
@@ -95,7 +95,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onThumbnail(bitmap: Bitmap) {
         //addNewItem.add()
-        imageView.setImageBitmap(bitmap)
+        itemImage.setImageBitmap(bitmap)
     }
 
     override fun onPictureCaptured() {
@@ -105,6 +105,6 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     private fun showPicture() {
         val photoFilePath = photoFilePath ?: return
 
-        TakePicture().setPictureToImageView(imageView, photoFilePath)
+        ImageLoader(itemImage).setImage(photoFilePath, itemImage.width, itemImage.height)
     }
 }

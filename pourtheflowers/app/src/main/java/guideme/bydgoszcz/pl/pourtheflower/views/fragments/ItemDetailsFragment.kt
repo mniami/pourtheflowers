@@ -14,7 +14,9 @@ import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.getDrawableFromResources
+import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_flower.*
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
@@ -49,11 +51,8 @@ class ItemDetailsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        if (uiItem.isUser) {
-            inflater?.inflate(R.menu.menu_flower, menu)
-        } else {
-            super.onCreateOptionsMenu(menu, inflater)
-        }
+        val menuResource = if (uiItem.isUser) R.menu.menu_flower else R.menu.main
+        setMenu(menu, inflater, menuResource)
     }
 
     override fun onResume() {
@@ -64,6 +63,7 @@ class ItemDetailsFragment : Fragment() {
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
             activity.toolbar.title = uiItem.item.content
+            tvName.text = uiItem.item.content
         }
         val descriptionTextView = activity.findViewById<TextView>(R.id.descriptionTextView)
         descriptionTextView?.text = uiItem.item.description

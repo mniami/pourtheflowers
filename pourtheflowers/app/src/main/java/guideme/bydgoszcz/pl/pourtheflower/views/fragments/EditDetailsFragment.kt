@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.SeekBar
-import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
+import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
+import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import javax.inject.Inject
 
@@ -38,7 +41,9 @@ class EditDetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity?.application as PourTheFlowerApplication).component.inject(this)
+
+        injector { inject(this@EditDetailsFragment) }
+
         val fab: FloatingActionButton = activity?.findViewById(R.id.fab) ?: return
         fab.hide()
 
@@ -49,27 +54,23 @@ class EditDetailsFragment : Fragment() {
         turnNotificationSwitch.setOnClickListener {
             uiItem.item.notification.enabled = turnNotificationSwitch.isChecked
         }
-        seekBar.max = 30
-        seekBar.progress = uiItem.item.notification.repeatDays
+
+        // setup frequency spinner
+        val repeatDaysValues = (1..30).map { "$it" }.toTypedArray()
+        frequencySpinner.adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
+        frequencySpinner.setSelection(uiItem.item.notification.repeatDays)
+
         imageLoader.load(uiItem)
-        showFrequencyTime()
 
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                uiItem.item.notification.repeatDays = p1
-                showFrequencyTime()
+        frequencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                uiItem.item.notification.repeatDays = 1
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                uiItem.item.notification.repeatDays = position
             }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-            }
-        })
-    }
-
-    private fun showFrequencyTime() {
-        frequencyTextView.text = String.format(getString(R.string.frequency_day_label), uiItem.item.notification.repeatDays.toString())
+        }
     }
 
     override fun onPause() {
@@ -93,8 +94,7 @@ class EditDetailsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
-        menuInflater?.inflate(R.menu.edit_item_menu, menu)
-
+        setMenu(menu, menuInflater, R.menu.edit_item_menu)
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
             activity?.supportFragmentManager?.popBackStack()
             true

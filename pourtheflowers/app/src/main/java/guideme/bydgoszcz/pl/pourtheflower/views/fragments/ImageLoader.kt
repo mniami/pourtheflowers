@@ -1,11 +1,14 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
+import android.graphics.Bitmap
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.CircleTransform
 import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
+import java.io.File
 import java.net.URL
 
 class ImageLoader(private val itemImage: ImageView) {
@@ -16,16 +19,21 @@ class ImageLoader(private val itemImage: ImageView) {
                 return@afterMeasured
             }
             val imageUrl = flowerUiItem.item.imageUrl
-//            if (!URLUtil.isFileUrl(imageUrl) && !URLUtil.isNetworkUrl(imageUrl)) {
-//                return@afterMeasured
-//            }
-            val description = String.format("Source: %s", URL(imageUrl).host)
-
-            Picasso.get().load(imageUrl)
-                    .resize(parentView.measuredWidth, parentView.measuredHeight)
-                    .centerInside()
-                    .transform(FlipTransformation(description))
-                    .into(itemImage)
+            setImage(imageUrl,parentView.measuredWidth, parentView.measuredHeight)
         }
+    }
+    fun setImage(imageUrl : String, width : Int, height : Int) {
+        Picasso.get().load(imageUrl)
+                .resize(width, height)
+                .centerInside()
+                .transform(CircleTransform())
+                .into(itemImage)
+    }
+    fun setImage(file : File, width : Int, height : Int) {
+        Picasso.get().load(file)
+                .resize(width, height)
+                .centerInside()
+                .transform(CircleTransform())
+                .into(itemImage)
     }
 }

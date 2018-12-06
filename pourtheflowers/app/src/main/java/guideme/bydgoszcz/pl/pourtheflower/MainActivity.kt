@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         supportFragmentManager.addOnBackStackChangedListener {
+            invalidateOptionsMenu()
             if (supportFragmentManager.backStackEntryCount == 0) {
                 showBackButton(false)
             }

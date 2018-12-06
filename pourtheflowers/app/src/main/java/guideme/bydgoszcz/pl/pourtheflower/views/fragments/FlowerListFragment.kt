@@ -13,6 +13,8 @@ import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.findActionViewItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -24,6 +26,22 @@ class FlowerListFragment : Fragment() {
 
     @Inject
     lateinit var repo: ItemsRepository
+
+    private val searchHandler = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (newText === null) {
+                return false
+            }
+            val adapter = recyclerView?.adapter as? FlowerRecyclerViewAdapter
+                    ?: return false
+            adapter.filter(newText)
+            return true
+        }
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,23 +95,11 @@ class FlowerListFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
-        menuInflater?.inflate(R.menu.main, menu)
+        setMenu(menu, menuInflater, R.menu.main)
 
-        val search = menu?.findItem(R.id.search)?.actionView as SearchView?
-        search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText === null) {
-                    return false
-                }
-                val adapter = recyclerView?.adapter as? FlowerRecyclerViewAdapter ?: return false
-                adapter.filter(newText)
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-        })
+        menu?.findActionViewItem<SearchView>(R.id.search) { search ->
+            search.setOnQueryTextListener(searchHandler)
+        }
     }
 
     override fun onAttach(context: Context) {

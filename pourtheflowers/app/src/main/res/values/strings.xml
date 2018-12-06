@@ -108,4 +108,6 @@
     <!-- Errors -->
     <string name="image_file_not_found">Nie udało się zapisać zdjęcia</string>
     <string name="accept_menu_button">Zaakceptuj</string>
+    <string name="frequency_label">Częstotliwość</string>
+    <string name="notification_label">Powiadamianie o podlaniu</string>
 </resources>

@@ -16,7 +16,7 @@ class UserDataCache @Inject constructor(private val dataCache: DataCache) {
     }
 
     fun save(user: User) {
-        val buffer = ByteBuffer.allocate(1024 * 8)
+        val buffer = ByteBuffer.allocate(1024 * 1024 * 8)
         serialize(user, buffer)
         dataCache.save(userListCacheName, buffer)
     }
