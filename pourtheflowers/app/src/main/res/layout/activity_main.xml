@@ -32,9 +32,11 @@
                 android:id="@+id/privacyPolicyLink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:gravity="center"
-                android:inputType="textUri"
-                android:text="Privacy policy" />
+                android:autoLink="web"
+                android:textColor="@color/light_blue"
+                android:text="@string/privacy_policy" />
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>

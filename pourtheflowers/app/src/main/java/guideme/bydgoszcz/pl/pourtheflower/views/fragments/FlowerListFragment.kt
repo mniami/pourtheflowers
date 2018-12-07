@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
 import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
+import guideme.bydgoszcz.pl.pourtheflower.MainActivityViewPresenter
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
@@ -27,22 +28,6 @@ class FlowerListFragment : Fragment() {
 
     @Inject
     lateinit var repo: ItemsRepository
-
-    private val searchHandler = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextChange(newText: String?): Boolean {
-            if (newText === null) {
-                return false
-            }
-            val adapter = recyclerView?.adapter as? FlowerRecyclerViewAdapter
-                    ?: return false
-            adapter.filter(newText)
-            return true
-        }
-
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return true
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +68,9 @@ class FlowerListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        FabHelper(activity).show(true)
+        FabHelper(activity).show(true)?.setOnClickListener {
+            (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
+        }
 
         val act = activity
         if (act is MainActivityHelper) {
@@ -128,6 +115,7 @@ class FlowerListFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
     }
+
 
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(item: UiItem)

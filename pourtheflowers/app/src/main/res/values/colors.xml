@@ -10,4 +10,5 @@
     <color name="user_item_background">#adc6a6</color>
     <color name="default_item_background">#FFFFFF</color>
     <color name="descriptionTextColor">#252320</color>
+    <color name="light_blue">#25469f</color>
 </resources>

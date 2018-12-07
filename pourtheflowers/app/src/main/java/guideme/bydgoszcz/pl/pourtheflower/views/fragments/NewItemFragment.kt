@@ -47,8 +47,8 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         if (photoFilePath == null) {
             requestTakePicture()
         }
-        val repeatDaysValues = (1..30).map { "$it" }.toTypedArray()
-        frequencySpinner.adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
+        val repeatDaysValues = (1..30).map { it }.toTypedArray()
+        frequencySpinner.adapter = ArrayAdapter<Int>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
     }
 
     private fun saveItem() {
@@ -58,7 +58,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             return
         }
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
-        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri, frequencySpinner.selectedItemPosition) {
+        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri, frequencySpinner.selectedItem as Int) {
             val activity = activity ?: return@add
             activity.supportFragmentManager.popBackStack()
         }

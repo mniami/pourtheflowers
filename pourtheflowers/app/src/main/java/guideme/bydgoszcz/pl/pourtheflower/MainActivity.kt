@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
+import android.text.util.Linkify
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.loaders.ImageLoader
@@ -51,9 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener {
-            presenter.showNewItemAdd()
-        }
         presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -67,7 +65,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        privacyPolicyLink.text = Html.fromHtml("<a href='https://sites.google.com/view/pour-the-flower-privacy-policy'>Privacy policy</a>")
+        privacyPolicyLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://sites.google.com/view/pour-the-flower-privacy-policy")
+            startActivity(intent)
+        }
 
         if (savedInstanceState == null) {
             (application as PourTheFlowerApplication).component.inject(this)

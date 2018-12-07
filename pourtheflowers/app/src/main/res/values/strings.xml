@@ -3,9 +3,9 @@
 
     <string name="navigation_drawer_open">Otwórz menu</string>
     <string name="navigation_drawer_close">Zamknij menu</string>
-    <string name="nav_header_title">Podlewacz</string>
-    <string name="nav_header_subtitle">Dodawaj swoje kwiaty i ustawiaj powiadomienia o podlaniu</string>
-    <string name="nav_header_desc">Podlej kwiaty na czas</string>
+    <string name="nav_header_title">Powiadomienia o podlewaniu kwiatów</string>
+    <string name="nav_header_subtitle">2018 GuideMe Damian Szczepański</string>
+    <string name="nav_header_desc"></string>
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_flower">FlowerActivity</string>
     <string name="large_text">
@@ -111,4 +111,5 @@
     <string name="accept_menu_button">Zaakceptuj</string>
     <string name="frequency_label">Częstotliwość</string>
     <string name="notification_label">Powiadamianie o podlaniu</string>
+    <string name="privacy_policy">Polityka prywatności</string>
 </resources>
