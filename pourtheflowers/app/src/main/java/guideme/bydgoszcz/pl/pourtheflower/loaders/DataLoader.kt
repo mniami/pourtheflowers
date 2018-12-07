@@ -17,7 +17,6 @@ class DataLoader @Inject constructor(private val loadFlowersFromResources: LoadI
             loadFlowersFromResources.load()
             loadUser.load()
             updateUserFlowers.update()
-            imageLoader.load()
 
             runOnUi {
                 onFinished()

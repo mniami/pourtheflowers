@@ -12,7 +12,7 @@ class ItemsNotifications(private val activity: FragmentActivity) {
             val delay = it.item.notification.calculateDelay(System.currentTimeMillis())
             notificationMonitor.showNotification(
                     it.item.id,
-                    it.item.content,
+                    it.item.name,
                     "Nadszedł czas podlania",
                     delay)
         }

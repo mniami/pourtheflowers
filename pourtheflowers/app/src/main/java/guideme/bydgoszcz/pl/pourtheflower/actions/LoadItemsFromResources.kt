@@ -10,7 +10,7 @@ class LoadItemsFromResources @Inject constructor(private val repo: ItemsReposito
                                                  private val uiMapper: ItemUiMapper) {
     fun load() {
         if (!repo.isInitialized) {
-            val unSerializedFlowers = resourcesLoader.load().sortedBy { it.content }
+            val unSerializedFlowers = resourcesLoader.load().sortedBy { it.name }
             repo.itemsStore = uiMapper.mapToUi(unSerializedFlowers, false)
             repo.isInitialized = true
         }

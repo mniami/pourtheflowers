@@ -15,6 +15,7 @@ import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.findActionViewItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
+import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
@@ -82,6 +83,7 @@ class FlowerListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        FabHelper(activity).show(true)
 
         val act = activity
         if (act is MainActivityHelper) {
@@ -96,10 +98,6 @@ class FlowerListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.main)
-
-        menu?.findActionViewItem<SearchView>(R.id.search) { search ->
-            search.setOnQueryTextListener(searchHandler)
-        }
     }
 
     override fun onAttach(context: Context) {

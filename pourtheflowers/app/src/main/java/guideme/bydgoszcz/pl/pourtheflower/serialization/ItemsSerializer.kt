@@ -16,8 +16,9 @@ class ItemsSerializer {
         items.forEach { item ->
             with(item) {
                 byteBuffer.apply {
-                    putStrings(id, content, description, imageUrl)
+                    putStrings(id, name, description, imageUrl)
                     TagSerializer().serialize(byteBuffer, tags)
+                    putInt(frequency)
                     NotificationSerializer().serialize(byteBuffer, notification)
                 }
             }
@@ -48,6 +49,7 @@ class ItemsSerializer {
                     getString(),
                     getString(),
                     tagSerializer.deserialize(byteBuffer),
+                    getInt(),
                     NotificationSerializer().deserialize(byteBuffer)
             )
         }

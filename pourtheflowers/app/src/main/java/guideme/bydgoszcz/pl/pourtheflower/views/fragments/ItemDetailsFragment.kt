@@ -1,7 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.*
@@ -13,8 +12,8 @@ import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.utils.getDrawableFromResources
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
+import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
 import javax.inject.Inject
@@ -62,8 +61,8 @@ class ItemDetailsFragment : Fragment() {
 
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
-            activity.toolbar.title = uiItem.item.content
-            tvName.text = uiItem.item.content
+            activity.toolbar.title = uiItem.item.name
+            tvName.text = uiItem.item.name
         }
         val descriptionTextView = activity.findViewById<TextView>(R.id.descriptionTextView)
         descriptionTextView?.text = uiItem.item.description
@@ -78,10 +77,7 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initFabButton() {
-        val fab: FloatingActionButton = activity?.findViewById(R.id.fab) ?: return
-        val fabDrawableId = if (uiItem.isUser) R.drawable.fab_edit else R.drawable.fab_add
-        fab.setImageDrawable(resources.getDrawableFromResources(fabDrawableId))
-        fab.setOnClickListener {
+        FabHelper(activity).show(!uiItem.isUser)?.setOnClickListener {
             if (uiItem.isUser) {
                 viewChanger.editItem(uiItem)
             } else {
@@ -92,7 +88,6 @@ class ItemDetailsFragment : Fragment() {
                 }
             }
         }
-        fab.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

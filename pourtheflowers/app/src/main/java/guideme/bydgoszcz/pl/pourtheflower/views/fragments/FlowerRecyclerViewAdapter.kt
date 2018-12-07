@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
@@ -44,12 +43,9 @@ class FlowerRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        val backgroundColorResource = if (item.isUser) R.color.user_item_background else R.color.default_item_background
 
-        holder.itemView.setBackgroundColor(holder.itemView.resources.getColorFromResource(backgroundColorResource))
-        holder.mNameView.text = item.item.content
+        holder.mNameView.text = item.item.name
         holder.mDescriptionView.text = getShorted(item.item.description)
-
         holder.mView.post {
             if (item.item.imageUrl.isEmpty()) {
                 return@post
@@ -60,10 +56,8 @@ class FlowerRecyclerViewAdapter(
                     .centerInside()
                     .into(holder.mFlowerImageView)
         }
-        with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
-        }
+        holder.mView.tag = item
+        holder.mView.setOnClickListener(mOnClickListener)
     }
 
     fun filter(text: String) {
@@ -71,7 +65,7 @@ class FlowerRecyclerViewAdapter(
             filteredList = mValues
         } else {
             filteredList = mValues.filter { item ->
-                item.item.content.contains(text, true) || item.item.description.contains(text, true)
+                item.item.name.contains(text, true) || item.item.description.contains(text, true)
             }
         }
         notifyDataSetChanged()
@@ -81,12 +75,11 @@ class FlowerRecyclerViewAdapter(
         val maxLength = 100
         if (description.length > maxLength){
             val idx = description.indexOfAny(charArrayOf(',','.'), maxLength)
-            if (idx > -1){
+            return if (idx > -1){
                 description.indexOfAny(charArrayOf(',','.'))
-                return description.substring(0, idx) + "."
-            }
-            else {
-                return description.substring(0, maxLength)
+                description.substring(0, idx) + "."
+            } else {
+                description.substring(0, maxLength)
             }
         }
         return description
@@ -97,7 +90,6 @@ class FlowerRecyclerViewAdapter(
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mNameView: TextView = mView.name
         val mDescriptionView: TextView = mView.description
-        val mFrequencyView: TextView = mView.frequency
         val mFlowerImageView: ImageView = mView.flowerImage
 
         override fun toString(): String {

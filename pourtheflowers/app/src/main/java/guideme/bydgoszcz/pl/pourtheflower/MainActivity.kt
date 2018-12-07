@@ -2,11 +2,13 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.view.MenuItem
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.loaders.ImageLoader
@@ -64,6 +66,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
+        privacyPolicyLink.text = Html.fromHtml("<a href='https://sites.google.com/view/pour-the-flower-privacy-policy'>Privacy policy</a>")
 
         if (savedInstanceState == null) {
             (application as PourTheFlowerApplication).component.inject(this)

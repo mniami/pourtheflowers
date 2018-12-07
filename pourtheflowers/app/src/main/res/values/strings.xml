@@ -100,9 +100,10 @@
     <string name="search_title">szukaj</string>
     <string name="flower_information">Informacje</string>
     <string name="flower_image_description">Kwiat</string>
-    <string name="all_flowers_title">Wszystkie kwiaty</string>
-    <string name="user_flowers_title">Twoje kwiaty</string>
+    <string name="all_flowers_title">Biblioteka kwiatów</string>
+    <string name="user_flowers_title">Moje kwiaty</string>
     <string name="remove_item">Usuń</string>
+    <string name="add_new_flower">Dodaj nowy</string>
     <string name="frequency_day_label">%s dzień</string>
 
     <!-- Errors -->

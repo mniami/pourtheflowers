@@ -8,10 +8,12 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
+import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddNewItem
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
+import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import java.io.File
@@ -41,9 +43,12 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         if (savedInstanceState != null) {
             photoFilePath = savedInstanceState.getSerializable("photoFilePath") as File?
         }
+        FabHelper(activity).hide()
         if (photoFilePath == null) {
             requestTakePicture()
         }
+        val repeatDaysValues = (1..30).map { "$it" }.toTypedArray()
+        frequencySpinner.adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
     }
 
     private fun saveItem() {
@@ -53,7 +58,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             return
         }
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
-        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri) {
+        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri, frequencySpinner.selectedItemPosition) {
             val activity = activity ?: return@add
             activity.supportFragmentManager.popBackStack()
         }

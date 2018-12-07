@@ -18,14 +18,14 @@
 
         <ImageView
             android:id="@+id/itemImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="158dp"
+            android:layout_height="158dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/flower_image_description"
-            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +42,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Description"
+        android:inputType="textMultiLine|textWebEditText"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:scrollHorizontally="false"
+        android:gravity="bottom|left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -73,10 +89,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFrequencyLabel" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvFrequencyLabel"
         style="@style/LabelTextView"
         android:layout_width="0dp"
         android:layout_height="22dp"
@@ -89,20 +105,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/turnNotificationSwitch" />
 
-    <EditText
-        android:id="@+id/etDescription"
+    <View
+        android:layout_height="0dp"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Description"
-        android:inputType="textMultiLine|textWebEditText"
-        android:maxLines="10"
-        android:scrollbars="vertical"
-        android:scrollHorizontally="false"
-        android:gravity="bottom|left"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
+        ></View>
 
 </android.support.constraint.ConstraintLayout>

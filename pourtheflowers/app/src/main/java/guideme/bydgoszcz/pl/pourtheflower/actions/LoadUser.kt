@@ -11,7 +11,7 @@ class LoadUser @Inject constructor(private val repository: ItemsRepository,
     fun load() {
         val deSerializedUser = userDataCache.load()
         val userUi = itemUiMapper.mapUserToUi(deSerializedUser, true)
-        userUi.items.sortBy { it.item.content }
+        userUi.items.sortBy { it.item.name }
         repository.user = userUi
     }
 }

@@ -1,11 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower.loaders
 
-import com.google.gson.Gson
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.Notification
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import java.net.URL
 import javax.inject.Inject
 
 class ImageLoader @Inject constructor(private val repo: ItemsRepository) {
@@ -20,8 +18,9 @@ class ImageLoader @Inject constructor(private val repo: ItemsRepository) {
 
         repo.user.items.addAll((1..100).map {
             val imageUrl = "https://picsum.photos/200/300?image=$it"
-            UiItem(item = Item(id = "$it", content = "Image $it", description = "Description $it", imageUrl = imageUrl, tags = emptyList(),
-                    notification = Notification(false, 0, 0)), isUser = true)
+            UiItem(item = Item(id = "$it", name = "Image $it", description = "Description $it", imageUrl = imageUrl, tags = emptyList(),
+                    notification = Notification(false, 0, 0),
+                    frequency = 0), isUser = true)
         }.take(10))
     }
 }
@@ -34,6 +33,3 @@ data class PicsumPhotoImage(val format: String,
                             val author_url: String,
                             val post_url: String)
 
-inline fun <reified T> URL.readJson(): T {
-    return Gson().fromJson<T>(readText(), T::class.java)
-}

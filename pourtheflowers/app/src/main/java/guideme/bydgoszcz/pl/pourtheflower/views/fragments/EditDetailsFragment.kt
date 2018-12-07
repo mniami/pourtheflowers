@@ -1,7 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.AdapterView
@@ -13,7 +12,7 @@ import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
-import kotlinx.android.synthetic.main.app_bar_main.*
+import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import javax.inject.Inject
 
@@ -44,10 +43,9 @@ class EditDetailsFragment : Fragment() {
 
         injector { inject(this@EditDetailsFragment) }
 
-        val fab: FloatingActionButton = activity?.findViewById(R.id.fab) ?: return
-        fab.hide()
+        FabHelper(activity).hide()
 
-        etName?.setText(uiItem.item.content)
+        etName?.setText(uiItem.item.name)
         etDescription?.setText(uiItem.item.description)
 
         turnNotificationSwitch.isChecked = uiItem.item.notification.enabled
@@ -77,7 +75,7 @@ class EditDetailsFragment : Fragment() {
         super.onPause()
         val activity = activity ?: return
 
-        uiItem.item.content = etName.text.toString()
+        uiItem.item.name = etName.text.toString()
         uiItem.item.description = etDescription.text.toString()
 
         repository.user.items.filter {

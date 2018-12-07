@@ -26,7 +26,11 @@ class CircleTransform : Transformation {
         paint.isAntiAlias = true
 
         val r = size / 2f
-        canvas.drawCircle(r, r, r, paint)
+        val borderPaint = Paint()
+        borderPaint.color = Color.WHITE
+
+        canvas.drawCircle(r, r, r, borderPaint)
+        canvas.drawCircle(r, r, r - 14, paint)
 
         squaredBitmap.recycle()
         return bitmap
