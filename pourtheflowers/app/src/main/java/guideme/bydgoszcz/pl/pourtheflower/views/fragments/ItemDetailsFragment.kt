@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.ImageView
-import android.widget.TextView
+import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
+import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -20,13 +21,9 @@ import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
     private lateinit var uiItem: UiItem
-    private lateinit var itemImage: ImageView
 
     private val viewChanger by lazy {
         (activity as MainActivityHelper).getViewChanger()
-    }
-    private val imageLoader by lazy {
-        ImageLoader(itemImage)
     }
     private val fullScreenImage by lazy {
         val a = activity ?: return@lazy null
@@ -54,7 +51,8 @@ class ItemDetailsFragment : Fragment() {
         setMenu(menu, inflater, menuResource)
     }
 
-    override fun onResume() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         injector { inject(this@ItemDetailsFragment) }
 
         val activity = activity ?: return
@@ -64,16 +62,29 @@ class ItemDetailsFragment : Fragment() {
             activity.toolbar.title = uiItem.item.name
             tvName.text = uiItem.item.name
         }
-        val descriptionTextView = activity.findViewById<TextView>(R.id.descriptionTextView)
         descriptionTextView?.text = uiItem.item.description
 
-        itemImage = activity.findViewById(R.id.itemImage)
+        initFabButton()
+        initImage()
+    }
+
+    private fun initImage() {
+        val parentView = itemImage.parent as ViewGroup
+        val file = uiItem.item.imageUrl
+
+        parentView.afterMeasured {
+            val width = parentView.width
+            val height = parentView.height
+
+            Picasso.get().load(file)
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(itemImage)
+        }
+
         itemImage.setOnClickListener {
             fullScreenImage?.open(uiItem)
         }
-        initFabButton()
-        imageLoader.load(uiItem)
-        super.onResume()
     }
 
     private fun initFabButton() {
@@ -84,7 +95,7 @@ class ItemDetailsFragment : Fragment() {
                 addItemToUser.add(uiItem) {
                     Snackbar.make(it, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
-                    activity?.supportFragmentManager?.popBackStack()
+                    activity?.goBack()
                 }
             }
         }
@@ -93,12 +104,12 @@ class ItemDetailsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                activity?.supportFragmentManager?.popBackStack()
+                activity?.goBack()
                 return true
             }
             R.id.remove_item -> {
                 removeItemFromUser.remove(uiItem) {
-                    activity?.supportFragmentManager?.popBackStack()
+                    activity?.goBack()
                 }
             }
         }

@@ -4,7 +4,7 @@ import android.graphics.*
 
 import com.squareup.picasso.Transformation
 
-class CircleTransform : Transformation {
+class CircleTransform(private val borderColor : Int, private val borderSize : Int = 7) : Transformation {
     override fun transform(source: Bitmap): Bitmap {
         val size = Math.min(source.width, source.height)
 
@@ -27,10 +27,10 @@ class CircleTransform : Transformation {
 
         val r = size / 2f
         val borderPaint = Paint()
-        borderPaint.color = Color.WHITE
+        borderPaint.color = borderColor
 
         canvas.drawCircle(r, r, r, borderPaint)
-        canvas.drawCircle(r, r, r - 14, paint)
+        canvas.drawCircle(r, r, r - borderSize * 2, paint)
 
         squaredBitmap.recycle()
         return bitmap

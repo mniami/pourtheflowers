@@ -111,7 +111,7 @@ class FlowerListFragment : Fragment() {
                 ALL_LIST_TYPE -> lib
                 else -> lib
             }
-            adapter = FlowerRecyclerViewAdapter(flowers, listener)
+            adapter = FlowerRecyclerViewAdapter(flowers, context, listener)
             adapter.notifyDataSetChanged()
         }
     }

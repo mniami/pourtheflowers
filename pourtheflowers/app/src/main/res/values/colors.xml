@@ -11,4 +11,5 @@
     <color name="default_item_background">#FFFFFF</color>
     <color name="descriptionTextColor">#252320</color>
     <color name="light_blue">#25469f</color>
+    <color name="orange">#ec6d24</color>
 </resources>

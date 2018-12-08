@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
+import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
@@ -38,9 +39,8 @@ class EditDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_flower_edit, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         injector { inject(this@EditDetailsFragment) }
 
         FabHelper(activity).hide()
@@ -71,30 +71,25 @@ class EditDetailsFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        val activity = activity ?: return
-
-        uiItem.item.name = etName.text.toString()
-        uiItem.item.description = etDescription.text.toString()
-
-        repository.user.items.filter {
-            it.item.id == uiItem.item.id
-        }.forEach {
-            repository.user.items.remove(it)
-        }
-        repository.user.items.add(uiItem)
-
-        ItemsNotifications(activity).setUpNotifications(repository.user.items)
-        saveUserChanges.save {
-            // noop
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
-            activity?.supportFragmentManager?.popBackStack()
+            val activity = activity ?: return@setOnMenuItemClickListener false
+
+            uiItem.item.name = etName.text.toString()
+            uiItem.item.description = etDescription.text.toString()
+
+            repository.user.items.filter {
+                it.item.id == uiItem.item.id
+            }.forEach {
+                repository.user.items.remove(it)
+            }
+            repository.user.items.add(uiItem)
+
+            ItemsNotifications(activity, saveUserChanges).setUpNotifications(repository.user.items)
+            saveUserChanges.save {
+                activity.goBack()
+            }
             true
         }
     }

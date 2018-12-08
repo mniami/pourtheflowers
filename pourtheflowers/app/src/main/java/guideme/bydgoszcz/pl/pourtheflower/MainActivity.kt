@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Html
 import android.text.util.Linkify
 import android.view.MenuItem
+import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.loaders.ImageLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var repo: ItemsRepository
     @Inject
     lateinit var dataLoader: DataLoader
+    @Inject
+    lateinit var saveUserChanges : SaveUserChanges
 
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (user.items.isEmpty()) {
                     presenter.showAllItems()
                 } else {
-                    ItemsNotifications(this).setUpNotifications(user.items)
+                    ItemsNotifications(this, saveUserChanges).setUpNotifications(user.items)
                     presenter.showUserItems()
                 }
             }

@@ -29,21 +29,10 @@
                 android:layout_marginEnd="4dp"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="30sp"
-            android:visibility="gone"
-            tools:text="@sample/flowers.json/data/frequency"/>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_weight="7"
             android:orientation="vertical">
 
             <TextView
@@ -62,7 +51,43 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/darker_gray"
                 android:textSize="12sp"
+                android:lines="1"
                 tools:text="@sample/flowers.json/data/description"/>
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:id="@+id/frequencyProgressBar"
+                android:progress="45"
+                android:max="100"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                style="?android:attr/progressBarStyleHorizontal"/>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                />
+            <TextView
+                android:id="@+id/frequencyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="4dp"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:text="30 dni"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
