@@ -1,5 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.model
 
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import java.io.Serializable
 
 data class Item(val id: String = "",
@@ -12,4 +13,4 @@ data class Item(val id: String = "",
     override fun toString(): String = name
 }
 
-data class UiItem(val item: Item, var isUser: Boolean) : Serializable
+data class UiItem(val item: Item, var isUser: Boolean, var remainingTime : NotificationTime = NotificationTime.ZERO) : Serializable

@@ -11,15 +11,15 @@ import android.media.RingtoneManager
 class NotificationPublisher : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val notification = intent.getParcelableExtra<Notification>(NOTIFICATION)
-        val id = intent.getIntExtra(NOTIFICATION_ID, 0)
-        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val ringtone = RingtoneManager.getRingtone(context, alarmSound)
-        ringtone.play()
-        notificationManager.notify(id, notification)
+//        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//
+//        val notification = intent.getParcelableExtra<Notification>(NOTIFICATION)
+//        val id = intent.getIntExtra(NOTIFICATION_ID, 0)
+//        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//        val ringtone = RingtoneManager.getRingtone(context, alarmSound)
+//
+//        ringtone.play()
+//        notificationManager.notify(id, notification)
     }
 
     companion object {

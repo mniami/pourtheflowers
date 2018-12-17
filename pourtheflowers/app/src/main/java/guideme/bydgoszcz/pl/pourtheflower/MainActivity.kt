@@ -8,17 +8,14 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
-import android.text.util.Linkify
 import android.view.MenuItem
+import com.evernote.android.job.JobManager
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
-import guideme.bydgoszcz.pl.pourtheflower.loaders.ImageLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
-import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationMonitor
-import guideme.bydgoszcz.pl.pourtheflower.utils.asyncIO
+import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationJobCreator
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
@@ -26,10 +23,8 @@ import guideme.bydgoszcz.pl.pourtheflower.views.fragments.TakingPictureThumbnail
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
     override fun getViewChanger(): ViewChanger {
@@ -43,7 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @Inject
     lateinit var dataLoader: DataLoader
     @Inject
-    lateinit var saveUserChanges : SaveUserChanges
+    lateinit var saveUserChanges: SaveUserChanges
 
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
@@ -81,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (user.items.isEmpty()) {
                     presenter.showAllItems()
                 } else {
-                    ItemsNotifications(this, saveUserChanges).setUpNotifications(user.items)
+                    ItemsNotifications(saveUserChanges).setUpNotifications(user.items)
                     presenter.showUserItems()
                 }
             }
@@ -94,8 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         nav_view.setNavigationItemSelectedListener(this)
-        NotificationMonitor(this)
-                .createNotificationChannel()
+        JobManager.create(this).addJobCreator(NotificationJobCreator())
     }
 
     override fun onBackPressed() {

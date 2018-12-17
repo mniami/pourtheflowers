@@ -2,19 +2,19 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
-import android.widget.SearchView
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
-import guideme.bydgoszcz.pl.pourtheflower.MainActivityViewPresenter
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.utils.findActionViewItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -25,6 +25,7 @@ import javax.inject.Inject
 class FlowerListFragment : Fragment() {
     private var listType = ALL_LIST_TYPE
     private var listener: OnListFragmentInteractionListener? = null
+    private val handler = Handler()
 
     @Inject
     lateinit var repo: ItemsRepository
@@ -46,8 +47,12 @@ class FlowerListFragment : Fragment() {
             return view
         }
         setHasOptionsMenu(true)
-
         view.layoutManager = LinearLayoutManager(context)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
@@ -59,11 +64,8 @@ class FlowerListFragment : Fragment() {
                 recyclerView.adapter.notifyDataSetChanged()
             }
         })
-
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
-        loadAdapter(view)
-        return view
+        loadAdapter(recyclerView)
     }
 
     override fun onResume() {
@@ -96,6 +98,11 @@ class FlowerListFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        (recyclerView?.adapter as FlowerRecyclerViewAdapter?)?.stop()
+    }
+
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -103,17 +110,28 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            val lib = repo.itemsStore
-            val user = repo.user
-
-            val flowers: List<UiItem> = when (listType) {
-                USER_LIST_TYPE -> user.items
-                ALL_LIST_TYPE -> lib
-                else -> lib
-            }
-            adapter = FlowerRecyclerViewAdapter(flowers, context, listener)
+            adapter = FlowerRecyclerViewAdapter(getItems(), context, listener)
             adapter.notifyDataSetChanged()
         }
+    }
+
+    private fun getItems(): List<UiItem> {
+        val lib = repo.itemsStore
+        val user = repo.user
+
+        var flowers: List<UiItem> = when (listType) {
+            USER_LIST_TYPE -> user.items
+            ALL_LIST_TYPE -> lib
+            else -> lib
+        }
+        return flowers.sortedByDescending {
+            if (it.isUser && it.item.notification.enabled) {
+                1
+            }
+            else {
+                0
+            }
+        }.toList()
     }
 
 

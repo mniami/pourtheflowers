@@ -4,6 +4,8 @@ import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.Notification
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import javax.inject.Inject
 
 class ImageLoader @Inject constructor(private val repo: ItemsRepository) {
@@ -19,7 +21,7 @@ class ImageLoader @Inject constructor(private val repo: ItemsRepository) {
         repo.user.items.addAll((1..100).map {
             val imageUrl = "https://picsum.photos/200/300?image=$it"
             UiItem(item = Item(id = "$it", name = "Image $it", description = "Description $it", imageUrl = imageUrl, tags = emptyList(),
-                    notification = Notification(false, 0, 0),
+                    notification = Notification(false, NotificationTime.ZERO, SystemTime.ZERO),
                     frequency = 0), isUser = true)
         }.take(10))
     }

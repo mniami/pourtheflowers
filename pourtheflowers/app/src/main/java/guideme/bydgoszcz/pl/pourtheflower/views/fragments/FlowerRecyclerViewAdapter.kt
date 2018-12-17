@@ -2,8 +2,8 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,32 +12,27 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getBackgroundColor
-import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingDays
+import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
-/**
- * [RecyclerView.Adapter] that can display a [Item] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
 class FlowerRecyclerViewAdapter(
-        private val mValues: List<UiItem>,
+        var items: List<UiItem>,
         private val mContext: Context,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
     private val mOnClickListener: View.OnClickListener
-    private var filteredList = mValues
+    private var filteredList = items
+    private val handler = Handler()
+    private var stopped = false
 
     init {
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as UiItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
         }
     }
@@ -45,23 +40,17 @@ class FlowerRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_flower_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view) { stopped }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
-
+        val item = items[position]
 
         holder.mNameView.text = item.item.name
         holder.mDescriptionView.text = getShorted(item.item.description)
 
         if (item.item.notification.enabled) {
-            val pourTime = item.item.notification.repeatDays - item.item.notification.getRemainingDays(System.currentTimeMillis())
-            holder.mFrequencyProgressBar.visibility = View.VISIBLE
-            holder.mFrequencyProgressBar.progress = pourTime
-            holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext),
-                    PorterDuff.Mode.SRC_IN)
-            holder.mFrequencyProgressBar.max = item.item.notification.repeatDays
+            refreshProgressBar(item, holder)
         } else {
             holder.mFrequencyProgressBar.visibility = View.GONE
         }
@@ -79,11 +68,29 @@ class FlowerRecyclerViewAdapter(
         holder.mView.setOnClickListener(mOnClickListener)
     }
 
+    private fun refreshProgressBar(item: UiItem, holder: ViewHolder) {
+        item.remainingTime = item.item.notification.getRemainingTime(SystemTime())
+
+        holder.mFrequencyProgressBar.visibility = View.VISIBLE
+        holder.mFrequencyProgressBar.progress = (item.item.notification.repeatInTime - item.remainingTime).value
+        holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
+                PorterDuff.Mode.SRC_IN)
+        holder.mFrequencyProgressBar.max = item.item.notification.repeatInTime.value
+
+        if (!holder.isStopped()) {
+            handler.postDelayed({ refreshProgressBar(item, holder) }, 2000)
+        }
+    }
+
+    fun stop() {
+        stopped = true
+    }
+
     fun filter(text: String) {
         if (text.isBlank()) {
-            filteredList = mValues
+            filteredList = items
         } else {
-            filteredList = mValues.filter { item ->
+            filteredList = items.filter { item ->
                 item.item.name.contains(text, true) || item.item.description.contains(text, true)
             }
         }
@@ -104,9 +111,9 @@ class FlowerRecyclerViewAdapter(
         return description
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: View, val isStopped: () -> Boolean) : RecyclerView.ViewHolder(mView) {
         val mNameView: TextView = mView.name
         val mDescriptionView: TextView = mView.description
         val mFlowerImageView: ImageView = mView.flowerImage

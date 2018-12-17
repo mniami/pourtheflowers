@@ -13,8 +13,8 @@ import java.util.Arrays.asList
 class FlowerSerializerTest {
     private val serializeResultHex = "0000000100000002494400000007434F4E54454E540000000B4445534352495054494F4E00000008494D41474555524C00"
     private val flowerSerializer = ItemsSerializer()
-    private val flower = Item("ID", "CONTENT", "DESCRIPTION", "IMAGEURL", emptyList(), Notification(
-            false, 0, 0))
+    private val flower = Item("ID", "CONTENT", "DESCRIPTION", "IMAGEURL", emptyList(), notification = Notification(
+            false))
 
     @Test
     fun serialize() {

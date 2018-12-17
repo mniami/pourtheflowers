@@ -2,6 +2,8 @@ package guideme.bydgoszcz.pl.pourtheflower.serialization
 
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.Notification
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getString
 import guideme.bydgoszcz.pl.pourtheflower.utils.putStrings
 import java.nio.ByteBuffer
@@ -59,14 +61,14 @@ class ItemsSerializer {
 class NotificationSerializer {
     fun serialize(byteBuffer: ByteBuffer, notification: Notification) {
         byteBuffer.put(if (notification.enabled) 0x1.toByte() else 0x0.toByte())
-        byteBuffer.putInt(notification.repeatDays)
-        byteBuffer.putLong(notification.lastNotificationTimeMillis)
+        byteBuffer.putInt(notification.repeatInTime.value)
+        byteBuffer.putLong(notification.lastNotificationTime.value)
     }
 
     fun deserialize(byteBuffer: ByteBuffer): Notification {
         return Notification(byteBuffer.get().toBoolean(),
-                byteBuffer.int,
-                byteBuffer.long)
+                NotificationTime(byteBuffer.int),
+                SystemTime(byteBuffer.long))
     }
 
     private fun Byte.toBoolean(): Boolean = this == 1.toByte()

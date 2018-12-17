@@ -67,6 +67,8 @@ dependencies {
     implementation "com.android.support:support-compat:$android_version"
     implementation "com.android.support:support-annotations:$android_version"
     implementation "com.android.support:exifinterface:$android_version"
+    implementation 'com.evernote:android-job:1.2.6'
+    implementation 'com.google.android.gms:play-services-gcm:10.2.1'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'

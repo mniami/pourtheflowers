@@ -3,7 +3,6 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
@@ -12,6 +11,9 @@ import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
@@ -51,42 +53,60 @@ class EditDetailsFragment : Fragment() {
         turnNotificationSwitch.isChecked = uiItem.item.notification.enabled
         turnNotificationSwitch.setOnClickListener {
             uiItem.item.notification.enabled = turnNotificationSwitch.isChecked
+            val visibility = if (turnNotificationSwitch.isChecked) View.VISIBLE else View.GONE
+            frequencySpinner.visibility = visibility
+            tvFrequencyLabel.visibility = visibility
+
+            if (turnNotificationSwitch.isChecked && frequencySpinner.adapter == null){
+                initFrequencySpinner()
+            }
         }
 
         // setup frequency spinner
-        val repeatDaysValues = (1..30).map { "$it" }.toTypedArray()
-        frequencySpinner.adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
-        frequencySpinner.setSelection(uiItem.item.notification.repeatDays)
+        if (uiItem.item.notification.enabled) {
+            initFrequencySpinner()
+        }
+
+        val visibility = if (turnNotificationSwitch.isChecked) View.VISIBLE else View.GONE
+
+        tvFrequencyLabel.visibility = visibility
+        frequencySpinner.visibility = visibility
 
         imageLoader.load(uiItem)
+    }
 
-        frequencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                uiItem.item.notification.repeatDays = 1
-            }
+    private fun initFrequencySpinner() {
+        val range = (1..30)
+        val repeatDaysValues = range.map { it }.toTypedArray()
+        val selectedValue = uiItem.item.notification.repeatInTime.toDays()
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                uiItem.item.notification.repeatDays = position
-            }
+        frequencySpinner.adapter = ArrayAdapter<Int>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
+        if (selectedValue in range) {
+            frequencySpinner.setSelection(selectedValue)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
+
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
             val activity = activity ?: return@setOnMenuItemClickListener false
 
-            uiItem.item.name = etName.text.toString()
-            uiItem.item.description = etDescription.text.toString()
+            with(uiItem.item){
+                if (frequencySpinner.selectedItem != null) {
+                    notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
+                }
+                name = etName.text.toString()
+                description = etDescription.text.toString()
 
-            repository.user.items.filter {
-                it.item.id == uiItem.item.id
-            }.forEach {
-                repository.user.items.remove(it)
+                repository.user.items.filter {
+                    it.item.id == id
+                }.forEach {
+                    repository.user.items.remove(it)
+                }
+                repository.user.items.add(uiItem)
             }
-            repository.user.items.add(uiItem)
-
-            ItemsNotifications(activity, saveUserChanges).setUpNotifications(repository.user.items)
+            ItemsNotifications(saveUserChanges).setUpNotifications(repository.user.items)
             saveUserChanges.save {
                 activity.goBack()
             }

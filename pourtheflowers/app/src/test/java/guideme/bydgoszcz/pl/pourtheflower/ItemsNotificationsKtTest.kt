@@ -2,32 +2,34 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import guideme.bydgoszcz.pl.pourtheflower.model.Notification
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ItemsNotificationsKtTest {
 
     @Test
-    fun calculateDelay() {
+    fun testTakeRemainingTimeInSeconds_firstTime() {
         val repeatDays = 3
-        val notification = Notification(true, repeatDays, 0)
-        val actual = notification.getRemainingTime(System.currentTimeMillis())
-        val expected = repeatDays * TimeHelper.countMillisInDay
+        val notification = Notification(true, NotificationTime.fromDays(repeatDays), SystemTime(0))
+        val actual = notification.getRemainingTime(SystemTime()).value
+        val expected = repeatDays * TimeHelper.timeUnit
 
-        assertEquals(actual, expected)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun calculateDelay_alreadyShownPreviously() {
         val repeatDays = 3
         val expectedRemainingDays = 2
-        val currentTime = System.currentTimeMillis()
-        val lastShown = currentTime - TimeHelper.countMillisInDay * 1
-        val notification = Notification(true, repeatDays, lastShown)
-        val actual = notification.getRemainingTime(currentTime)
-        val expected = expectedRemainingDays * TimeHelper.countMillisInDay
+        val currentTime = SystemTime()
+        val lastShown = currentTime - NotificationTime.fromDays(1)
+        val notification = Notification(true, NotificationTime.fromDays(repeatDays), lastShown)
+        val actual = notification.getRemainingTime(currentTime).value
+        val expected = expectedRemainingDays * TimeHelper.timeUnit
 
-        assertEquals(actual, expected)
+        assertEquals(expected, actual)
     }
 }

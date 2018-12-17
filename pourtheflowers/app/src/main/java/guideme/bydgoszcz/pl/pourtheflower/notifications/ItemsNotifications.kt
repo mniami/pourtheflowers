@@ -1,23 +1,26 @@
 package guideme.bydgoszcz.pl.pourtheflower.notifications
 
-import android.support.v4.app.FragmentActivity
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 
-class ItemsNotifications(private val activity: FragmentActivity, private val saveUserChanges: SaveUserChanges) {
+class ItemsNotifications(private val saveUserChanges: SaveUserChanges) {
     fun setUpNotifications(items: List<UiItem>) {
-        val notificationMonitor = NotificationMonitor(activity)
         items.filter {
             it.item.notification.enabled
         }.forEach {
-            val delay = it.item.notification.getRemainingTime(System.currentTimeMillis())
-            it.item.notification.lastNotificationTimeMillis = System.currentTimeMillis()
+            val currentTime = SystemTime()
+            val delay = it.item.notification.getRemainingTime(currentTime)
+            if (it.item.notification.lastNotificationTime.value == 0L) {
+                it.item.notification.lastNotificationTime = SystemTime() - SystemTime.seconds(1)
+            }
             saveUserChanges.save {
-                notificationMonitor.showNotification(
+                NotificationJob.scheduleJob(
                         it.item.id,
                         it.item.name,
                         "Nadszedł czas podlania",
-                        delay)
+                        delay.toMillis(),
+                        it.item.notification.repeatInTime.toMillis())
             }
         }
     }
