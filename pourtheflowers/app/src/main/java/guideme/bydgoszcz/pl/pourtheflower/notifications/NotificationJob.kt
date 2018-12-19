@@ -17,7 +17,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 
 class NotificationJobCreator : JobCreator {
     override fun create(tag: String): Job? {
-        when(tag){
+        when (tag) {
             NotificationJob.TAG ->
                 return NotificationJob()
         }
@@ -50,37 +50,52 @@ class NotificationJob : Job() {
         }
     }
 
+    private var inProgress = false
+
     override fun onRunJob(params: Params): Result {
+        if (inProgress) {
+            return Result.FAILURE
+        }
+        inProgress = true
+        try {
+            showNotification(params)
+        } catch (e: Exception) {
+            inProgress = false
+        }
+        return Result.SUCCESS
+    }
+
+    private fun showNotification(params: Params) {
         val id = params.extras.getString(NotificationJob.ID, "")
         val title = params.extras.getString(NotificationJob.TITLE, "")
         val text = params.extras.getString(NotificationJob.TEXT, "")
         val repeat = params.extras.getLong(NotificationJob.REPEAT, 0L)
         val notificationId = id.sumBy { it.toInt() }
 
-        if (notificationId != 0) {
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-            val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_garden_center_15)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent)
-                    .setColorized(true)
-                    .setColor(context.resources.getColorFromResource(R.color.colorPrimary))
-                    .setAutoCancel(false)
-                    .build()
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val ringtone = RingtoneManager.getRingtone(context, alarmSound)
-
-            ringtone.play()
-            notificationManager.notify(notificationId, notification)
-            scheduleJob(id, title, text, repeat, repeat)
+        if (notificationId == 0) {
+            return
         }
-        return Result.SUCCESS
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val notification = NotificationCompat.Builder(context, NotificationJob.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_garden_center_15)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setColorized(true)
+                .setColor(context.resources.getColorFromResource(R.color.colorPrimary))
+                .setAutoCancel(false)
+                .build()
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val ringtone = RingtoneManager.getRingtone(context, alarmSound)
+
+        ringtone.play()
+        notificationManager.notify(notificationId, notification)
+        NotificationJob.scheduleJob(id, title, text, repeat, repeat)
     }
 }

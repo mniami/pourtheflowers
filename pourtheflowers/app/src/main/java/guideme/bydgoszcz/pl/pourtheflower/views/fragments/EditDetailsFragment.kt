@@ -12,8 +12,6 @@ import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
@@ -57,7 +55,7 @@ class EditDetailsFragment : Fragment() {
             frequencySpinner.visibility = visibility
             tvFrequencyLabel.visibility = visibility
 
-            if (turnNotificationSwitch.isChecked && frequencySpinner.adapter == null){
+            if (turnNotificationSwitch.isChecked && frequencySpinner.adapter == null) {
                 initFrequencySpinner()
             }
         }
@@ -90,28 +88,32 @@ class EditDetailsFragment : Fragment() {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
 
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
-            val activity = activity ?: return@setOnMenuItemClickListener false
-
-            with(uiItem.item){
-                if (frequencySpinner.selectedItem != null) {
-                    notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
-                }
-                name = etName.text.toString()
-                description = etDescription.text.toString()
-
-                repository.user.items.filter {
-                    it.item.id == id
-                }.forEach {
-                    repository.user.items.remove(it)
-                }
-                repository.user.items.add(uiItem)
-            }
-            ItemsNotifications(saveUserChanges).setUpNotifications(repository.user.items)
-            saveUserChanges.save {
-                activity.goBack()
-            }
-            true
+            saveItem()
         }
+    }
+
+    private fun saveItem(): Boolean {
+        val activity = activity ?: return false
+
+        with(uiItem.item) {
+            if (frequencySpinner.selectedItem != null) {
+                notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
+            }
+            name = etName.text.toString()
+            description = etDescription.text.toString()
+
+            repository.user.items.filter {
+                it.item.id == id
+            }.forEach {
+                repository.user.items.remove(it)
+            }
+            repository.user.items.add(uiItem)
+        }
+        ItemsNotifications(saveUserChanges).setUpNotifications(repository.user.items)
+        saveUserChanges.save {
+            activity.goBack()
+        }
+        return true
     }
 
     companion object {
