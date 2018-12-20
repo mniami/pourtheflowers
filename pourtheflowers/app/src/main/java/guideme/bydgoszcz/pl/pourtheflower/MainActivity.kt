@@ -9,14 +9,12 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.evernote.android.job.JobManager
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationChannelManager
-import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationJobCreator
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
@@ -77,7 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (user.items.isEmpty()) {
                     presenter.showAllItems()
                 } else {
-                    ItemsNotifications(saveUserChanges).setUpNotifications(user.items)
+                    ItemsNotifications.setUpNotifications(baseContext, user.items)
                     presenter.showUserItems()
                 }
             }
@@ -90,7 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         nav_view.setNavigationItemSelectedListener(this)
-        JobManager.create(this).addJobCreator(NotificationJobCreator())
         NotificationChannelManager.createNotificationChannel(this)
     }
 

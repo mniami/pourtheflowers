@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ArrayAdapter
-import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.*
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
-import guideme.bydgoszcz.pl.pourtheflower.goBack
-import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
@@ -98,6 +97,9 @@ class EditDetailsFragment : Fragment() {
         with(uiItem.item) {
             if (frequencySpinner.selectedItem != null) {
                 notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
+                if (notification.lastNotificationTime == SystemTime.ZERO) {
+                    notification.lastNotificationTime = SystemTime()
+                }
             }
             name = etName.text.toString()
             description = etDescription.text.toString()
@@ -109,7 +111,7 @@ class EditDetailsFragment : Fragment() {
             }
             repository.user.items.add(uiItem)
         }
-        ItemsNotifications(saveUserChanges).setUpNotifications(repository.user.items)
+        ItemsNotifications.setUpNotifications(activity, repository.user.items)
         saveUserChanges.save {
             activity.goBack()
         }

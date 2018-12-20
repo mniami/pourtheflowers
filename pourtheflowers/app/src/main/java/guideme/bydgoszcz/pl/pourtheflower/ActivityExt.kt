@@ -2,6 +2,7 @@ package guideme.bydgoszcz.pl.pourtheflower
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import android.view.WindowManager
 import guideme.bydgoszcz.pl.pourtheflower.dagger.AppComponent
 

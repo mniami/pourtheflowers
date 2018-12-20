@@ -2,7 +2,7 @@ package guideme.bydgoszcz.pl.pourtheflower.utils
 
 object TimeHelper {
     const val timeToMillis = 1000
-    const val timeUnit = 86400000 / timeToMillis / 3600
+    const val timeUnit = 86400000 / timeToMillis / 60
 }
 
 class SystemTime(timeInMillis: Long = System.currentTimeMillis()) {

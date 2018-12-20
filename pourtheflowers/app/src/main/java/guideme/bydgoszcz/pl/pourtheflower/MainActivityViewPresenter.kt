@@ -16,6 +16,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
 
     override fun showItem(uiItem: UiItem) {
         val info = "details" + uiItem.item.id
+        supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction()
                 .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), info)
                 .addToBackStack(info)

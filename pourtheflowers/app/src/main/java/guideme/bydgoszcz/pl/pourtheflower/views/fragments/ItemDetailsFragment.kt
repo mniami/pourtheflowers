@@ -93,9 +93,9 @@ class ItemDetailsFragment : Fragment() {
                 viewChanger.editItem(uiItem)
             } else {
                 addItemToUser.add(uiItem) {
-                    Snackbar.make(it, "Dodano do Twojej listy", Snackbar.LENGTH_LONG)
+                    Snackbar.make(it, getString(R.string.item_added_to_the_list_information), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
-                    activity?.goBack()
+                    (activity as MainActivityHelper).getViewChanger().showItem(uiItem)
                 }
             }
         }

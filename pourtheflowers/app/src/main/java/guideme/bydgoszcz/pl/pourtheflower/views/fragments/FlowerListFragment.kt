@@ -55,13 +55,12 @@ class FlowerListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                // Remove item from backing list here
-                recyclerView.adapter.notifyDataSetChanged()
+                recyclerView.adapter?.notifyDataSetChanged()
             }
         })
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -111,7 +110,7 @@ class FlowerListFragment : Fragment() {
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
             adapter = FlowerRecyclerViewAdapter(getItems(), context, listener)
-            adapter.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
         }
     }
 
