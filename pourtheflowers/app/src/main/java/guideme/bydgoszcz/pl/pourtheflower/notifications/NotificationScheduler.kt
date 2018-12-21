@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit
 class NotificationScheduler {
     companion object {
         private const val MAIN_TAG = "podlewacz"
-        private const val ID = "notification_id"
-        private const val REPEAT = "notification_repeat"
-        private const val DELAY = "notification_delay"
 
+        internal const val REPEAT = "notification_repeat"
+        internal const val DELAY = "notification_delay"
+        internal const val ID = "notification_id"
         internal const val CHANNEL_ID = "podlewacz"
         internal const val TITLE = "notification_title"
         internal const val TEXT = "notification_text"
