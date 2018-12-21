@@ -72,10 +72,10 @@ class FlowerRecyclerViewAdapter(
         item.remainingTime = item.item.notification.getRemainingTime(SystemTime())
 
         holder.mFrequencyProgressBar.visibility = View.VISIBLE
-        holder.mFrequencyProgressBar.progress = (item.item.notification.repeatInTime - item.remainingTime).value
+        holder.mFrequencyProgressBar.progress = (item.item.notification.repeatInTime - item.remainingTime).seconds
         holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
                 PorterDuff.Mode.SRC_IN)
-        holder.mFrequencyProgressBar.max = item.item.notification.repeatInTime.value
+        holder.mFrequencyProgressBar.max = item.item.notification.repeatInTime.seconds
 
         if (!holder.isStopped()) {
             handler.postDelayed({ refreshProgressBar(item, holder) }, 2000)

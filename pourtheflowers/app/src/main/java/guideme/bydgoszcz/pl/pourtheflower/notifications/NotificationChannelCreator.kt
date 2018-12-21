@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 
-object NotificationChannelManager {
+object NotificationChannelCreator {
     fun createNotificationChannel(activity: AppCompatActivity) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -14,7 +14,7 @@ object NotificationChannelManager {
             val name = "Podlewacz"
             val descriptionText = "Description"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(NotificationWorker.CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel(NotificationScheduler.CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system

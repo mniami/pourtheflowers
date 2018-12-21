@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ArrayAdapter
-import guideme.bydgoszcz.pl.pourtheflower.*
+import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
+import guideme.bydgoszcz.pl.pourtheflower.goBack
+import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
@@ -79,7 +81,7 @@ class EditDetailsFragment : Fragment() {
 
         frequencySpinner.adapter = ArrayAdapter<Int>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
         if (selectedValue in range) {
-            frequencySpinner.setSelection(selectedValue)
+            frequencySpinner.setSelection(selectedValue - 1)
         }
     }
 
@@ -97,9 +99,13 @@ class EditDetailsFragment : Fragment() {
         with(uiItem.item) {
             if (frequencySpinner.selectedItem != null) {
                 notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
+            }
+            if (notification.enabled) {
                 if (notification.lastNotificationTime == SystemTime.ZERO) {
-                    notification.lastNotificationTime = SystemTime()
+                    notification.lastNotificationTime = SystemTime().minus(NotificationTime.fromSeconds(1)) // second ago
                 }
+            } else {
+                notification.lastNotificationTime = SystemTime.ZERO
             }
             name = etName.text.toString()
             description = etDescription.text.toString()

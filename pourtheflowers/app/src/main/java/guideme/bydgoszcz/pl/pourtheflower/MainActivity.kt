@@ -14,7 +14,7 @@ import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.ItemsNotifications
-import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationChannelManager
+import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationChannelCreator
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         nav_view.setNavigationItemSelectedListener(this)
-        NotificationChannelManager.createNotificationChannel(this)
+        NotificationChannelCreator.createNotificationChannel(this)
     }
 
     override fun onBackPressed() {
