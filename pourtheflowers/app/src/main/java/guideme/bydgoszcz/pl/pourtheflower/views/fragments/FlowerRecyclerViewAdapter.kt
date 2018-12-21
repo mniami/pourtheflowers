@@ -1,29 +1,40 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Handler
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getBackgroundColor
+import guideme.bydgoszcz.pl.pourtheflower.notifications.getPassedTime
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
+import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
+
 class FlowerRecyclerViewAdapter(
         var items: List<UiItem>,
         private val mContext: Context,
-        private val mListener: OnListFragmentInteractionListener?)
+        private val mListener: OnListFragmentInteractionListener?,
+        private val pouredTheFlower: PouredTheFlower)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
     private val mOnClickListener: View.OnClickListener
     private var filteredList = items
@@ -65,17 +76,41 @@ class FlowerRecyclerViewAdapter(
                     borderSize = 4)
         }
         holder.mView.tag = item
+        holder.mBtnPouredFlower.tag = item
         holder.mView.setOnClickListener(mOnClickListener)
     }
 
     private fun refreshProgressBar(item: UiItem, holder: ViewHolder) {
-        item.remainingTime = item.item.notification.getRemainingTime(SystemTime())
+        item.updateRemainingTime()
+        val passedTime = item.getPassedTime()
 
         holder.mFrequencyProgressBar.visibility = View.VISIBLE
-        holder.mFrequencyProgressBar.progress = (item.item.notification.repeatInTime - item.remainingTime).seconds
+        holder.mFrequencyProgressBar.progress = passedTime.seconds
         holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
                 PorterDuff.Mode.SRC_IN)
         holder.mFrequencyProgressBar.max = item.item.notification.repeatInTime.seconds
+        holder.mBtnPouredFlower.setOnClickListener { view ->
+            val item = view.tag as UiItem
+            pouredTheFlower.pour(item) {
+                val remainingDays = item.item.notification.getRemainingTime(SystemTime()).toDays()
+                val message = String.format(mContext.getString(R.string.flower_poured), remainingDays)
+                val valueAnimator = ValueAnimator.ofFloat(0f, 500f)
+
+                valueAnimator.interpolator = AccelerateDecelerateInterpolator() // increase the speed first and then decrease
+                valueAnimator.duration = 700
+                valueAnimator.addUpdateListener {
+                    view.translationY = it.animatedValue as Float
+                }
+                valueAnimator.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        view.translationY = 0f
+                    }
+                })
+                valueAnimator.start()
+                Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+                        .show()
+            }
+        }
 
         if (!holder.isStopped()) {
             handler.postDelayed({ refreshProgressBar(item, holder) }, 2000)
@@ -118,6 +153,7 @@ class FlowerRecyclerViewAdapter(
         val mDescriptionView: TextView = mView.description
         val mFlowerImageView: ImageView = mView.flowerImage
         val mFrequencyProgressBar: ProgressBar = mView.frequencyProgressBar
+        val mBtnPouredFlower: ImageButton = mView.btnPouredFlower
 
         override fun toString(): String {
             return super.toString() + " '" + mNameView.text + "'"

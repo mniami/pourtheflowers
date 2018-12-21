@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
+import guideme.bydgoszcz.pl.pourtheflower.actions.SetFlowerPoured
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
@@ -100,12 +101,14 @@ class EditDetailsFragment : Fragment() {
             if (frequencySpinner.selectedItem != null) {
                 notification.repeatInTime = NotificationTime.fromDays(frequencySpinner.selectedItem as Int)
             }
-            if (notification.enabled) {
-                if (notification.lastNotificationTime == SystemTime.ZERO) {
-                    notification.lastNotificationTime = SystemTime().minus(NotificationTime.fromSeconds(1)) // second ago
+            with(uiItem.item) {
+                if (notification.enabled) {
+                    if (notification.lastNotificationTime.isZero()) {
+                        SetFlowerPoured.set(activity, uiItem)
+                    }
+                } else {
+                    notification.lastNotificationTime = SystemTime.ZERO
                 }
-            } else {
-                notification.lastNotificationTime = SystemTime.ZERO
             }
             name = etName.text.toString()
             description = etDescription.text.toString()

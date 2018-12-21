@@ -114,4 +114,5 @@
     <string name="privacy_policy">Polityka prywatności</string>
     <string name="notification_title">Nadszedł czas podlania</string>
     <string name="item_added_to_the_list_information">Dodano do Twojej listy</string>
+    <string name="flower_poured">Następne podlanie za %s dni</string>
 </resources>

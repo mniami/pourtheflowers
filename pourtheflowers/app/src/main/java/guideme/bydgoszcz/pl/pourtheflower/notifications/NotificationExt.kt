@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.Notification
+import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.ColorHelper
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
@@ -18,6 +19,13 @@ fun Notification.getRemainingTime(currentNotificationTime: SystemTime): Notifica
     }
 }
 
+fun UiItem.getPassedTime(): NotificationTime {
+    return item.notification.repeatInTime - remainingTime
+}
+
+fun UiItem.updateRemainingTime() {
+    remainingTime = item.notification.getRemainingTime(SystemTime())
+}
 fun Notification.getBackgroundColor(context: Context, remainingDays: Int) : Int {
     return when(remainingDays) {
         0 -> Color.RED

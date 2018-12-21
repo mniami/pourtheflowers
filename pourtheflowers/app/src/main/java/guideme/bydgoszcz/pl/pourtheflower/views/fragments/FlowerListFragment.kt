@@ -11,10 +11,9 @@ import android.view.*
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -26,6 +25,9 @@ class FlowerListFragment : Fragment() {
     private var listType = ALL_LIST_TYPE
     private var listener: OnListFragmentInteractionListener? = null
     private val handler = Handler()
+
+    @Inject
+    lateinit var pouredTheFlower: PouredTheFlower
 
     @Inject
     lateinit var repo: ItemsRepository
@@ -109,7 +111,7 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         with(view) {
-            adapter = FlowerRecyclerViewAdapter(getItems(), context, listener)
+            adapter = FlowerRecyclerViewAdapter(getItems(), context, listener, pouredTheFlower)
             adapter?.notifyDataSetChanged()
         }
     }

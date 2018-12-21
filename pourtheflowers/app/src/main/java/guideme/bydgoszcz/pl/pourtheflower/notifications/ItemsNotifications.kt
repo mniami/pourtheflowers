@@ -10,14 +10,18 @@ object ItemsNotifications {
         items.filter {
             it.item.notification.enabled
         }.forEach {
-            val currentTime = SystemTime()
-            val delay = it.item.notification.getRemainingTime(currentTime)
-            NotificationScheduler.scheduleJob(
-                    it.item.id,
-                    it.item.name,
-                    context.getString(R.string.notification_title),
-                    delay.toMillis(),
-                    it.item.notification.repeatInTime.toMillis())
+            setUpNotification(context, it)
         }
+    }
+
+    fun setUpNotification(context: Context, item: UiItem) {
+        val currentTime = SystemTime()
+        val delay = item.item.notification.getRemainingTime(currentTime)
+        NotificationScheduler.scheduleJob(
+                item.item.id,
+                item.item.name,
+                context.getString(R.string.notification_title),
+                delay.toMillis(),
+                item.item.notification.repeatInTime.toMillis())
     }
 }
