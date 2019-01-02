@@ -3,6 +3,7 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.*
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
@@ -64,7 +65,7 @@ class ItemDetailsFragment : Fragment() {
         }
         descriptionTextView?.text = uiItem.item.description
 
-        initFabButton()
+        initFabButton(activity)
         initImage()
     }
 
@@ -87,8 +88,12 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
-    private fun initFabButton() {
-        FabHelper(activity).show(!uiItem.isUser)?.setOnClickListener {
+    private fun initFabButton(activity: FragmentActivity) {
+        val option = when(uiItem.isUser){
+            true -> FabHelper.Option.EDIT
+            false -> FabHelper.Option.ADD
+        }
+        FabHelper(activity).show(option)?.setOnClickListener {
             if (uiItem.isUser) {
                 viewChanger.editItem(uiItem)
             } else {

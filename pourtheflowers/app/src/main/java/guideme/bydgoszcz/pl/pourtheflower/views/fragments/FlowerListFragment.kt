@@ -71,11 +71,10 @@ class FlowerListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        FabHelper(activity).show(true)?.setOnClickListener {
+        val act = activity ?: return
+        FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }
-
-        val act = activity
         if (act is MainActivityHelper) {
             when (listType) {
                 ALL_LIST_TYPE ->

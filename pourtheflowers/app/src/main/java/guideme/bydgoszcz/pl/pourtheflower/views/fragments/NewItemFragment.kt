@@ -43,7 +43,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         if (savedInstanceState != null) {
             photoFilePath = savedInstanceState.getSerializable("photoFilePath") as File?
         }
-        FabHelper(activity).hide()
+        FabHelper(activity).show(FabHelper.Option.SAVE)?.setOnClickListener {
+            saveItem()
+        }
         if (photoFilePath == null) {
             requestTakePicture()
         }
@@ -92,10 +94,6 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
-        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
-            saveItem()
-            true
-        }
     }
 
     override fun onThumbnail(bitmap: Bitmap) {
