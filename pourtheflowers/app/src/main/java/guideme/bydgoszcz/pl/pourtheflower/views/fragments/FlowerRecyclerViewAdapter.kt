@@ -29,7 +29,6 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 
-
 class FlowerRecyclerViewAdapter(
         var items: List<UiItem>,
         private val mContext: Context,
@@ -40,6 +39,7 @@ class FlowerRecyclerViewAdapter(
     private var filteredList = items
     private val handler = Handler()
     private var stopped = false
+    private val REFRESH_DELAY = 200L
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -56,6 +56,7 @@ class FlowerRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+        val showRemainingTime = item.item.notification.enabled
 
         holder.mNameView.text = item.item.name
         holder.mDescriptionView.text = getShorted(item.item.description)
@@ -77,14 +78,18 @@ class FlowerRecyclerViewAdapter(
         }
         holder.mView.tag = item
         holder.mBtnPouredFlower.tag = item
+
+        holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
+        holder.mFrequencyProgressBar.visibility = if (showRemainingTime) View.VISIBLE else View.GONE
         holder.mView.setOnClickListener(mOnClickListener)
     }
 
     private fun refreshProgressBar(item: UiItem, holder: ViewHolder) {
         item.updateRemainingTime()
+
         val passedTime = item.getPassedTime()
 
-        holder.mFrequencyProgressBar.visibility = View.VISIBLE
+        holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mFrequencyProgressBar.progress = passedTime.seconds
         holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
                 PorterDuff.Mode.SRC_IN)
@@ -92,7 +97,7 @@ class FlowerRecyclerViewAdapter(
         holder.mBtnPouredFlower.setOnClickListener { view ->
             val item = view.tag as UiItem
             pouredTheFlower.pour(item) {
-                val remainingDays = item.item.notification.getRemainingTime(SystemTime()).toDays()
+                val remainingDays = item.item.notification.getRemainingTime(SystemTime.current()).toDays()
                 val message = String.format(mContext.getString(R.string.flower_poured), remainingDays)
                 val valueAnimator = ValueAnimator.ofFloat(0f, 500f)
 
@@ -113,9 +118,11 @@ class FlowerRecyclerViewAdapter(
         }
 
         if (!holder.isStopped()) {
-            handler.postDelayed({ refreshProgressBar(item, holder) }, 2000)
+            handler.postDelayed({ refreshProgressBar(item, holder) }, REFRESH_DELAY)
         }
     }
+
+    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.remainingTime.toDays() == 0
 
     fun stop() {
         stopped = true

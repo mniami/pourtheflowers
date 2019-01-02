@@ -15,7 +15,7 @@ object ItemsNotifications {
     }
 
     fun setUpNotification(context: Context, item: UiItem) {
-        val currentTime = SystemTime()
+        val currentTime = SystemTime.current()
         val delay = item.item.notification.getRemainingTime(currentTime)
         NotificationScheduler.scheduleJob(
                 item.item.id,

@@ -24,7 +24,7 @@ fun UiItem.getPassedTime(): NotificationTime {
 }
 
 fun UiItem.updateRemainingTime() {
-    remainingTime = item.notification.getRemainingTime(SystemTime())
+    remainingTime = item.notification.getRemainingTime(SystemTime.current())
 }
 fun Notification.getBackgroundColor(context: Context, remainingDays: Int) : Int {
     return when(remainingDays) {

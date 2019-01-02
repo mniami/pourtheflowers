@@ -8,7 +8,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 
 object SetFlowerPoured {
     fun set(context: Context, uiItem: UiItem) {
-        uiItem.item.notification.lastNotificationTime = SystemTime().minus(NotificationTime.fromSeconds(1)) // second ago
+        uiItem.item.notification.lastNotificationTime = SystemTime.current().minus(NotificationTime.fromSeconds(1)) // second ago
         ItemsNotifications.setUpNotification(context, uiItem)
     }
 }

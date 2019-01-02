@@ -14,7 +14,7 @@ class ItemsNotificationsKtTest {
     fun testTakeRemainingTimeInSeconds_firstTime() {
         val repeatDays = 3
         val notification = Notification(true, NotificationTime.fromDays(repeatDays), SystemTime(0))
-        val actual = notification.getRemainingTime(SystemTime()).seconds
+        val actual = notification.getRemainingTime(SystemTime.current()).seconds
         val expected = repeatDays * TimeHelper.secondsInDay
 
         assertEquals(expected, actual)
@@ -24,7 +24,7 @@ class ItemsNotificationsKtTest {
     fun calculateDelay_alreadyShownPreviously() {
         val repeatDays = 3
         val expectedRemainingDays = 2
-        val currentTime = SystemTime()
+        val currentTime = SystemTime.current()
         val lastShown = currentTime - SystemTime.fromDays(1)
         val notification = Notification(true, NotificationTime.fromDays(repeatDays), lastShown)
         val actual = notification.getRemainingTime(currentTime).seconds
