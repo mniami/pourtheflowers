@@ -8,6 +8,8 @@
     <string name="nav_header_desc"></string>
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_flower">FlowerActivity</string>
+    <string name="flower_frequency_in_days_label"><![CDATA[Pozostało <b>%s</b> dni do podlania]]></string>
+    <string name="flower_frequency_today_label"><![CDATA[Podlej <b>Dzisiaj</b>]]></string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

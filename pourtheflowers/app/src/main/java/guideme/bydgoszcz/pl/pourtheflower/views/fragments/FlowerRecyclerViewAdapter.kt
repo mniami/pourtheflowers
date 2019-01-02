@@ -9,6 +9,8 @@ import android.graphics.PorterDuff
 import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
+import android.text.Html
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,8 +60,18 @@ class FlowerRecyclerViewAdapter(
         val item = items[position]
         val showRemainingTime = item.item.notification.enabled
 
+        item.updateRemainingTime()
+
         holder.mNameView.text = item.item.name
         holder.mDescriptionView.text = getShorted(item.item.description)
+
+        if (showRemainingTime) {
+            holder.mFrequencyText.text = getFrequencyText(item)
+            holder.mFrequencyText.visibility = View.VISIBLE
+        }
+        else {
+            holder.mFrequencyText.visibility = View.GONE
+        }
 
         if (item.item.notification.enabled) {
             refreshProgressBar(item, holder)
@@ -82,6 +94,16 @@ class FlowerRecyclerViewAdapter(
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mFrequencyProgressBar.visibility = if (showRemainingTime) View.VISIBLE else View.GONE
         holder.mView.setOnClickListener(mOnClickListener)
+    }
+
+    private fun getFrequencyText(item: UiItem): Spanned {
+        val remainingDays = item.remainingTime.toDays()
+        return if (remainingDays == 0) {
+            Html.fromHtml(mContext.getString(R.string.flower_frequency_today_label))
+        }
+        else {
+            Html.fromHtml(String.format(mContext.getString(R.string.flower_frequency_in_days_label), remainingDays))
+        }
     }
 
     private fun refreshProgressBar(item: UiItem, holder: ViewHolder) {
@@ -161,6 +183,7 @@ class FlowerRecyclerViewAdapter(
         val mFlowerImageView: ImageView = mView.flowerImage
         val mFrequencyProgressBar: ProgressBar = mView.frequencyProgressBar
         val mBtnPouredFlower: ImageButton = mView.btnPouredFlower
+        val mFrequencyText: TextView = mView.frequencyText
 
         override fun toString(): String {
             return super.toString() + " '" + mNameView.text + "'"
