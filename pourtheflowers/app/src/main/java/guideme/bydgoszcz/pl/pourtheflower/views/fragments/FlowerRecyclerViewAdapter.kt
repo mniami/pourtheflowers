@@ -26,6 +26,7 @@ import guideme.bydgoszcz.pl.pourtheflower.notifications.getBackgroundColor
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getPassedTime
 import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
@@ -110,12 +111,13 @@ class FlowerRecyclerViewAdapter(
         item.updateRemainingTime()
 
         val passedTime = item.getPassedTime()
+        val maxFrequencyTime = (item.item.notification.repeatInTime - NotificationTime.fromDays(1)).seconds
 
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mFrequencyProgressBar.progress = passedTime.seconds
         holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
                 PorterDuff.Mode.SRC_IN)
-        holder.mFrequencyProgressBar.max = item.item.notification.repeatInTime.seconds
+        holder.mFrequencyProgressBar.max = maxFrequencyTime
         holder.mBtnPouredFlower.setOnClickListener { view ->
             val item = view.tag as UiItem
             pouredTheFlower.pour(item) {

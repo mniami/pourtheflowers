@@ -13,6 +13,7 @@ import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
@@ -56,6 +57,8 @@ class ItemDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         injector { inject(this@ItemDetailsFragment) }
 
+        uiItem.updateRemainingTime()
+
         val activity = activity ?: return
 
         if (activity is MainActivityHelper) {
@@ -64,6 +67,7 @@ class ItemDetailsFragment : Fragment() {
             tvName.text = uiItem.item.name
         }
         descriptionTextView?.text = uiItem.item.description
+        frequencyText?.text = uiItem.remainingTime.toDays().toString()
 
         initFabButton(activity)
         initImage()
