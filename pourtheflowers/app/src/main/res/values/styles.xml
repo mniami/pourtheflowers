@@ -19,7 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="LabelTextView" parent="android:Widget.TextView">
+    <style name="LabelTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/darker_gray</item>
+        <item name="android:textSize">@dimen/labelTextSize</item>
+    </style>
+    <style name="DescriptionTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/edit_text_color</item>
         <item name="android:padding">4dp</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
@@ -45,4 +49,5 @@
         <item name="android:scrollbars">none</item>
         <item name="android:scrollHorizontally">false</item>
     </style>
+
 </resources>

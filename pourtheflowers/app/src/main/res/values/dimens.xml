@@ -9,4 +9,5 @@
     <dimen name="app_bar_height">?android:attr/actionBarSize</dimen>
     <dimen name="headerTextSize">22sp</dimen>
     <dimen name="descriptionTextSize">16sp</dimen>
+    <dimen name="labelTextSize">14sp</dimen>
 </resources>

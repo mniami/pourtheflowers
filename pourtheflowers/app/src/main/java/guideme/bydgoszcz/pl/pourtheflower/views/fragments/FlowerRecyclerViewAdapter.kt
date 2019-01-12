@@ -69,8 +69,7 @@ class FlowerRecyclerViewAdapter(
         if (showRemainingTime) {
             holder.mFrequencyText.text = getFrequencyText(item)
             holder.mFrequencyText.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             holder.mFrequencyText.visibility = View.GONE
         }
 
@@ -79,6 +78,8 @@ class FlowerRecyclerViewAdapter(
         } else {
             holder.mFrequencyProgressBar.visibility = View.GONE
         }
+        val color = if (item.remainingTime.toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
+        holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
         holder.mView.post {
             if (item.item.imageUrl.isEmpty()) {
                 return@post
@@ -86,7 +87,7 @@ class FlowerRecyclerViewAdapter(
             ImageLoader(holder.mFlowerImageView).setImage(item.item.imageUrl,
                     holder.mView.measuredWidth,
                     holder.mView.measuredHeight,
-                    mContext.resources.getColorFromResource(R.color.colorPrimaryDark),
+                    mContext.resources.getColorFromResource(color),
                     borderSize = 4)
         }
         holder.mView.tag = item
@@ -99,12 +100,14 @@ class FlowerRecyclerViewAdapter(
 
     private fun getFrequencyText(item: UiItem): Spanned {
         val remainingDays = item.remainingTime.toDays()
-        return if (remainingDays == 0) {
-            Html.fromHtml(mContext.getString(R.string.flower_frequency_today_label))
-        }
-        else {
-            Html.fromHtml(String.format(mContext.getString(R.string.flower_frequency_in_days_label), remainingDays))
-        }
+        return Html.fromHtml(when {
+            remainingDays == 0 ->
+                mContext.getString(R.string.flower_frequency_today_label)
+            remainingDays < 0 ->
+                String.format(mContext.getString(R.string.flower_frequency_late_label), remainingDays * -1)
+            else ->
+                String.format(mContext.getString(R.string.flower_frequency_in_days_label), remainingDays)
+        })
     }
 
     private fun refreshProgressBar(item: UiItem, holder: ViewHolder) {
@@ -146,7 +149,7 @@ class FlowerRecyclerViewAdapter(
         }
     }
 
-    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.remainingTime.toDays() == 0
+    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.remainingTime.toDays() <= 0
 
     fun stop() {
         stopped = true
@@ -185,7 +188,7 @@ class FlowerRecyclerViewAdapter(
         val mFlowerImageView: ImageView = mView.flowerImage
         val mFrequencyProgressBar: ProgressBar = mView.frequencyProgressBar
         val mBtnPouredFlower: ImageButton = mView.btnPouredFlower
-        val mFrequencyText: TextView = mView.frequencyText
+        val mFrequencyText: TextView = mView.remainingDaysTextView
 
         override fun toString(): String {
             return super.toString() + " '" + mNameView.text + "'"

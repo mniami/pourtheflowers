@@ -1,11 +1,14 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
+import android.animation.ValueAnimator
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v4.math.MathUtils
 import android.view.*
-import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
@@ -14,7 +17,7 @@ import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
+import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -23,6 +26,7 @@ import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
     private lateinit var uiItem: UiItem
+    private var animators : MutableList<ValueAnimator> = mutableListOf()
 
     private val viewChanger by lazy {
         (activity as MainActivityHelper).getViewChanger()
@@ -53,6 +57,20 @@ class ItemDetailsFragment : Fragment() {
         setMenu(menu, inflater, menuResource)
     }
 
+    override fun onPause() {
+        super.onPause()
+        animators.forEach {
+            it.cancel()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        animators.forEach {
+            it.start()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         injector { inject(this@ItemDetailsFragment) }
@@ -67,26 +85,52 @@ class ItemDetailsFragment : Fragment() {
             tvName.text = uiItem.item.name
         }
         descriptionTextView?.text = uiItem.item.description
-        frequencyText?.text = uiItem.remainingTime.toDays().toString()
+
+        val remainingDays = uiItem.remainingTime.toDays()
+        if (remainingDays < 0) {
+            header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+            remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+            remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+            animateRemainingBar()
+            remainingDaysHeaderTextView.text = getString(R.string.remainginDaysHeaderLate)
+            remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+            remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+            remainingDaysTextView?.text = (remainingDays * -1).toString()
+        } else {
+            remainingDaysTextView.background.colorFilter = null
+            header_layout.background.colorFilter = null
+            remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+            remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+            remainingDaysHeaderTextView.text = getString(R.string.remainginDaysHeader)
+            remainingDaysTextView?.text = remainingDays.toString()
+        }
+
 
         initFabButton(activity)
         initImage()
     }
 
+    private fun animateRemainingBar() {
+        val min = 0f
+        val max = 0.13f
+        val middle = (max - min) / 2f
+
+        animators.add(ValueAnimator.ofFloat(min, max)
+                .apply {
+                    duration = 1000
+                    repeatCount = ValueAnimator.INFINITE
+                    addUpdateListener {
+                        val value = animatedValue as Float
+                        var scale = if (value > middle) max - value else value
+                        scale = MathUtils.clamp(scale, min, middle)
+                        remainingDaysTextView.scaleY = 1f + scale
+                        remainingDaysTextView.scaleX = 1f + scale
+                    }
+                })
+    }
+
     private fun initImage() {
-        val parentView = itemImage.parent as ViewGroup
-        val file = uiItem.item.imageUrl
-
-        parentView.afterMeasured {
-            val width = parentView.width
-            val height = parentView.height
-
-            Picasso.get().load(file)
-                    .resize(width, height)
-                    .centerCrop()
-                    .into(itemImage)
-        }
-
+        ImageLoader(itemImage).loadSimple(uiItem)
         itemImage.setOnClickListener {
             fullScreenImage?.open(uiItem)
         }

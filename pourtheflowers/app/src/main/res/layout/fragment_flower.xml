@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="220dp" />
+            app:layout_constraintGuide_begin="280dp" />
 
         <View
             android:id="@+id/header_layout"
@@ -66,22 +66,23 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
 
         <TextView
+            android:id="@+id/remainingDaysHeaderTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:text="NASTĘPNE ZA"
-            android:textColor="#2b2b2b"
+            android:textColor="@color/intenseLabelTextColor"
             app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
-            app:layout_constraintEnd_toStartOf="@+id/frequencyText"
-            app:layout_constraintTop_toTopOf="@+id/frequencyText" />
+            app:layout_constraintEnd_toStartOf="@+id/remainingDaysTextView"
+            app:layout_constraintTop_toTopOf="@+id/remainingDaysTextView" />
 
         <TextView
-            android:id="@+id/frequencyText"
+            android:id="@+id/remainingDaysTextView"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/ic_circle"
-            android:textColor="#363632"
+            android:textColor="@color/labelTextColor"
             android:textSize="27sp"
             android:paddingBottom="2dp"
             android:paddingEnd="1dp"
@@ -94,20 +95,20 @@
             app:layout_constraintTop_toTopOf="@+id/header_layout" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/remainingDaysFooterTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:text="DNI"
-            android:textColor="#2b2b2b"
+            android:textColor="@color/intenseLabelTextColor"
             app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
-            app:layout_constraintStart_toEndOf="@+id/frequencyText"
-            app:layout_constraintTop_toTopOf="@+id/frequencyText" />
+            app:layout_constraintStart_toEndOf="@+id/remainingDaysTextView"
+            app:layout_constraintTop_toTopOf="@+id/remainingDaysTextView" />
 
         <TextView
             android:id="@+id/descriptionTextView"
-            style="@style/LabelTextView"
+            style="@style/DescriptionTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="8dp"

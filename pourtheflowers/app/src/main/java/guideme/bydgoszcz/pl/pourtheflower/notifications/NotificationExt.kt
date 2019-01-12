@@ -27,9 +27,10 @@ fun UiItem.updateRemainingTime() {
     remainingTime = item.notification.getRemainingTime(SystemTime.current())
 }
 fun Notification.getBackgroundColor(context: Context, remainingDays: Int) : Int {
-    return when(remainingDays) {
-        0 -> Color.RED
-        in 1..3 -> ColorHelper.getColor(R.color.orange, context)
-        else -> ColorHelper.getColor(R.color.gray, context)
+    return when {
+        remainingDays == 0 -> Color.YELLOW
+        remainingDays in 1..3  -> ColorHelper.getColor(R.color.orange, context)
+        remainingDays > 3 -> ColorHelper.getColor(R.color.gray, context)
+        else -> Color.RED
     }
 }

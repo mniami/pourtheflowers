@@ -45,9 +45,7 @@ class EditDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         injector { inject(this@EditDetailsFragment) }
 
-        FabHelper(activity).show(FabHelper.Option.SAVE)?.setOnClickListener {
-            saveItem()
-        }
+        FabHelper(activity).hide()
 
         etName?.setText(uiItem.item.name)
         etDescription?.setText(uiItem.item.description)
@@ -74,7 +72,7 @@ class EditDetailsFragment : Fragment() {
         tvFrequencyLabel.visibility = visibility
         frequencySpinner.visibility = visibility
 
-        imageLoader.load(uiItem)
+        imageLoader.loadSimple(uiItem)
     }
 
     private fun initFrequencySpinner() {
@@ -90,6 +88,9 @@ class EditDetailsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
+        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
+            saveItem()
+        }
     }
 
     private fun saveItem(): Boolean {

@@ -10,7 +10,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import java.io.File
 
 class ImageLoader(private val itemImage: ImageView) {
-    fun load(flowerUiItem: UiItem, borderColor: Int = Color.WHITE, borderSize : Int = 7) {
+    fun loadCircle(flowerUiItem: UiItem, borderColor: Int = Color.WHITE, borderSize : Int = 7) {
         val parentView = itemImage.parent as ViewGroup
         parentView.afterMeasured {
             if (flowerUiItem.item.imageUrl.isEmpty()) {
@@ -18,6 +18,21 @@ class ImageLoader(private val itemImage: ImageView) {
             }
             val imageUrl = flowerUiItem.item.imageUrl
             setImage(imageUrl, parentView.measuredWidth, parentView.measuredHeight, borderColor, borderSize)
+        }
+    }
+
+    fun loadSimple(uiItem: UiItem){
+        val parentView = itemImage.parent as ViewGroup
+        val file = uiItem.item.imageUrl
+
+        parentView.afterMeasured {
+            val width = parentView.width
+            val height = parentView.height
+
+            Picasso.get().load(file)
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(itemImage)
         }
     }
 

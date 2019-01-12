@@ -29,7 +29,11 @@ class CircleTransform(private val borderColor : Int, private val borderSize : In
         val borderPaint = Paint()
         borderPaint.color = borderColor
 
+        val border2Paint = Paint()
+        border2Paint.color = Color.WHITE
+
         canvas.drawCircle(r, r, r, borderPaint)
+        canvas.drawCircle(r, r, r - borderSize, border2Paint)
         canvas.drawCircle(r, r, r - borderSize * 2, paint)
 
         squaredBitmap.recycle()
