@@ -17,19 +17,18 @@ class CircleTransform(private val borderColor : Int, private val borderSize : In
         }
 
         val bitmap = Bitmap.createBitmap(size, size, source.config)
-
         val canvas = Canvas(bitmap)
         val paint = Paint()
-        val shader = BitmapShader(squaredBitmap,
-                Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        val shader = BitmapShader(squaredBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+
         paint.shader = shader
         paint.isAntiAlias = true
 
         val r = size / 2f
-        val borderPaint = Paint()
+        val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         borderPaint.color = borderColor
 
-        val border2Paint = Paint()
+        val border2Paint = Paint(Paint.ANTI_ALIAS_FLAG)
         border2Paint.color = Color.WHITE
 
         canvas.drawCircle(r, r, r, borderPaint)
