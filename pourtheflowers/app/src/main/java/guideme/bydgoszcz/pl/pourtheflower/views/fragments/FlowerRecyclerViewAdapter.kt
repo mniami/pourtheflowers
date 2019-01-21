@@ -103,8 +103,10 @@ class FlowerRecyclerViewAdapter(
         return Html.fromHtml(when {
             remainingDays == 0 ->
                 mContext.getString(R.string.flower_frequency_today_label)
-            remainingDays < 0 ->
-                String.format(mContext.getString(R.string.flower_frequency_late_label), remainingDays * -1)
+            remainingDays == -1 ->
+                String.format(mContext.getString(R.string.flower_frequency_late_yesterday_label), remainingDays * -1)
+            remainingDays < -1 ->
+                String.format(mContext.getString(R.string.flower_frequency_late_days_label), remainingDays * -1)
             else ->
                 String.format(mContext.getString(R.string.flower_frequency_in_days_label), remainingDays)
         })
@@ -116,10 +118,10 @@ class FlowerRecyclerViewAdapter(
         val passedTime = item.getPassedTime()
         val maxFrequencyTime = (item.item.notification.repeatInTime - NotificationTime.fromDays(1)).seconds
 
+        val color = item.item.notification.getBackgroundColor(item.remainingTime.toDays())
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mFrequencyProgressBar.progress = passedTime.seconds
-        holder.mFrequencyProgressBar.progressDrawable.setColorFilter(item.item.notification.getBackgroundColor(mContext, item.remainingTime.toDays()),
-                PorterDuff.Mode.SRC_IN)
+        holder.mFrequencyProgressBar.progressDrawable.setColorFilter(mContext.resources.getColorFromResource(color), PorterDuff.Mode.SRC_IN)
         holder.mFrequencyProgressBar.max = maxFrequencyTime
         holder.mBtnPouredFlower.setOnClickListener { view ->
             val item = view.tag as UiItem
