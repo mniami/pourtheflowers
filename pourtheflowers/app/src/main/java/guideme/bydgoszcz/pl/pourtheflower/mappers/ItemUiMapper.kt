@@ -1,9 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.mappers
 
-import guideme.bydgoszcz.pl.pourtheflower.model.Item
-import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.model.User
-import guideme.bydgoszcz.pl.pourtheflower.model.UserUiItem
+import guideme.bydgoszcz.pl.pourtheflower.model.*
 import javax.inject.Inject
 
 class ItemUiMapper @Inject constructor() {
@@ -13,7 +10,7 @@ class ItemUiMapper @Inject constructor() {
 
     fun mapToUi(items: List<Item>, isUser: Boolean): MutableList<UiItem> {
         return items.asSequence().map {
-            UiItem(it, isUser)
+            UiItem(it, isUser, shortDescription = ShortDesriptionProvider.provide(it.description))
         }.toMutableList()
     }
 

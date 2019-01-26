@@ -59,22 +59,22 @@
                 android:id="@+id/remainingDaysTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="1"
+                android:lines="2"
                 android:layout_marginTop="4dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp"
                 tools:text="3 dni do podlania" />
 
-            <ProgressBar
-                android:id="@+id/frequencyProgressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="8dp"
-                android:max="100"
-                android:progress="45" />
+            <!--<ProgressBar-->
+                <!--android:id="@+id/frequencyProgressBar"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="24dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:max="100"-->
+                <!--android:progress="45" />-->
         </LinearLayout>
 
         <LinearLayout

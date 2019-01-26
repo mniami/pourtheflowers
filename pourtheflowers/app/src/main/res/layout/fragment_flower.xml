@@ -94,6 +94,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/header_layout" />
 
+        <ImageView
+            android:id="@+id/todayImageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_water_drop"
+            android:paddingBottom="2dp"
+            android:paddingEnd="1dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/header_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/header_layout" />
+
         <TextView
             android:id="@+id/remainingDaysFooterTextView"
             android:layout_width="wrap_content"

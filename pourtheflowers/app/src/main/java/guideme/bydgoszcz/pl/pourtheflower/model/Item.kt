@@ -13,6 +13,7 @@ data class Item(val id: String = "",
     override fun toString(): String = name
 }
 
-data class UiItem(val item: Item, var isUser: Boolean, var remainingTime: NotificationTime = NotificationTime.ZERO) : Serializable {
-
-}
+data class UiItem(val item: Item,
+                  var isUser: Boolean,
+                  var remainingTime: NotificationTime = NotificationTime.ZERO,
+                  val shortDescription: String) : Serializable

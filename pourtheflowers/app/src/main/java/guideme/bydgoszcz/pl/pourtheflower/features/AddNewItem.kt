@@ -19,7 +19,7 @@ class AddNewItem @Inject constructor(private val repo: ItemsRepository,
                 imageUrl = imageUrl,
                 frequency = frequency,
                 notification = Notification(false, NotificationTime.ZERO, SystemTime.ZERO))
-        val uiItem = UiItem(item = item, isUser = true)
+        val uiItem = UiItem(item = item, isUser = true, shortDescription = ShortDesriptionProvider.provide(item.description))
         repo.user.items.add(uiItem)
 
         saveChanges.save(onFinished)

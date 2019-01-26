@@ -12,9 +12,11 @@ import android.view.*
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
+import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
+import guideme.bydgoszcz.pl.pourtheflower.model.RemainingDaysMessageProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
@@ -40,6 +42,8 @@ class ItemDetailsFragment : Fragment() {
     lateinit var addItemToUser: AddItemToUser
     @Inject
     lateinit var removeItemFromUser: RemoveItemFromUser
+    @Inject
+    lateinit var pouredTheFlower: PouredTheFlower
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -86,28 +90,61 @@ class ItemDetailsFragment : Fragment() {
         }
         descriptionTextView?.text = uiItem.item.description
 
-        val remainingDays = uiItem.remainingTime.toDays()
-        if (remainingDays < 0) {
-            header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-            remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-            remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-            animateRemainingBar()
-            remainingDaysHeaderTextView.text = getString(R.string.remainginDaysHeaderLate)
-            remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-            remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-            remainingDaysTextView?.text = (remainingDays * -1).toString()
-        } else {
-            remainingDaysTextView.background.colorFilter = null
-            header_layout.background.colorFilter = null
-            remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-            remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-            remainingDaysHeaderTextView.text = getString(R.string.remainginDaysHeader)
-            remainingDaysTextView?.text = remainingDays.toString()
-        }
-
-
+        initRemainingBar()
         initFabButton(activity)
         initImage()
+    }
+
+    private fun initRemainingBar() {
+        val visible = if (uiItem.item.notification.enabled) View.VISIBLE else View.GONE
+
+        remainingDaysHeaderTextView.visibility = visible
+        remainingDaysFooterTextView.visibility = visible
+        remainingDaysTextView.visibility = visible
+        header_layout.visibility = visible
+        todayImageView.visibility = View.GONE
+
+        if (!uiItem.item.notification.enabled) {
+            return
+        }
+
+        val onClickListener = View.OnClickListener {
+            pouredTheFlower.pour(uiItem, it) { }
+        }
+
+        val remainingDays = uiItem.remainingTime.toDays()
+        remainingDaysHeaderTextView.text = RemainingDaysMessageProvider.provide(requireContext(), uiItem, false)
+
+        when {
+            remainingDays < 0 -> {
+                header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+                remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+                animateRemainingBar()
+                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+                remainingDaysTextView?.text = (remainingDays * -1).toString()
+            }
+            remainingDays == 0 -> {
+                remainingDaysTextView.background.colorFilter = null
+                header_layout.background.colorFilter = null
+                remainingDaysFooterTextView.text = getString(R.string.flower_frequency_today_label_without_amount_footer)
+                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_today_label_without_amount_header)
+                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                todayImageView.visibility = View.VISIBLE
+                remainingDaysTextView.text = ""
+                todayImageView.setOnClickListener(onClickListener)
+            }
+            else -> {
+                remainingDaysTextView.background.colorFilter = null
+                header_layout.background.colorFilter = null
+                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                remainingDaysTextView?.text = remainingDays.toString()
+            }
+        }
+        remainingDaysTextView.setOnClickListener(onClickListener)
     }
 
     private fun animateRemainingBar() {
