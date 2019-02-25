@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         privacyPolicyLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://sites.google.com/view/pour-the-flower-privacy-policy")
+            intent.data = Uri.parse(getString(R.string.privacy_policy_url))
             startActivity(intent)
         }
 
@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     presenter.showUserItems()
                 }
             }
+            BatteryOptimization.check(this)
         }
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
