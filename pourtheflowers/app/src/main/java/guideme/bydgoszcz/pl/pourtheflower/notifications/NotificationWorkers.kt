@@ -7,13 +7,14 @@ import androidx.work.WorkerParameters
 import guideme.bydgoszcz.pl.pourtheflower.notifications.NotificationPresenter.showNotification
 
 class DelayedNotificationWorker(private val context: Context,
-                                private val params: WorkerParameters) : Worker(context, params) {
+                                private val params: WorkerParameters,
+                                private val notificationScheduler: NotificationScheduler) : Worker(context, params) {
     override fun doWork(): Result {
         val id = params.inputData.getString(NotificationScheduler.ID) ?: return Result.FAILURE
         val repeat = params.inputData.getLong(NotificationScheduler.REPEAT, 0L)
 
         try {
-            NotificationScheduler.startPeriodicNotificationWorker(params.inputData, repeat, id)
+            notificationScheduler.startPeriodicNotificationWorker(params.inputData, repeat, id)
         } catch (ex: Exception) {
             Log.d("DelayedNotWorker", ex.toString())
         }

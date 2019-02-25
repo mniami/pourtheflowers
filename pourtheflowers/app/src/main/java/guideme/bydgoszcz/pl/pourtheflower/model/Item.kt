@@ -17,3 +17,7 @@ data class UiItem(val item: Item,
                   var isUser: Boolean,
                   var remainingTime: NotificationTime = NotificationTime.ZERO,
                   val shortDescription: String) : Serializable
+
+fun Item.notification(block: Notification.() -> Unit) {
+    notification.apply(block)
+}

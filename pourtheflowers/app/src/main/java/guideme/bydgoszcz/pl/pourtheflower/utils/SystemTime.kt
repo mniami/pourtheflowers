@@ -27,8 +27,15 @@ data class SystemTime(private val timeInMillis: Long) : Serializable {
 
     companion object {
         fun fromDays(days: Int): Int = days * TimeHelper.millisInDay
-        fun current() : SystemTime = SystemTime(System.currentTimeMillis())
-        val ZERO: SystemTime = SystemTime(0)
+        fun current(): SystemTime = SystemTime(timeProvider.current())
 
+        val ZERO: SystemTime = SystemTime(0)
+        var timeProvider: TimeProvider = DefaultTimeProvider()
     }
+
+    interface TimeProvider {
+        fun current(): Long = System.currentTimeMillis()
+    }
+
+    class DefaultTimeProvider : TimeProvider
 }

@@ -1,26 +1,29 @@
 package guideme.bydgoszcz.pl.pourtheflower.notifications
 
-import android.content.Context
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.ContentProvider
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
+import javax.inject.Inject
 
-object ItemsNotifications {
-    fun setUpNotifications(context : Context, items: List<UiItem>) {
+class ItemsNotifications @Inject constructor(private val contentProvider: ContentProvider, private val notificationScheduler: NotificationScheduler) {
+    fun setUpNotifications(items: List<UiItem>) {
         items.filter {
             it.item.notification.enabled
         }.forEach {
-            setUpNotification(context, it)
+            setUpNotification(it)
         }
     }
 
-    fun setUpNotification(context: Context, item: UiItem) {
+    fun setUpNotification(item: UiItem) {
         val currentTime = SystemTime.current()
         val delay = item.item.notification.getRemainingTime(currentTime)
-        NotificationScheduler.scheduleJob(
+        val notificationTitle = contentProvider.getString(R.string.notification_title)
+
+        notificationScheduler.scheduleJob(
                 item.item.id,
                 item.item.name,
-                context.getString(R.string.notification_title),
+                notificationTitle,
                 delay.toMillis(),
                 item.item.notification.repeatInTime.toMillis())
     }

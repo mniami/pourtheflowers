@@ -1,6 +1,5 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -9,10 +8,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MenuItem
-import androidx.work.Configuration
-import androidx.work.WorkManager
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
@@ -42,6 +38,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var dataLoader: DataLoader
     @Inject
     lateinit var saveUserChanges: SaveUserChanges
+    @Inject
+    lateinit var itemsNotifications: ItemsNotifications
 
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
@@ -81,7 +79,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (user.items.isEmpty()) {
                     presenter.showAllItems()
                 } else {
-                    ItemsNotifications.setUpNotifications(baseContext, user.items)
+                    itemsNotifications.setUpNotifications(user.items)
                     presenter.showUserItems()
                 }
             }

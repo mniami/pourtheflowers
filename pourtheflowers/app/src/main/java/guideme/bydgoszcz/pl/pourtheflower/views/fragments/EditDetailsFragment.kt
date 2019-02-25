@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
-import guideme.bydgoszcz.pl.pourtheflower.actions.SetFlowerPoured
+import guideme.bydgoszcz.pl.pourtheflower.actions.SetFlowerPouredNotification
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
@@ -25,6 +25,10 @@ class EditDetailsFragment : Fragment() {
     lateinit var repository: ItemsRepository
     @Inject
     lateinit var saveUserChanges: SaveUserChanges
+    @Inject
+    lateinit var setFlowerPouredNotification: SetFlowerPouredNotification
+    @Inject
+    lateinit var itemsNotifications: ItemsNotifications
 
     private val imageLoader by lazy {
         ImageLoader(itemImage)
@@ -103,7 +107,7 @@ class EditDetailsFragment : Fragment() {
             with(uiItem.item) {
                 if (notification.enabled) {
                     if (notification.lastNotificationTime.isZero()) {
-                        SetFlowerPoured.set(activity, uiItem)
+                        setFlowerPouredNotification.setUp(uiItem)
                     }
                 } else {
                     notification.lastNotificationTime = SystemTime.ZERO
@@ -119,7 +123,7 @@ class EditDetailsFragment : Fragment() {
             }
             repository.user.items.add(uiItem)
         }
-        ItemsNotifications.setUpNotifications(activity, repository.user.items)
+        itemsNotifications.setUpNotifications(repository.user.items)
         saveUserChanges.save {
             activity.goBack()
         }
