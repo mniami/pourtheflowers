@@ -8,6 +8,9 @@ def localProperties = new Properties()
 localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
+    dataBinding {
+        enabled = true
+    }
     signingConfigs {
         test {
             keyAlias localProperties['keyAlias']

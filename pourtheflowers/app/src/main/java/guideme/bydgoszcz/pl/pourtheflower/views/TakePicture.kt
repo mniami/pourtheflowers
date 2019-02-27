@@ -1,8 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.views
 
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -26,7 +24,7 @@ class TakePicture {
     private fun createImageFile(activity: FragmentActivity): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
                 ".jpg", /* suffix */

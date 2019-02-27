@@ -6,7 +6,9 @@ import guideme.bydgoszcz.pl.pourtheflower.serialization.UserDataCache
 import guideme.bydgoszcz.pl.pourtheflower.threads.runInBackground
 import guideme.bydgoszcz.pl.pourtheflower.threads.runOnUi
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SaveUserChanges @Inject constructor(private val repo: ItemsRepository,
                                           private val userDataCache: UserDataCache,
                                           private val flowerMapper: ItemUiMapper) {

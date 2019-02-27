@@ -5,8 +5,11 @@ import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.ContentProvider
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class ItemsNotifications @Inject constructor(private val contentProvider: ContentProvider, private val notificationScheduler: NotificationScheduler) {
+@Singleton
+class ItemsNotifications @Inject constructor(private val contentProvider: ContentProvider,
+                                             private val notificationScheduler: NotificationScheduler) {
     fun setUpNotifications(items: List<UiItem>) {
         items.filter {
             it.item.notification.enabled

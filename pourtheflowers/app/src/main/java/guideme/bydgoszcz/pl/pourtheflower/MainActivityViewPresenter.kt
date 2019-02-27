@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.views.ViewChanger
-import guideme.bydgoszcz.pl.pourtheflower.views.fragments.EditDetailsFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ItemDetailsFragment
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.NewItemFragment
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.providers.EditDetailsFragmentFactory
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) : ViewChanger {
@@ -16,7 +16,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
 
     override fun showItem(uiItem: UiItem) {
         val info = "details" + uiItem.item.id
-        supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction()
                 .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), info)
                 .addToBackStack(info)
@@ -26,7 +26,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun editItem(uiItem: UiItem) {
         val info = "edit" + uiItem.item.id
         supportFragmentManager.beginTransaction()
-                .replace(frameLayoutId, EditDetailsFragment.create(uiItem), info)
+                .replace(frameLayoutId, EditDetailsFragmentFactory.create(uiItem), info)
                 .commit()
     }
 

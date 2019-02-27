@@ -50,7 +50,8 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             requestTakePicture()
         }
         val repeatDaysValues = (1..30).map { it }.toTypedArray()
-        frequencySpinner.adapter = ArrayAdapter<Int>(context, android.R.layout.simple_list_item_1, repeatDaysValues)
+        frequencySpinner.adapter = ArrayAdapter<Int>(context
+                ?: return, android.R.layout.simple_list_item_1, repeatDaysValues)
     }
 
     private fun saveItem() {

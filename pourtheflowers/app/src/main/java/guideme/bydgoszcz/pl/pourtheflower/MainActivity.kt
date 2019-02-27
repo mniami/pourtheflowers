@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     presenter.showUserItems()
                 }
             }
-            BatteryOptimization.check(this)
+            //BatteryOptimization.check(this)
         }
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
