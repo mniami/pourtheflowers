@@ -9,10 +9,10 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import javax.inject.Inject
 
-class SaveItem @Inject constructor(val itemsNotifications: ItemsNotifications,
-                                   val setFlowerPouredNotification: SetFlowerPouredNotification,
-                                   val saveUserChanges: SaveUserChanges,
-                                   val repository: ItemsRepository) {
+class SaveItem @Inject constructor(private val itemsNotifications: ItemsNotifications,
+                                   private val setFlowerPouredNotification: SetFlowerPouredNotification,
+                                   private val saveUserChanges: SaveUserChanges,
+                                   private val repository: ItemsRepository) {
     fun saveItem(uiItem: UiItem,
                  etName: String,
                  etDescription: String,

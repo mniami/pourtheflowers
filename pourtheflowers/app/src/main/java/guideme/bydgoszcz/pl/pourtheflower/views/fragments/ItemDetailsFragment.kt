@@ -167,7 +167,7 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initImage() {
-        ImageLoader(itemImage).loadSimple(uiItem)
+        ImageLoader.loadSimple(itemImage, uiItem.item.imageUrl)
         itemImage.setOnClickListener {
             fullScreenImage?.open(uiItem)
         }

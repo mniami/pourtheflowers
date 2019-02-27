@@ -2,7 +2,6 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.content.Context
 import android.os.Handler
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +65,8 @@ class FlowerRecyclerViewAdapter(
             if (item.item.imageUrl.isEmpty()) {
                 return@post
             }
-            ImageLoader(holder.mFlowerImageView).setImage(item.item.imageUrl,
+            ImageLoader.setImage(holder.mFlowerImageView,
+                    item.item.imageUrl,
                     holder.mView.measuredWidth,
                     holder.mView.measuredHeight,
                     mContext.resources.getColorFromResource(color),

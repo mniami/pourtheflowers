@@ -81,6 +81,6 @@ class TakePicture {
 //            ImageLoader
 //            imageView.setImageBitmap(bitmap)
 //        }
-        ImageLoader(imageView).setImage(photoPicturePath, imageView.width, imageView.height)
+        ImageLoader.setImage(imageView, photoPicturePath, imageView.width, imageView.height)
     }
 }

@@ -1,17 +1,19 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders
 
+import android.content.Context
 import android.view.View
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ImageLoader
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.adapters.PourFrequencyAdapterFactory
 
 class EditDetailsFragmentBinder(
+        private val context: Context,
         private val etName: EditText,
         private val etDescription: EditText,
         private val spinnerPourFrequency: Spinner,
         private val turnNotificationSwitch: Switch,
-        private val lbFrequency: TextView) {
+        private val lbFrequency: TextView,
+        private val ivImage: ImageView) {
     var name: String
         get() {
             return etName.text.toString()
@@ -57,9 +59,18 @@ class EditDetailsFragmentBinder(
             spinnerPourFrequency.visibility = visibility
         }
     var onNotificationEnabled: EditDetailsFragmentBinder.() -> Unit = {}
+    var flowerImageUrl: String
+        get() {
+            return ivImage.tag as String
+        }
+        set(value) {
+            ivImage.tag = value
+            ImageLoader.loadSimple(ivImage, value)
+        }
 
     fun bind(block: EditDetailsFragmentBinder.() -> Unit) {
         turnNotificationSwitch.setOnClickListener { onNotificationEnabled(this) }
+        spinnerPourFrequency.adapter = PourFrequencyAdapterFactory.create(context)
         block(this)
     }
 }

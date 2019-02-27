@@ -10,7 +10,6 @@ import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.actions.SaveItem
-import guideme.bydgoszcz.pl.pourtheflower.views.fragments.adapters.PourFrequencyAdapterFactory
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders.EditDetailsFragmentBinder
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.providers.EditDetailsFragmentFactory
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
@@ -22,9 +21,6 @@ class EditDetailsFragment : Fragment() {
     lateinit var uiItem: UiItem
     lateinit var binder: EditDetailsFragmentBinder
 
-    private val imageLoader by lazy {
-        ImageLoader(itemImage)
-    }
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -42,21 +38,18 @@ class EditDetailsFragment : Fragment() {
         injector { inject(this@EditDetailsFragment) }
 
         FabHelper(activity).hide()
-
-        PourFrequencyAdapterFactory.create(context ?: return)
-        binder = EditDetailsFragmentBinder(etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
         binder.bind {
             name = uiItem.item.name
             description = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
+            flowerImageUrl = uiItem.item.imageUrl
             onNotificationEnabled = {
                 uiItem.item.notification.enabled = notificationEnabled
                 pourFrequencyVisible = notificationEnabled
             }
         }
-
-        imageLoader.loadSimple(uiItem)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {

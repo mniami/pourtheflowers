@@ -99,7 +99,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onThumbnail(bitmap: Bitmap) {
         //addNewItem.add()
-        itemImage.setImageBitmap(bitmap)
+        ivImage.setImageBitmap(bitmap)
     }
 
     override fun onPictureCaptured() {
@@ -108,7 +108,6 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     private fun showPicture() {
         val photoFilePath = photoFilePath ?: return
-
-        ImageLoader(itemImage).setImage(photoFilePath, itemImage.width, itemImage.height)
+        ImageLoader.setImage(ivImage, photoFilePath, ivImage.width, ivImage.height)
     }
 }
