@@ -15,7 +15,7 @@ data class NotificationTime(private val value: Int) : Serializable {
     val seconds: Int
         get() = value
 
-    fun toDays(): Int = value / TimeHelper.secondsInDay
+    fun toDays(): Int = Math.round(value * 1f / TimeHelper.secondsInDay)
 
     operator fun minus(notificationTime: NotificationTime): NotificationTime {
         return NotificationTime(value - notificationTime.value)

@@ -22,7 +22,6 @@ class EditDetailsFragment : Fragment() {
     lateinit var uiItem: UiItem
     lateinit var binder: EditDetailsFragmentBinder
 
-
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         uiItem = arguments?.getSerializable(EditDetailsFragmentFactory.ITEM_PARAM_NAME) as UiItem
@@ -45,6 +44,7 @@ class EditDetailsFragment : Fragment() {
             description = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
+            pourFrequencyInDays = uiItem.item.notification.repeatInTime.toDays()
             flowerImageUrl = uiItem.item.imageUrl
             onNotificationEnabled = {
                 uiItem.item.notification.enabled = notificationEnabled

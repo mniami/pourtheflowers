@@ -16,7 +16,6 @@ import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
-import guideme.bydgoszcz.pl.pourtheflower.model.RemainingDaysMessageProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
@@ -113,13 +112,12 @@ class ItemDetailsFragment : Fragment() {
         }
 
         val remainingDays = uiItem.remainingTime.toDays()
-        remainingDaysHeaderTextView.text = RemainingDaysMessageProvider.provide(requireContext(), uiItem, false)
-
         when {
             remainingDays < 0 -> {
                 header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
                 remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
                 remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
+                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
                 animateRemainingBar()
                 remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
                 remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
@@ -136,12 +134,22 @@ class ItemDetailsFragment : Fragment() {
                 remainingDaysTextView.text = ""
                 todayImageView.setOnClickListener(onClickListener)
             }
+            remainingDays == 1 -> {
+                remainingDaysTextView.background.colorFilter = null
+                header_layout.background.colorFilter = null
+                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
+                remainingDaysTextView.text = remainingDays.toString()
+                remainingDaysFooterTextView.text = getString(R.string.flower_frequency_in_day_footer)
+                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
+            }
             else -> {
                 remainingDaysTextView.background.colorFilter = null
                 header_layout.background.colorFilter = null
                 remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
                 remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
                 remainingDaysTextView?.text = remainingDays.toString()
+                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
             }
         }
         remainingDaysTextView.setOnClickListener(onClickListener)

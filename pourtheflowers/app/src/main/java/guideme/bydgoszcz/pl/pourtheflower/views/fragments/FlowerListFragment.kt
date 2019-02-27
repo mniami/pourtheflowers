@@ -14,6 +14,7 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -124,12 +125,13 @@ class FlowerListFragment : Fragment() {
             ALL_LIST_TYPE -> lib
             else -> lib
         }
-        return flowers.sortedByDescending {
+        flowers.forEach { it.updateRemainingTime() }
+        return flowers.sortedBy {
             if (it.isUser && it.item.notification.enabled) {
-                1
+                it.remainingTime.seconds
             }
             else {
-                0
+                Int.MAX_VALUE
             }
         }.toList()
     }
