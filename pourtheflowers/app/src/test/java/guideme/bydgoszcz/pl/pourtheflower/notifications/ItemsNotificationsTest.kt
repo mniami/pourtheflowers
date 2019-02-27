@@ -10,6 +10,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -21,6 +22,11 @@ class ItemsNotificationsTest {
                 return TimeHelper.millisInDay * 10L
             }
         }
+    }
+
+    @After
+    fun after() {
+        SystemTime.timeProvider = SystemTime.DefaultTimeProvider()
     }
 
     @Test

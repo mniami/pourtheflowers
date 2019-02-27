@@ -26,7 +26,6 @@ data class SystemTime(private val timeInMillis: Long) : Serializable {
     fun isZero(): Boolean = this == SystemTime.ZERO
 
     companion object {
-        fun fromDays(days: Int): Int = days * TimeHelper.millisInDay
         fun current(): SystemTime = SystemTime(timeProvider.current())
 
         val ZERO: SystemTime = SystemTime(0)

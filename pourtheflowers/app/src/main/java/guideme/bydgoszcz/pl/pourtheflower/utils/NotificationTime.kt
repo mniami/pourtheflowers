@@ -21,6 +21,10 @@ data class NotificationTime(private val value: Int) : Serializable {
         return NotificationTime(value - notificationTime.value)
     }
 
+    operator fun plus(notificationTime: NotificationTime): NotificationTime {
+        return NotificationTime(value + notificationTime.value)
+    }
+
     override fun toString(): String {
         return "NotificationTime(value=$value)"
     }

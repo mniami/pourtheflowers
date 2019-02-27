@@ -1,27 +1,22 @@
 package guideme.bydgoszcz.pl.pourtheflower.features
 
-import guideme.bydgoszcz.pl.pourtheflower.actions.SaveUserChanges
 import guideme.bydgoszcz.pl.pourtheflower.model.*
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.actions.SaveItem
 import java.util.*
 import javax.inject.Inject
 
-class AddNewItem @Inject constructor(private val repo: ItemsRepository,
-                                     private val saveChanges: SaveUserChanges,
+class AddNewItem @Inject constructor(private val saveItem: SaveItem,
                                      private val random: Random) {
-    fun add(name: String, description: String, tags: List<Tag>, imageUrl: String, frequency : Int, onFinished: () -> Unit) {
+    fun add(name: String, description: String, tags: List<Tag>, imageUrl: String, frequency: NotificationTime, onFinished: () -> Unit) {
         val item = Item(
                 id = random.nextInt().toString(),
                 name = name,
                 description = description,
                 tags = tags,
                 imageUrl = imageUrl,
-                frequency = frequency,
-                notification = Notification(false, NotificationTime.ZERO, SystemTime.ZERO))
+                notification = Notification(enabled = frequency.toMillis() > 0, repeatInTime = frequency))
         val uiItem = UiItem(item = item, isUser = true, shortDescription = ShortDesriptionProvider.provide(item.description))
-        repo.user.items.add(uiItem)
-
-        saveChanges.save(onFinished)
+        saveItem.saveItem(uiItem, onFinished)
     }
 }

@@ -7,6 +7,7 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.actions.SaveItem
@@ -60,8 +61,14 @@ class EditDetailsFragment : Fragment() {
     }
 
     private fun saveItem(): Boolean {
-        saveItem.saveItem(uiItem, binder.name, binder.description, binder.pourFrequencyInDays) {
-            activity?.goBack()
+        with(uiItem.item) {
+            name = binder.name
+            description = binder.description
+            notification.enabled = binder.notificationEnabled
+            notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
+        }
+        saveItem.saveItem(uiItem) {
+            requireActivity().goBack()
         }
         return true
     }

@@ -8,23 +8,28 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
-import android.widget.ArrayAdapter
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.AddNewItem
+import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
+import guideme.bydgoszcz.pl.pourtheflower.model.Item
+import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders.EditDetailsFragmentBinder
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import java.io.File
 import javax.inject.Inject
 
 class NewItemFragment : Fragment(), TakingPictureThumbnail {
-
     @Inject
     lateinit var addNewItem: AddNewItem
 
-    private var photoFilePath: File? = null
+    lateinit var photoFilePath: File
+    lateinit var uiItem: UiItem
+    lateinit var binder: EditDetailsFragmentBinder
 
     companion object {
         const val MY_CAMERA_REQUEST_CODE = 100
@@ -42,63 +47,65 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
         if (savedInstanceState != null) {
             photoFilePath = savedInstanceState.getSerializable("photoFilePath") as File?
+                    ?: throw IllegalArgumentException("missing photoFilePath")
         }
-        FabHelper(activity).show(FabHelper.Option.SAVE)?.setOnClickListener {
-            saveItem()
+        FabHelper(activity).hide()
+        uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
+        binder.bind {
+            name = uiItem.item.name
+            description = uiItem.item.description
+            notificationEnabled = uiItem.item.notification.enabled
+            pourFrequencyVisible = notificationEnabled
+            onNotificationEnabled = {
+                uiItem.item.notification.enabled = notificationEnabled
+                pourFrequencyVisible = notificationEnabled
+            }
         }
-        if (photoFilePath == null) {
-            requestTakePicture()
-        }
-        val repeatDaysValues = (1..30).map { it }.toTypedArray()
-        frequencySpinner.adapter = ArrayAdapter<Int>(context
-                ?: return, android.R.layout.simple_list_item_1, repeatDaysValues)
+        requestTakePicture()
     }
 
-    private fun saveItem() {
-        val photoFilePath = photoFilePath
-        if (photoFilePath == null) {
-            Snackbar.make(view ?: return, getString(R.string.image_file_not_found), 2000)
-            return
-        }
+    private fun saveItem(): Boolean {
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
-        addNewItem.add(etName.text.toString(), etDescription.text.toString(), emptyList(), imageUri, frequencySpinner.selectedItem as Int) {
-            val activity = activity ?: return@add
-            activity.supportFragmentManager.popBackStack()
+        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, NotificationTime.fromDays(binder.pourFrequencyInDays)) {
+            requireActivity().goBack()
         }
+        return true
     }
 
     private fun requestTakePicture() {
-        val activity = activity ?: return
-        if (checkSelfPermission(activity, Manifest.permission.CAMERA)
+        if (checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), MY_CAMERA_REQUEST_CODE)
         } else {
-            photoFilePath = TakePicture().requestTakePicture(activity)
+            try {
+                photoFilePath = TakePicture.requestTakePicture(requireActivity())
+            } catch (ex: Exception) {
+                Snackbar.make(view ?: return, getString(R.string.image_file_not_found), 2000)
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        if (photoFilePath != null) {
-            outState.putSerializable("photoFilePath", photoFilePath)
-        }
+        outState.putSerializable("photoFilePath", photoFilePath)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val activity = activity ?: return
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-            TakePicture().requestTakePicture(activity)
+            TakePicture.requestTakePicture(requireActivity())
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
+        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
+            saveItem()
+        }
     }
 
     override fun onThumbnail(bitmap: Bitmap) {
-        //addNewItem.add()
         ivImage.setImageBitmap(bitmap)
     }
 
@@ -107,7 +114,6 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     private fun showPicture() {
-        val photoFilePath = photoFilePath ?: return
         ImageLoader.setImage(ivImage, photoFilePath, ivImage.width, ivImage.height)
     }
 }

@@ -15,10 +15,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class TakePicture {
-    companion object {
-        const val REQUEST_IMAGE_CAPTURE = 1
-    }
+object TakePicture {
+    const val REQUEST_IMAGE_CAPTURE = 1
 
     @Throws(IOException::class)
     private fun createImageFile(activity: FragmentActivity): File {
@@ -32,18 +30,14 @@ class TakePicture {
         )
     }
 
-    fun requestTakePicture(activity: FragmentActivity): File? {
-        var photoFile: File? = null
+    fun requestTakePicture(activity: FragmentActivity): File {
+        lateinit var photoFile: File
 
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(activity.packageManager)?.also {
-                photoFile = try {
-                    createImageFile(activity)
-                } catch (ex: IOException) {
-                    null
-                }
+                photoFile = createImageFile(activity)
                 // Continue only if the File was successfully created
-                photoFile?.also {
+                photoFile.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                             activity,
                             "guideme.bydgoszcz.pl.pourtheflower.fileprovider",
