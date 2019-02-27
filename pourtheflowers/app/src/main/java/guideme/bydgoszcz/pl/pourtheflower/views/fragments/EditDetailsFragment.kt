@@ -61,7 +61,6 @@ class EditDetailsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
-        binder.menu = menu
         menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
             saveItem()
         }

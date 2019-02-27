@@ -1,6 +1,5 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders
 
-import android.view.Menu
 import android.view.View
 import android.widget.EditText
 import android.widget.Spinner
@@ -58,7 +57,6 @@ class EditDetailsFragmentBinder(
             spinnerPourFrequency.visibility = visibility
         }
     var onNotificationEnabled: EditDetailsFragmentBinder.() -> Unit = {}
-    var menu: Menu? = null
 
     fun bind(block: EditDetailsFragmentBinder.() -> Unit) {
         turnNotificationSwitch.setOnClickListener { onNotificationEnabled(this) }
