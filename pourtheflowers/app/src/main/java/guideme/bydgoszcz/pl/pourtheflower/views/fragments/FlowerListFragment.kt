@@ -56,6 +56,8 @@ class FlowerListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val act = activity ?: return
+        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
+        adapter.resume()
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }

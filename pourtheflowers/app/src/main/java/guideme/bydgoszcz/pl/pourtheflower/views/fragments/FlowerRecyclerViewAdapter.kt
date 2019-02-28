@@ -117,6 +117,10 @@ class FlowerRecyclerViewAdapter(
 
     private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.remainingTime.toDays() <= 0
 
+    fun resume() {
+        stopped = false
+    }
+
     inner class ViewHolder(val mView: View, isStopped: () -> Boolean) : RecyclerView.ViewHolder(mView) {
         val mNameView: TextView = mView.name
         val mDescriptionView: TextView = mView.description
