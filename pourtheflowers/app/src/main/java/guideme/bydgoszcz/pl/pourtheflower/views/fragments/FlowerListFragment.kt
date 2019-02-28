@@ -2,36 +2,30 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
 import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.PourTheFlowerApplication
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
-import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
-import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.providers.ItemsProvider
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
 
-
 class FlowerListFragment : Fragment() {
     private var listType = ALL_LIST_TYPE
     private var listener: OnListFragmentInteractionListener? = null
-    private val handler = Handler()
 
     @Inject
     lateinit var pouredTheFlower: PouredTheFlower
-
     @Inject
-    lateinit var repo: ItemsRepository
+    lateinit var itemsProvider: ItemsProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +50,6 @@ class FlowerListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                recyclerView.adapter?.notifyDataSetChanged()
-            }
-        })
-        itemTouchHelper.attachToRecyclerView(recyclerView)
         loadAdapter(recyclerView)
     }
 
@@ -95,7 +78,7 @@ class FlowerListFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 
@@ -110,33 +93,9 @@ class FlowerListFragment : Fragment() {
     }
 
     private fun loadAdapter(view: RecyclerView) {
-        with(view) {
-            adapter = FlowerRecyclerViewAdapter(getItems(), context, listener, pouredTheFlower)
-            adapter?.notifyDataSetChanged()
-        }
+        view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), requireContext(), listener, pouredTheFlower)
+        view.adapter?.notifyDataSetChanged()
     }
-
-    private fun getItems(): List<UiItem> {
-        val lib = repo.itemsStore
-        val user = repo.user
-
-        var flowers: List<UiItem> = when (listType) {
-            USER_LIST_TYPE -> user.items
-            ALL_LIST_TYPE -> lib
-            else -> lib
-        }
-        flowers.forEach { it.updateRemainingTime() }
-        return flowers.sortedBy {
-            if (it.isUser && it.item.notification.enabled) {
-                it.remainingTime.seconds
-            }
-            else {
-                Int.MAX_VALUE
-            }
-        }.toList()
-    }
-
-
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(item: UiItem)
     }

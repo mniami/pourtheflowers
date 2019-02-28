@@ -41,13 +41,6 @@
     <style name="Form"></style>
 
     <style name="Form.EditTextView" parent="android:Widget.EditText">
-        <item name="android:textColor">@color/edit_text_color</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
-        <item name="android:lineSpacingExtra">1.5dp</item>
-        <item name="android:inputType">textMultiLine|textWebEditText</item>
-        <item name="android:scrollbars">none</item>
-        <item name="android:scrollHorizontally">false</item>
     </style>
 
 </resources>

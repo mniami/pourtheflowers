@@ -31,8 +31,8 @@
     <!-- Errors -->
     <string name="image_file_not_found">Nie udało się zapisać zdjęcia</string>
     <string name="accept_menu_button">Zaakceptuj</string>
-    <string name="frequency_label">Częstotliwość</string>
-    <string name="notification_label">Powiadamianie o podlaniu</string>
+    <string name="frequency_label">Jak często podlewać (w dniach)</string>
+    <string name="notification_label">Włącz przypomnienia o podlaniu</string>
     <string name="privacy_policy">Polityka prywatności</string>
     <string name="notification_title">Nadszedł czas podlania</string>
     <string name="item_added_to_the_list_information">Dodano do Twojej listy</string>
