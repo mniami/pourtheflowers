@@ -69,6 +69,12 @@ class FlowerListFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
+        adapter.stop()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.main)
     }
@@ -82,11 +88,6 @@ class FlowerListFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        (recyclerView?.adapter as FlowerRecyclerViewAdapter?)?.stop()
-    }
-
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -94,7 +95,7 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), requireContext(), listener, pouredTheFlower)
-        view.adapter?.notifyDataSetChanged()
+        //view.adapter?.notifyDataSetChanged()
     }
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(item: UiItem)

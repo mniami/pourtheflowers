@@ -26,6 +26,7 @@
     <string name="user_flowers_title">Moje kwiaty</string>
     <string name="remove_item">Usuń</string>
     <string name="add_new_flower">Dodaj nowy</string>
+    <string name="new_flower">Nowy kwiat</string>
     <string name="frequency_day_label">%s dzień</string>
 
     <!-- Errors -->

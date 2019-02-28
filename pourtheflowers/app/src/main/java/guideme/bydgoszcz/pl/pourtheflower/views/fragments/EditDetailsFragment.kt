@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.goBack
+import guideme.bydgoszcz.pl.pourtheflower.doOnBackStack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
@@ -34,8 +34,9 @@ class EditDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         injector { inject(this@EditDetailsFragment) }
+
+        super.onViewCreated(view, savedInstanceState)
 
         FabHelper(activity).hide()
         binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
@@ -51,13 +52,11 @@ class EditDetailsFragment : Fragment() {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+        doOnBackStack { saveItem() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
-        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
-            saveItem()
-        }
     }
 
     private fun saveItem(): Boolean {
@@ -67,9 +66,7 @@ class EditDetailsFragment : Fragment() {
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
         }
-        saveItem.saveItem(uiItem) {
-            requireActivity().goBack()
-        }
+        saveItem.saveItem(uiItem) {}
         return true
     }
 }

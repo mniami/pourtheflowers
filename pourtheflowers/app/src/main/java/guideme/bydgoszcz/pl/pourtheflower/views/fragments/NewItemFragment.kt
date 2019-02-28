@@ -8,9 +8,10 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
+import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
 import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.doOnBackStack
 import guideme.bydgoszcz.pl.pourtheflower.features.AddNewItem
-import guideme.bydgoszcz.pl.pourtheflower.goBack
 import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
@@ -19,6 +20,7 @@ import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
 import guideme.bydgoszcz.pl.pourtheflower.views.FabHelper
 import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders.EditDetailsFragmentBinder
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import java.io.File
 import javax.inject.Inject
@@ -26,7 +28,6 @@ import javax.inject.Inject
 class NewItemFragment : Fragment(), TakingPictureThumbnail {
     @Inject
     lateinit var addNewItem: AddNewItem
-
     lateinit var photoFilePath: File
     lateinit var uiItem: UiItem
     lateinit var binder: EditDetailsFragmentBinder
@@ -62,14 +63,19 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+        val activity = activity ?: return
+
+        if (activity is MainActivityHelper) {
+            activity.showBackButton(true)
+            activity.toolbar.title = getString(R.string.new_flower)
+        }
+        doOnBackStack { saveItem() }
         requestTakePicture()
     }
 
     private fun saveItem(): Boolean {
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
-        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, NotificationTime.fromDays(binder.pourFrequencyInDays)) {
-            requireActivity().goBack()
-        }
+        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, NotificationTime.fromDays(binder.pourFrequencyInDays)) { }
         return true
     }
 
@@ -100,9 +106,6 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
-        menu?.findItem(R.id.accept)?.setOnMenuItemClickListener {
-            saveItem()
-        }
     }
 
     override fun onThumbnail(bitmap: Bitmap) {

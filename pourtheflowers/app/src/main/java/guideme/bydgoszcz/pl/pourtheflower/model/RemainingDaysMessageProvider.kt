@@ -14,7 +14,7 @@ object RemainingDaysMessageProvider {
                 context.getString(messageId)
             }
             remainingDays == -1 -> {
-                val messageId = R.string.flower_frequency_in_days_label
+                val messageId = R.string.flower_frequency_late_yesterday_label
                 context.getString(messageId)
             }
             remainingDays < -1 -> {

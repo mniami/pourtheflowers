@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_flower.*
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
-    private lateinit var uiItem: UiItem
     private var animators : MutableList<ValueAnimator> = mutableListOf()
 
     private val viewChanger by lazy {
@@ -43,6 +42,8 @@ class ItemDetailsFragment : Fragment() {
     lateinit var removeItemFromUser: RemoveItemFromUser
     @Inject
     lateinit var pouredTheFlower: PouredTheFlower
+
+    private lateinit var uiItem: UiItem
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
