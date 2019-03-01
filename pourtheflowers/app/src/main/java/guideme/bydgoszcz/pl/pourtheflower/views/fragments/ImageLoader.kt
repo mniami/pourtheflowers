@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
+import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.CircleTransform
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
@@ -39,6 +40,7 @@ object ImageLoader {
         Picasso.get().load(imageUrl)
                 .resize(width, height)
                 .centerInside()
+                .placeholder(R.drawable.abc_list_selector_holo_light)
                 .transform(CircleTransform(borderColor, borderSize))
                 .into(itemImage)
     }
@@ -47,6 +49,7 @@ object ImageLoader {
         Picasso.get().load(file)
                 .resize(width, height)
                 .centerInside()
+                .placeholder(R.drawable.abc_list_selector_holo_light)
                 .transform(CircleTransform(borderColor, borderSize))
                 .into(itemImage)
     }

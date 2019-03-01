@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return presenter
     }
 
-    internal var onBackPressedCallback: () -> Unit = {}
+    internal var onBackPressedCallback: () -> Boolean = { true }
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var presenter: MainActivityViewPresenter
     @Inject
@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        onBackPressedCallback()
+        if (!onBackPressedCallback()) {
+            return
+        }
 
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)

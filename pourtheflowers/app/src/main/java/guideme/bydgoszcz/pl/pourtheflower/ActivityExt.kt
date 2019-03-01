@@ -1,5 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.view.WindowManager
@@ -15,10 +16,22 @@ fun FragmentActivity.goBack() {
     supportFragmentManager?.popBackStack()
 }
 
-fun Fragment.doOnBackStack(block: () -> Unit) {
+fun Fragment.doOnBackPressed(block: () -> Boolean) {
     val activity = activity as MainActivity? ?: return
     activity.onBackPressedCallback = {
-        block()
-        activity.onBackPressedCallback = {}
+        if (block()) {
+            activity.onBackPressedCallback = { true }
+            true
+        } else {
+            false
+        }
     }
+}
+
+fun Fragment.showSnack(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(view ?: return, message, duration).show()
+}
+
+fun Fragment.showSnack(messageId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(view ?: return, messageId, duration).show()
 }

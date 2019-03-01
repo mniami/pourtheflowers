@@ -9,13 +9,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.math.MathUtils
 import android.view.*
-import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
-import guideme.bydgoszcz.pl.pourtheflower.R
+import guideme.bydgoszcz.pl.pourtheflower.*
 import guideme.bydgoszcz.pl.pourtheflower.features.AddItemToUser
 import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
 import guideme.bydgoszcz.pl.pourtheflower.features.RemoveItemFromUser
-import guideme.bydgoszcz.pl.pourtheflower.goBack
-import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
@@ -192,8 +189,7 @@ class ItemDetailsFragment : Fragment() {
                 viewChanger.editItem(uiItem)
             } else {
                 addItemToUser.add(uiItem) {
-                    Snackbar.make(it, getString(R.string.item_added_to_the_list_information), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
+                    showSnack(R.string.item_added_to_the_list_information, Snackbar.LENGTH_LONG)
                     (activity as MainActivityHelper).getViewChanger().showItem(uiItem)
                 }
             }

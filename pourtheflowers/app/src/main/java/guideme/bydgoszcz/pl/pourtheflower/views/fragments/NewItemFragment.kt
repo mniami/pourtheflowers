@@ -4,15 +4,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
-import guideme.bydgoszcz.pl.pourtheflower.MainActivityHelper
-import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.doOnBackStack
+import guideme.bydgoszcz.pl.pourtheflower.*
 import guideme.bydgoszcz.pl.pourtheflower.features.AddNewItem
-import guideme.bydgoszcz.pl.pourtheflower.injector
 import guideme.bydgoszcz.pl.pourtheflower.model.Item
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
@@ -69,8 +65,20 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             activity.showBackButton(true)
             activity.toolbar.title = getString(R.string.new_flower)
         }
-        doOnBackStack { saveItem() }
+        doOnBackPressed {
+            validate {
+                saveItem()
+            }
+        }
         requestTakePicture()
+    }
+
+    private fun validate(onSuccess: () -> Boolean): Boolean {
+        if (binder.name.isEmpty()) {
+            showSnack(R.string.name_cannot_be_empty_message)
+            return false
+        }
+        return onSuccess()
     }
 
     private fun saveItem(): Boolean {
@@ -87,7 +95,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             try {
                 photoFilePath = TakePicture.requestTakePicture(requireActivity())
             } catch (ex: Exception) {
-                Snackbar.make(view ?: return, getString(R.string.image_file_not_found), 2000)
+                showSnack(R.string.image_file_not_found)
             }
         }
     }
