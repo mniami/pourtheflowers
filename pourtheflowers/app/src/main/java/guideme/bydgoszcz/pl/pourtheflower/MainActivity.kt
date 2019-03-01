@@ -9,6 +9,8 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import guideme.bydgoszcz.pl.pourtheflower.loaders.DataLoader
 import guideme.bydgoszcz.pl.pourtheflower.model.ItemsRepository
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
@@ -70,6 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         if (savedInstanceState == null) {
+            WorkManager.initialize(baseContext, Configuration.Builder().build())
+
             (application as PourTheFlowerApplication).component.inject(this)
             dataLoader.load {
                 val user = repo.user

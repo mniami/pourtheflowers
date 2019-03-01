@@ -13,10 +13,12 @@ import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 
 object NotificationPresenter {
+    private const val notificationId = 19222
+
     fun showNotification(context: Context, params: WorkerParameters) {
         val title = params.inputData.getString(NotificationScheduler.TITLE) ?: return
         val text = params.inputData.getString(NotificationScheduler.TEXT) ?: return
-        val notificationId = System.currentTimeMillis().toInt()
+        val id = params.inputData.getString(NotificationScheduler.ID) ?: return
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -38,6 +40,11 @@ object NotificationPresenter {
         val ringtone = RingtoneManager.getRingtone(context, alarmSound)
 
         ringtone.play()
-        notificationManager.notify(notificationId, notification)
+        notificationManager.notify(id, notificationId, notification)
+    }
+
+    fun removeNotification(context: Context, id: String) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(id, notificationId)
     }
 }

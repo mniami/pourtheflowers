@@ -25,6 +25,10 @@ data class NotificationTime(private val value: Int) : Serializable {
         return NotificationTime(value + notificationTime.value)
     }
 
+    operator fun compareTo(notificationTime: NotificationTime): Int {
+        return seconds.compareTo(notificationTime.seconds)
+    }
+
     override fun toString(): String {
         return "NotificationTime(value=$value)"
     }

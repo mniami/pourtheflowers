@@ -1,13 +1,16 @@
 package guideme.bydgoszcz.pl.pourtheflower.notifications
 
+import android.content.Context
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import guideme.bydgoszcz.pl.pourtheflower.notifications.workers.DelayedNotificationWorker
+import guideme.bydgoszcz.pl.pourtheflower.notifications.workers.PeriodicNotificationWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NotificationScheduler @Inject constructor() {
+class NotificationScheduler @Inject constructor(val context: Context) {
     companion object {
         private const val MAIN_TAG = "podlewacz"
 
@@ -28,7 +31,7 @@ class NotificationScheduler @Inject constructor() {
                 NotificationScheduler.DELAY to delay
         )
         val inputData = Data.Builder().putAll(params).build()
-        WorkManager.getInstance().cancelAllWorkByTag(id)
+        NotificationPresenter.removeNotification(context, id)
         startDelayedNotificationWorker(inputData, delay, id)
     }
 

@@ -30,30 +30,34 @@ class ItemsNotificationsTest {
     }
 
     @Test
-    fun `test 2 days notification and 1 day passed`() {
-        checkIt(repeatDays = 2, lastDayNotification = 1)
+    fun `test 2 days notification when 1 day passed`() {
+        checkIt(repeatDays = 2, lastDayNotification = 1, expectedDelayDays = 1)
     }
 
     @Test
-    fun `test 2 days notification and 0 day passed`() {
-        checkIt(repeatDays = 2, lastDayNotification = 0)
+    fun `test 2 days notification when 0 day passed`() {
+        checkIt(repeatDays = 2, lastDayNotification = 0, expectedDelayDays = 2)
     }
 
     @Test
-    fun `test 3 days notification and 1 day passed`() {
-        checkIt(repeatDays = 3, lastDayNotification = 1)
+    fun `test 3 days notification when 1 day passed`() {
+        checkIt(repeatDays = 3, lastDayNotification = 1, expectedDelayDays = 2)
     }
 
     @Test
-    fun `test 7 days notification and 5 day passed`() {
-        checkIt(repeatDays = 7, lastDayNotification = 5)
+    fun `test 3 days notification when 4 day passed`() {
+        checkIt(repeatDays = 3, lastDayNotification = 4, expectedDelayDays = 2)
     }
 
-    private fun checkIt(repeatDays: Int, lastDayNotification: Int) {
-        val delayDays = repeatDays - lastDayNotification
+    @Test
+    fun `test 3 days notification when 8 day passed`() {
+        checkIt(repeatDays = 3, lastDayNotification = 8, expectedDelayDays = 1)
+    }
+
+    private fun checkIt(repeatDays: Int, lastDayNotification: Int, expectedDelayDays: Int) {
         checkIt(repeatInTime = NotificationTime.fromDays(repeatDays),
                 lastNotificationTime = SystemTime.current().minus(NotificationTime.fromDays(lastDayNotification)),
-                expectedDelay = NotificationTime.fromDays(delayDays).toMillis(),
+                expectedDelay = NotificationTime.fromDays(expectedDelayDays).toMillis(),
                 expectedRepeat = NotificationTime.fromDays(repeatDays).toMillis())
     }
 
