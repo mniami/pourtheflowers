@@ -31,12 +31,21 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
-        versionName "1.1"
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
-        signingConfig signingConfigs.production
     }
     buildTypes {
+        releaseTest {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+                signingConfig signingConfigs.test
+            }
+        }
         release {
             postprocessing {
                 removeUnusedCode false
@@ -44,6 +53,7 @@ android {
                 obfuscate false
                 optimizeCode false
                 proguardFile 'proguard-rules.pro'
+                signingConfig signingConfigs.production
             }
         }
     }

@@ -11,7 +11,7 @@ import java.nio.ByteBuffer
 import java.util.Arrays.asList
 
 class FlowerSerializerTest {
-    private val serializeResultHex = "0000000100000002494400000007434F4E54454E540000000B4445534352495054494F4E00000008494D41474555524C00"
+    private val serializeResultHex = "0000000100000002494400000007434F4E54454E540000000B4445534352495054494F4E00000008494D41474555524C00000000000000000000000000000000000000000000"
     private val flowerSerializer = ItemsSerializer()
     private val flower = Item("ID", "CONTENT", "DESCRIPTION", "IMAGEURL", emptyList(), notification = Notification(
             false))
