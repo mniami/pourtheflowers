@@ -3,9 +3,7 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
-import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.doOnBackPressed
-import guideme.bydgoszcz.pl.pourtheflower.injector
+import guideme.bydgoszcz.pl.pourtheflower.*
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.setMenu
@@ -20,11 +18,13 @@ class EditDetailsFragment : Fragment() {
     @Inject
     lateinit var saveItem: SaveItem
     lateinit var uiItem: UiItem
+    lateinit var originalUiItem: UiItem
     lateinit var binder: EditDetailsFragmentBinder
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
-        uiItem = arguments?.getSerializable(EditDetailsFragmentFactory.ITEM_PARAM_NAME) as UiItem
+        originalUiItem = arguments?.getSerializable(EditDetailsFragmentFactory.ITEM_PARAM_NAME) as UiItem
+        uiItem = originalUiItem.copy()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,21 +52,42 @@ class EditDetailsFragment : Fragment() {
                 pourFrequencyVisible = notificationEnabled
             }
         }
-        doOnBackPressed { saveItem() }
+
+        doOnBackPressed {
+            showConfirmationDialog(R.string.dialog_title_confirm_save, R.string.dialog_message_cofirm_save,
+                    onSuccess = {
+                        validate {
+                            saveItem {
+                                goBack()
+                            }
+                        }
+                    },
+                    onFailure = {
+                        goBack()
+                    })
+            returnFalse()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
     }
 
-    private fun saveItem(): Boolean {
+    private fun validate(onSuccess: () -> Unit) {
+        if (binder.name.isEmpty()) {
+            showSnack(R.string.name_cannot_be_empty_message)
+            return
+        }
+        return onSuccess()
+    }
+
+    private fun saveItem(onSuccess: () -> Unit) {
         with(uiItem.item) {
             name = binder.name
             description = binder.description
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
         }
-        saveItem.saveItem(uiItem) {}
-        return true
+        saveItem.saveItem(uiItem, onSuccess)
     }
 }

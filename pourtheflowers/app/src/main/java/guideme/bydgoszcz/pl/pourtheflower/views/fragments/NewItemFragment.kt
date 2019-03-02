@@ -94,9 +94,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, frequency) {
-            onSuccess()
-        }
+        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {
