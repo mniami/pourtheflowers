@@ -25,7 +25,7 @@ object NotificationPresenter {
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
         val notification = NotificationCompat.Builder(context, NotificationScheduler.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_garden_center_15)
+                .setSmallIcon(R.mipmap.ic_water_can)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setDefaults(Notification.DEFAULT_ALL)
