@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 import androidx.work.WorkerParameters
 import guideme.bydgoszcz.pl.pourtheflower.MainActivity
@@ -24,8 +25,7 @@ object NotificationPresenter {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-        val notification = NotificationCompat.Builder(context, NotificationScheduler.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_water_can)
+        val notificationBuilder = NotificationCompat.Builder(context, NotificationScheduler.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -34,7 +34,12 @@ object NotificationPresenter {
                 .setColorized(true)
                 .setColor(context.resources.getColorFromResource(R.color.colorPrimary))
                 .setAutoCancel(false)
-                .build()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.mipmap.ic_water_can)
+        } else {
+            notificationBuilder.setSmallIcon(R.drawable.ic_garden_center_15)
+        }
+        val notification = notificationBuilder.build()
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val ringtone = RingtoneManager.getRingtone(context, alarmSound)
