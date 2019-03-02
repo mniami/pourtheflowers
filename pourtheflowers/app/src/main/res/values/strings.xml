@@ -41,4 +41,8 @@
     <string name="description_label">Opis</string>
     <string name="flower_poured">Kwiat podlany, następne za %s dni</string>
     <string name="name_cannot_be_empty_message">Nazwa nie może być pusta</string>
+    <string name="dialog_title_confirm_save">Zapis zmian</string>
+    <string name="dialog_message_cofirm_save">Czy zapisać zmiany?</string>
+    <string name="dialog_button_yes">Zatwierdź</string>
+    <string name="dialog_button_no">Anuluj</string>
 </resources>

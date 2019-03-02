@@ -66,25 +66,37 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             activity.toolbar.title = getString(R.string.new_flower)
         }
         doOnBackPressed {
-            validate {
-                saveItem()
-            }
+            showConfirmationDialog(R.string.dialog_title_confirm_save, R.string.dialog_message_cofirm_save,
+                    onSuccess = {
+                        validate {
+                            saveItem {
+                                goBack()
+                            }
+                        }
+                    },
+                    onFailure = {
+                        goBack()
+                    })
+            returnFalse()
         }
         requestTakePicture()
     }
 
-    private fun validate(onSuccess: () -> Boolean): Boolean {
+    private fun validate(onSuccess: () -> Unit) {
         if (binder.name.isEmpty()) {
             showSnack(R.string.name_cannot_be_empty_message)
-            return false
+            return
         }
         return onSuccess()
     }
 
-    private fun saveItem(): Boolean {
+    private fun saveItem(onSuccess: () -> Unit) {
         val imageUri = File(photoFilePath.absolutePath).toURI().toString()
-        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, NotificationTime.fromDays(binder.pourFrequencyInDays)) { }
-        return true
+        val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
+
+        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, frequency) {
+            onSuccess()
+        }
     }
 
     private fun requestTakePicture() {

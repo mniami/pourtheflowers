@@ -3,6 +3,7 @@ package guideme.bydgoszcz.pl.pourtheflower
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AlertDialog
 import android.view.WindowManager
 import guideme.bydgoszcz.pl.pourtheflower.dagger.AppComponent
 
@@ -26,6 +27,29 @@ fun Fragment.doOnBackPressed(block: () -> Boolean) {
             false
         }
     }
+}
+
+fun Fragment.showConfirmationDialog(titleId: Int, messageId: Int, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    showConfirmationDialog(getString(titleId), getString(messageId), onSuccess, onFailure)
+}
+
+fun Fragment.goBack() {
+    val activity = requireActivity() as MainActivity
+    activity.goBack()
+}
+
+fun Fragment.returnFalse(): Boolean {
+    return false
+}
+
+fun Fragment.showConfirmationDialog(title: String, message: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    AlertDialog.Builder(requireContext())
+            .setIcon(android.R.drawable.ic_dialog_info)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.dialog_button_yes)) { _, _ -> onSuccess() }
+            .setNegativeButton(getString(R.string.dialog_button_no)) { _, _ -> onFailure() }
+            .show()
 }
 
 fun Fragment.showSnack(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
