@@ -6,22 +6,18 @@ import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.ContentProvider
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.sql.Date
 
 class ItemsNotificationsTest {
+
     @Before
     fun before() {
-        SystemTime.timeProvider = object : SystemTime.TimeProvider {
-            override fun current(): Long {
-                return TimeHelper.millisInDay * 10L
-            }
-        }
     }
 
     @After
@@ -30,41 +26,49 @@ class ItemsNotificationsTest {
     }
 
     @Test
-    fun `test 2 days notification when 1 day passed`() {
-        checkIt(repeatDays = 2, lastDayNotification = 1, expectedDelayDays = 1)
+    fun `test in the middle of pour period, current time afternoon`() {
+        checkIt(repeatInEveryHours = 24, lastNotificationInHoursAgo = 10, expectedDelayedInHours = 14, currentTime = "2018-02-01 18:00:00")
     }
 
     @Test
-    fun `test 2 days notification when 0 day passed`() {
-        checkIt(repeatDays = 2, lastDayNotification = 0, expectedDelayDays = 2)
+    fun `test beginning of pour period, current time afternoon`() {
+        checkIt(repeatInEveryHours = 24, lastNotificationInHoursAgo = 0, expectedDelayedInHours = 14, currentTime = "2018-02-01 18:00:00")
     }
 
     @Test
-    fun `test 3 days notification when 1 day passed`() {
-        checkIt(repeatDays = 3, lastDayNotification = 1, expectedDelayDays = 2)
+    fun `test ending of pour period, current time morning`() {
+        checkIt(repeatInEveryHours = 24, lastNotificationInHoursAgo = 8, expectedDelayedInHours = 2, currentTime = "2018-02-01 06:00:00")
     }
 
     @Test
-    fun `test 3 days notification when 4 day passed`() {
-        checkIt(repeatDays = 3, lastDayNotification = 4, expectedDelayDays = 2)
+    fun `test over two days ago, current time morning`() {
+        checkIt(repeatInEveryHours = 48, lastNotificationInHoursAgo = 60, expectedDelayedInHours = 2, currentTime = "2018-02-01 06:00:00")
     }
 
     @Test
-    fun `test 3 days notification when 8 day passed`() {
-        checkIt(repeatDays = 3, lastDayNotification = 8, expectedDelayDays = 1)
+    fun `test over two days ago, current time afternoon`() {
+        checkIt(repeatInEveryHours = 48, lastNotificationInHoursAgo = 60, expectedDelayedInHours = 2, currentTime = "2018-02-01 19:00:00")
     }
 
-    private fun checkIt(repeatDays: Int, lastDayNotification: Int, expectedDelayDays: Int) {
-        checkIt(repeatInTime = NotificationTime.fromDays(repeatDays),
-                lastNotificationTime = SystemTime.current().minus(NotificationTime.fromDays(lastDayNotification)),
-                expectedDelay = NotificationTime.fromDays(expectedDelayDays).toMillis(),
-                expectedRepeat = NotificationTime.fromDays(repeatDays).toMillis())
+    private fun checkIt(repeatInEveryHours: Int, lastNotificationInHoursAgo: Int, expectedDelayedInHours: Int, currentTime: String) {
+        checkIt(repeatInTime = NotificationTime.fromHours(repeatInEveryHours),
+                lastNotificationTime = SystemTime.current().minus(NotificationTime.fromHours(lastNotificationInHoursAgo)),
+                expectedDelay = NotificationTime.fromHours(expectedDelayedInHours).toMillis(),
+                expectedRepeat = NotificationTime.fromHours(repeatInEveryHours).toMillis(),
+                currentTime = Date.valueOf(currentTime).time)
     }
 
     private fun checkIt(repeatInTime: NotificationTime,
                         lastNotificationTime: SystemTime,
                         expectedDelay: Long,
-                        expectedRepeat: Long) {
+                        expectedRepeat: Long,
+                        currentTime: Long) {
+
+        SystemTime.timeProvider = object : SystemTime.TimeProvider {
+            override fun current(): Long {
+                return currentTime
+            }
+        }
         val item = Item(notification = Notification(enabled = true, repeatInTime = repeatInTime, lastNotificationTime = lastNotificationTime))
         val uiItem = UiItem(item, true, NotificationTime.ZERO, "Short description")
         val contentProvider = mockk<ContentProvider>()

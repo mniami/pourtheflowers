@@ -1,8 +1,11 @@
 package guideme.bydgoszcz.pl.pourtheflower.utils
 
 internal object TimeHelper {
-    const val millisInSecond = 1000 // milliseconds in second
-    const val millisInDay = millisInSecond * 60 * 60 * 24 // millis * seconds * minutes * hours = day expressed in milliseconds
-    const val secondsInDay = millisInDay / millisInSecond
+    const val millisInSecond = 1000
+    const val secondsInHour = 60
+    const val minutesInHour = 60
+    const val hoursInDay = 24
+    const val millisInDay = millisInSecond * secondsInHour * minutesInHour * hoursInDay
+    const val secondsInDay = secondsInHour * minutesInHour * hoursInDay
 }
 

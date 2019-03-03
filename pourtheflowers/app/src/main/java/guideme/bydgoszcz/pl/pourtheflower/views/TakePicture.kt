@@ -1,7 +1,9 @@
 package guideme.bydgoszcz.pl.pourtheflower.views
 
+import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat.startActivityForResult
@@ -32,7 +34,6 @@ object TakePicture {
 
     fun requestTakePicture(activity: FragmentActivity): File {
         lateinit var photoFile: File
-
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(activity.packageManager)?.also {
                 photoFile = createImageFile(activity)
@@ -43,6 +44,10 @@ object TakePicture {
                             "guideme.bydgoszcz.pl.pourtheflower.fileprovider",
                             it
                     )
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                        takePictureIntent.clipData = ClipData.newRawUri("", photoURI)
+                        takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(activity, takePictureIntent, REQUEST_IMAGE_CAPTURE, null)
                 }
@@ -75,6 +80,8 @@ object TakePicture {
 //            ImageLoader
 //            imageView.setImageBitmap(bitmap)
 //        }
-        ImageLoader.setImage(imageView, photoPicturePath, imageView.width, imageView.height)
+        ImageLoader.setImage(imageView, photoPicturePath, imageView.width, imageView.height, onError = {
+            // noop
+        })
     }
 }

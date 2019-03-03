@@ -135,6 +135,8 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     private fun showPicture() {
-        ImageLoader.setImage(ivImage, photoFilePath, ivImage.width, ivImage.height)
+        ImageLoader.setImage(ivImage, photoFilePath, ivImage.width, ivImage.height, onError = {
+            // noop
+        })
     }
 }

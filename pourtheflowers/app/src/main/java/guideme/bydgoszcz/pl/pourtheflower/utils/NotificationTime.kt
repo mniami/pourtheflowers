@@ -1,5 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower.utils
 
+import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper.secondsInDay
 import java.io.Serializable
 
 /**
@@ -15,7 +16,7 @@ data class NotificationTime(private val value: Int) : Serializable {
     val seconds: Int
         get() = value
 
-    fun toDays(): Int = Math.round(value * 1f / TimeHelper.secondsInDay)
+    fun toDays(): Int = Math.round(value * 1f / secondsInDay)
 
     operator fun minus(notificationTime: NotificationTime): NotificationTime {
         return NotificationTime(value - notificationTime.value)
@@ -36,7 +37,8 @@ data class NotificationTime(private val value: Int) : Serializable {
     companion object {
         val ZERO: NotificationTime = NotificationTime(0)
 
-        fun fromDays(days: Int) = NotificationTime(days * TimeHelper.secondsInDay)
+        fun fromHours(hours: Int) = NotificationTime(hours * secondsInDay)
+        fun fromDays(days: Int) = NotificationTime(days * secondsInDay)
         fun fromMillis(millis: Long) = NotificationTime((millis / TimeHelper.millisInSecond).toInt())
         fun fromSeconds(seconds: Int): NotificationTime = NotificationTime(seconds)
     }

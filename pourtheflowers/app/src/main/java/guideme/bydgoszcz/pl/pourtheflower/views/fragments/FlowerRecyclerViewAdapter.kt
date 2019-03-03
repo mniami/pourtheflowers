@@ -94,7 +94,10 @@ class FlowerRecyclerViewAdapter(
                     holder.mView.measuredWidth,
                     holder.mView.measuredHeight,
                     mContext.resources.getColorFromResource(color),
-                    borderSize = 4)
+                    borderSize = 4,
+                    onError = {
+                        // noop
+                    })
         }
     }
 
