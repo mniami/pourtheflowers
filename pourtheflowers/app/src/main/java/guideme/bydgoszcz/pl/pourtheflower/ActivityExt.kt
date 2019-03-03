@@ -20,21 +20,18 @@ fun FragmentActivity.goBack() {
 fun Fragment.doOnBackPressed(block: () -> Boolean) {
     val activity = activity as MainActivity? ?: return
     activity.onBackPressedCallback = {
-        if (block()) {
-            activity.onBackPressedCallback = { true }
-            true
-        } else {
-            false
-        }
+        activity.onBackPressedCallback = { true }
+        block()
     }
 }
 
 fun Fragment.showConfirmationDialog(titleId: Int, messageId: Int, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    context ?: return onFailure()
     showConfirmationDialog(getString(titleId), getString(messageId), onSuccess, onFailure)
 }
 
 fun Fragment.goBack() {
-    val activity = requireActivity() as MainActivity
+    val activity = activity as MainActivity? ?: return
     activity.goBack()
 }
 
@@ -43,6 +40,7 @@ fun Fragment.returnFalse(): Boolean {
 }
 
 fun Fragment.showConfirmationDialog(title: String, message: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    context ?: return onFailure()
     AlertDialog.Builder(requireContext())
             .setIcon(android.R.drawable.ic_dialog_info)
             .setTitle(title)

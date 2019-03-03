@@ -31,10 +31,6 @@ class FlowerListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         (activity?.application as PourTheFlowerApplication).component.inject(this)
-
-        arguments?.let {
-            listType = it.getInt(ARG_LIST_TYPE_NAME)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -59,9 +55,13 @@ class FlowerListFragment : Fragment() {
         val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
         adapter.resume()
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
+            arguments?.putInt(ARG_LIST_TYPE_NAME, USER_LIST_TYPE)
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }
         if (act is MainActivityHelper) {
+            arguments?.let {
+                listType = it.getInt(ARG_LIST_TYPE_NAME)
+            }
             when (listType) {
                 ALL_LIST_TYPE ->
                     act.toolbar.title = getString(R.string.all_flowers_title)
@@ -97,8 +97,8 @@ class FlowerListFragment : Fragment() {
 
     private fun loadAdapter(view: RecyclerView) {
         view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), requireContext(), listener, pouredTheFlower)
-        //view.adapter?.notifyDataSetChanged()
     }
+
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(item: UiItem)
     }
