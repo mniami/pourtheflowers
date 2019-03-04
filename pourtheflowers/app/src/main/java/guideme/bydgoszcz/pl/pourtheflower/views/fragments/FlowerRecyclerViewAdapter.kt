@@ -90,7 +90,7 @@ class FlowerRecyclerViewAdapter(
         if (item.item.imageUrl.isEmpty()) {
             return
         }
-        holder.mFlowerImageView.tag = imageItemTag
+        holder.mFlowerImageView.tag = ImageItemTag(color, position)
         ImageLoader.setImageWithCircle(holder.mFlowerImageView,
                 item.item.imageUrl,
                 mContext.resources.getColorFromResource(color),

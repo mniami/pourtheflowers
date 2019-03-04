@@ -30,8 +30,7 @@ object ImageLoader {
 
     fun setImage(itemImage: ImageView, imageUrl: String, onError: () -> Unit = {}) {
         afterMeasured(itemImage, onError) { _, _ ->
-            val file = File(imageUrl)
-            val uri = if (file.isFile) Uri.fromFile(file) else Uri.parse(imageUrl)
+            val uri = if (imageUrl.contains("http:")) Uri.parse(imageUrl) else Uri.fromFile(File(imageUrl))
             Picasso.get().load(uri)
                     .error(R.drawable.watering_can_grey)
                     .into(itemImage, object : Callback {

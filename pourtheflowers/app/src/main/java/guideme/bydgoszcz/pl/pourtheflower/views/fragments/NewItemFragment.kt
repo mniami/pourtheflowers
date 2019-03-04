@@ -45,9 +45,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState != null) {
-            val photoFile = savedInstanceState.getSerializable("photoFilePath") as File?
-            photoFilePath = photoFile?.absolutePath
+            photoFilePath = savedInstanceState.getString("photoFilePath")
         }
+
         FabHelper(activity).hide()
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
         binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
@@ -121,7 +121,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable("photoFilePath", photoFilePath)
+        outState.putString("photoFilePath", photoFilePath)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
