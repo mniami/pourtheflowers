@@ -65,7 +65,7 @@ class EditDetailsFragmentBinder(
         }
         set(value) {
             ivImage.tag = value
-            ImageLoader.loadSimple(ivImage, value)
+            ImageLoader.setImage(ivImage, value)
         }
 
     fun bind(block: EditDetailsFragmentBinder.() -> Unit) {

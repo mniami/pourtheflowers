@@ -45,4 +45,5 @@
     <string name="dialog_message_cofirm_save">Czy zapisać zmiany?</string>
     <string name="dialog_button_yes">Zatwierdź</string>
     <string name="dialog_button_no">Anuluj</string>
+    <string name="image_load_failed">Wystąpił problem z pobraniem zdjęcia</string>
 </resources>

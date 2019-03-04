@@ -1,65 +1,65 @@
 package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 
 import android.graphics.Color
+import android.net.Uri
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.utils.CircleTransform
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import java.io.File
 
 object ImageLoader {
-    fun loadCircle(itemImage: ImageView, flowerUiItem: UiItem, borderColor: Int = Color.WHITE, borderSize: Int = 7) {
-        val parentView = itemImage.parent as ViewGroup
-        parentView.afterMeasured {
-            if (flowerUiItem.item.imageUrl.isEmpty()) {
-                return@afterMeasured
-            }
-            val imageUrl = flowerUiItem.item.imageUrl
-            setImage(itemImage, imageUrl, parentView.measuredWidth, parentView.measuredHeight, borderColor, borderSize, onError = {
-                // noop
-            })
-        }
-    }
-
-    fun loadSimple(itemImage: ImageView, imageUrl: String) {
-        val parentView = itemImage.parent as ViewGroup
+    private fun afterMeasured(view: View, onError: () -> Unit, success: (width: Int, height: Int) -> Unit) {
+        val parentView = view.parent as ViewGroup
 
         parentView.afterMeasured {
             val width = parentView.width
             val height = parentView.height
 
-            Picasso.get().load(imageUrl)
-                    .resize(width, height)
-                    .centerCrop()
-                    .into(itemImage)
+            try {
+                success(width, height)
+            } catch (ex: IllegalArgumentException) {
+                onError()
+            }
         }
     }
 
-    fun setImage(itemImage: ImageView, imageUrl: String, width: Int, height: Int, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
-        try {
-            Picasso.get().load(imageUrl)
-                    .error(android.R.drawable.stat_notify_error)
-                    .resize(width, height)
-                    .centerInside()
-                    .transform(CircleTransform(borderColor, borderSize))
-                    .into(itemImage)
-        } catch (ex: IllegalArgumentException) {
-            onError()
+    fun setImage(itemImage: ImageView, imageUrl: String, onError: () -> Unit = {}) {
+        afterMeasured(itemImage, onError) { _, _ ->
+            val file = File(imageUrl)
+            val uri = if (file.isFile) Uri.fromFile(file) else Uri.parse(imageUrl)
+            Picasso.get().load(uri)
+                    .error(R.drawable.watering_can_grey)
+                    .into(itemImage, object : Callback {
+                        override fun onError(e: Exception?) {
+                            onError()
+                        }
+
+                        override fun onSuccess() {
+                            // noop
+                        }
+                    })
         }
     }
 
-    fun setImage(itemImage: ImageView, file: File, width: Int, height: Int, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
-        try {
-            Picasso.get().load(file)
-                    .error(android.R.drawable.stat_notify_error)
-                    .resize(width, height)
-                    .centerInside()
+    fun setImageWithCircle(itemImage: ImageView, imageUrl: String, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
+        afterMeasured(itemImage, onError) { _, _ ->
+            Picasso.get().load(imageUrl)
+                    .error(R.drawable.watering_can_grey)
                     .transform(CircleTransform(borderColor, borderSize))
-                    .into(itemImage)
-        } catch (ex: IllegalArgumentException) {
-            onError()
+                    .into(itemImage, object : Callback {
+                        override fun onError(e: Exception?) {
+                            onError()
+                        }
+
+                        override fun onSuccess() {
+                            // noop
+                        }
+                    })
         }
     }
 }

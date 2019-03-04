@@ -1,7 +1,6 @@
 package guideme.bydgoszcz.pl.pourtheflower
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -114,15 +113,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == TakePicture.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val thumbnailImageBitmap = data?.extras?.get("data") as Bitmap?
             val currentFragment = presenter.getCurrentFragment()
 
             if (currentFragment is TakingPictureThumbnail) {
-                if (thumbnailImageBitmap != null) {
-                    currentFragment.onThumbnail(thumbnailImageBitmap)
-                } else {
-                    currentFragment.onPictureCaptured()
-                }
+                currentFragment.onPictureCaptured()
             }
         }
     }

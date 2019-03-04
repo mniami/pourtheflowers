@@ -8,10 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.utils.FlipTransformation
 import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
 import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
-import java.net.URL
 
 class ImageDialog : DialogFragment() {
     companion object {
@@ -60,10 +58,8 @@ class ImageDialog : DialogFragment() {
 
     private fun showImage() {
         val url = imageUrl ?: return
-        val description = String.format("Source: %s", URL(imageUrl).host)
 
         Picasso.get().load(url)
-                .transform(FlipTransformation(description))
                 .into(imageView)
     }
 

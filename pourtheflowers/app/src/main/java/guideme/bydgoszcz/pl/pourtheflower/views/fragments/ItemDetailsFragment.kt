@@ -24,7 +24,6 @@ import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
     private var animators : MutableList<ValueAnimator> = mutableListOf()
-
     private val viewChanger by lazy {
         (activity as MainActivityHelper).getViewChanger()
     }
@@ -177,7 +176,7 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initImage() {
-        ImageLoader.loadSimple(itemImage, uiItem.item.imageUrl)
+        ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
         itemImage.setOnClickListener {
             fullScreenImage?.open(uiItem)
         }
@@ -213,7 +212,6 @@ class ItemDetailsFragment : Fragment() {
                 }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 

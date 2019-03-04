@@ -20,7 +20,6 @@ fun FragmentActivity.goBack() {
 fun Fragment.doOnBackPressed(block: () -> Boolean) {
     val activity = activity as MainActivity? ?: return
     activity.onBackPressedCallback = {
-        activity.onBackPressedCallback = { true }
         block()
     }
 }
@@ -32,6 +31,7 @@ fun Fragment.showConfirmationDialog(titleId: Int, messageId: Int, onSuccess: () 
 
 fun Fragment.goBack() {
     val activity = activity as MainActivity? ?: return
+    activity.onBackPressedCallback = { true }
     activity.goBack()
 }
 
