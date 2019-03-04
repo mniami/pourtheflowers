@@ -19,6 +19,10 @@ data class SystemTime(private val timeInMillis: Long) : Serializable {
         return SystemTime(timeInMillis - millis)
     }
 
+    operator fun minus(time: SystemTime): NotificationTime {
+        return NotificationTime.fromMillis(timeInMillis - time.millis)
+    }
+
     override fun toString(): String {
         return "SystemTime(valueInMillis=$timeInMillis)"
     }

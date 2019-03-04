@@ -32,6 +32,7 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
         val notificationTitle = contentProvider.getString(R.string.notification_title)
 
         if (delay < NotificationTime.ZERO) {
+            // pour time has elapsed
             val a = delay.seconds.absoluteValue
             val b = item.item.notification.repeatInTime.seconds
             val fx = b - a.rem(b)

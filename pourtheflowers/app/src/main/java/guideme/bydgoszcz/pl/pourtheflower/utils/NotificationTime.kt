@@ -7,8 +7,6 @@ import java.io.Serializable
  * Value expressed in seconds
  */
 data class NotificationTime(private val value: Int) : Serializable {
-    fun getRemaining(notificationTime: NotificationTime): NotificationTime = NotificationTime(value - notificationTime.value)
-
     fun toMillis(): Long {
         return value.toLong() * TimeHelper.millisInSecond
     }
