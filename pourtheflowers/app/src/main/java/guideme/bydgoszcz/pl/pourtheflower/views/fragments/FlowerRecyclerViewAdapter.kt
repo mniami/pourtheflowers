@@ -59,11 +59,12 @@ class FlowerRecyclerViewAdapter(
         }
 
         val color = if (item.remainingTime.toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
+
         holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
         holder.mView.tag = position
         holder.mBtnPouredFlower.tag = position
 
-        loadImage(holder, item, color)
+        loadImage(holder, item, color, position)
 
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mView.setOnClickListener(mOnClickListener)
@@ -79,37 +80,44 @@ class FlowerRecyclerViewAdapter(
         }
     }
 
-    private fun loadImage(holder: ViewHolder, item: UiItem, color: Int) {
-        val colorInView = holder.mFlowerImageView.tag as Int?
-        if (colorInView == color) {
+    data class ImageItemTag(val color: Int, val position: Int)
+
+    private fun loadImage(holder: ViewHolder, item: UiItem, color: Int, position: Int) {
+        val imageItemTag = holder.mFlowerImageView.tag as ImageItemTag?
+        if (imageItemTag?.color == color && imageItemTag.position == position) {
             return
         }
-        holder.mView.post {
-            if (item.item.imageUrl.isEmpty()) {
-                return@post
-            }
-            holder.mFlowerImageView.tag = color
-            ImageLoader.setImage(holder.mFlowerImageView,
-                    item.item.imageUrl,
-                    holder.mView.measuredWidth,
-                    holder.mView.measuredHeight,
-                    mContext.resources.getColorFromResource(color),
-                    borderSize = 4,
-                    onError = {
-                        // noop
-                    })
+        if (item.item.imageUrl.isEmpty()) {
+            return
         }
+        holder.mFlowerImageView.tag = imageItemTag
+        ImageLoader.setImage(holder.mFlowerImageView,
+                item.item.imageUrl,
+                holder.mView.measuredWidth,
+                holder.mView.measuredHeight,
+                mContext.resources.getColorFromResource(color),
+                borderSize = 4,
+                onError = {
+                    // noop
+                })
+//        holder.mView.post {
+//
+//        }
     }
 
     private fun refresh(holder: ViewHolder) {
         val position = holder.mView.tag as Int? ?: return
         val item = items[position]
+
         item.updateRemainingTime()
-        holder.mFrequencyText.text = RemainingDaysMessageProvider.provide(mContext, item)
+
         val color = if (item.remainingTime.toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
+
+        holder.mFrequencyText.text = RemainingDaysMessageProvider.provide(mContext, item)
         holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
-        loadImage(holder, item, color)
+
+        loadImage(holder, item, color, position)
     }
 
     fun stop() {
