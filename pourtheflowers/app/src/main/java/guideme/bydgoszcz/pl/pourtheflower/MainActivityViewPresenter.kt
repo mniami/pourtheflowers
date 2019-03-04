@@ -12,13 +12,15 @@ import guideme.bydgoszcz.pl.pourtheflower.views.fragments.providers.EditDetailsF
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) : ViewChanger {
-    private val itemListBackStackName = "itemList"
     private val itemBackStackName = "item"
     private val handler = Handler()
 
     override fun showItem(uiItem: UiItem) {
         val info = "details" + uiItem.item.id
         handler.post {
+            if (uiItem.isUser) {
+                FlowerListFragment.changeListType(supportFragmentManager, FlowerListFragment.USER_LIST_TYPE)
+            }
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction()
                     .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), info)
@@ -39,7 +41,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showUserItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
-                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), itemListBackStackName)
+                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
     }
@@ -47,7 +49,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showAllItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
-                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), itemListBackStackName)
+                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
     }

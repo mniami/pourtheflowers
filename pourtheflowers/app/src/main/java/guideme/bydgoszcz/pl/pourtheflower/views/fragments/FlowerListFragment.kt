@@ -3,6 +3,7 @@ package guideme.bydgoszcz.pl.pourtheflower.views.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -19,7 +20,13 @@ import kotlinx.android.synthetic.main.fragment_flower_list.*
 import javax.inject.Inject
 
 class FlowerListFragment : Fragment() {
-    private var listType = ALL_LIST_TYPE
+    private var listType: Int
+        get() {
+            return arguments?.getInt(ARG_LIST_TYPE_NAME) ?: return ALL_LIST_TYPE
+        }
+        set(value) {
+            arguments?.putInt(ARG_LIST_TYPE_NAME, value)
+        }
     private var listener: OnListFragmentInteractionListener? = null
 
     @Inject
@@ -55,13 +62,10 @@ class FlowerListFragment : Fragment() {
         val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
         adapter.resume()
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
-            arguments?.putInt(ARG_LIST_TYPE_NAME, USER_LIST_TYPE)
+            listType = USER_LIST_TYPE
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }
         if (act is MainActivityHelper) {
-            arguments?.let {
-                listType = it.getInt(ARG_LIST_TYPE_NAME)
-            }
             when (listType) {
                 ALL_LIST_TYPE ->
                     act.toolbar.title = getString(R.string.all_flowers_title)
@@ -96,7 +100,9 @@ class FlowerListFragment : Fragment() {
     }
 
     private fun loadAdapter(view: RecyclerView) {
-        view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), requireContext(), listener, pouredTheFlower)
+        val context = context ?: return
+        view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), context, listener, pouredTheFlower)
+        view.adapter?.notifyDataSetChanged()
     }
 
     interface OnListFragmentInteractionListener {
@@ -104,6 +110,7 @@ class FlowerListFragment : Fragment() {
     }
 
     companion object {
+        const val BACK_STACK_NAME = "itemList"
         const val USER_LIST_TYPE = 1
         const val ALL_LIST_TYPE = 2
         const val ARG_LIST_TYPE_NAME = "list_type"
@@ -115,5 +122,10 @@ class FlowerListFragment : Fragment() {
                         putInt(ARG_LIST_TYPE_NAME, listType)
                     }
                 }
+
+        fun changeListType(supportFragmentManager: FragmentManager, listType: Int) {
+            val listFragment = supportFragmentManager.findFragmentByTag(BACK_STACK_NAME)
+            listFragment?.arguments?.putInt(FlowerListFragment.ARG_LIST_TYPE_NAME, listType)
+        }
     }
 }

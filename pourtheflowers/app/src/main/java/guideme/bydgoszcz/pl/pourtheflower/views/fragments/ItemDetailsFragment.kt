@@ -86,7 +86,11 @@ class ItemDetailsFragment : Fragment() {
             tvName.text = uiItem.item.name
         }
         descriptionTextView?.text = uiItem.item.description
+        initItem()
+    }
 
+    private fun initItem() {
+        val activity = activity ?: return
         initRemainingBar()
         initFabButton(activity)
         initImage()
@@ -115,7 +119,7 @@ class ItemDetailsFragment : Fragment() {
                 header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
                 remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
                 remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
+                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_late_days_label_without_amount)
                 animateRemainingBar()
                 remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
                 remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
@@ -185,12 +189,13 @@ class ItemDetailsFragment : Fragment() {
             false -> FabHelper.Option.ADD
         }
         FabHelper(activity).show(option)?.setOnClickListener {
+            FlowerListFragment.changeListType(activity.supportFragmentManager, FlowerListFragment.USER_LIST_TYPE)
             if (uiItem.isUser) {
                 viewChanger.editItem(uiItem)
             } else {
                 addItemToUser.add(uiItem) {
                     showSnack(R.string.item_added_to_the_list_information, Snackbar.LENGTH_LONG)
-                    (activity as MainActivityHelper).getViewChanger().showItem(uiItem)
+                    initItem()
                 }
             }
         }
