@@ -17,9 +17,9 @@ import javax.inject.Inject
 class EditDetailsFragment : Fragment() {
     @Inject
     lateinit var saveItem: SaveItem
-    lateinit var uiItem: UiItem
-    lateinit var originalUiItem: UiItem
-    lateinit var binder: EditDetailsFragmentBinder
+    private lateinit var uiItem: UiItem
+    private lateinit var originalUiItem: UiItem
+    private lateinit var binder: EditDetailsFragmentBinder
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -52,7 +52,23 @@ class EditDetailsFragment : Fragment() {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        doOnBackPressed { true }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        attachOnBackClicked()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+        setMenu(menu, menuInflater, R.menu.edit_item_menu)
+    }
+
+    private fun attachOnBackClicked() {
         doOnBackPressed {
             showConfirmationDialog(R.string.dialog_title_confirm_save, R.string.dialog_message_cofirm_save,
                     onSuccess = {
@@ -67,10 +83,6 @@ class EditDetailsFragment : Fragment() {
                     })
             returnFalse()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
-        setMenu(menu, menuInflater, R.menu.edit_item_menu)
     }
 
     private fun validate(onSuccess: () -> Unit) {
