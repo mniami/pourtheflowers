@@ -18,7 +18,6 @@ import guideme.bydgoszcz.pl.pourtheflower.views.TakePicture
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.binders.EditDetailsFragmentBinder
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
-import java.io.File
 import javax.inject.Inject
 
 class NewItemFragment : Fragment(), TakingPictureThumbnail {
@@ -98,10 +97,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
 
     private fun saveItem(onSuccess: () -> Unit) {
         val filePath = photoFilePath ?: return
-        val imageUri = File(filePath).toURI().toString()
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name, binder.description, emptyList(), imageUri, frequency, onSuccess)
+        addNewItem.add(binder.name, binder.description, emptyList(), filePath, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {

@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
 import guideme.bydgoszcz.pl.pourtheflower.R
-import guideme.bydgoszcz.pl.pourtheflower.utils.afterMeasured
+import guideme.bydgoszcz.pl.pourtheflower.views.fragments.ImageLoader
 import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 
 class ImageDialog : DialogFragment() {
@@ -30,8 +29,9 @@ class ImageDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageView?.afterMeasured {
-            showImage()
+
+        imageUrl?.let {
+            ImageLoader.setImage(imageView, it)
         }
         closeButton.setOnClickListener {
             dismiss()
@@ -43,6 +43,7 @@ class ImageDialog : DialogFragment() {
 
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.MATCH_PARENT
+
         dialog.window?.setLayout(width, height)
     }
 
@@ -50,17 +51,11 @@ class ImageDialog : DialogFragment() {
         super.onResume()
 
         scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
+
         imageView.setOnTouchListener { _, motionView ->
             scaleGestureDetector?.onTouchEvent(motionView)
             true
         }
-    }
-
-    private fun showImage() {
-        val url = imageUrl ?: return
-
-        Picasso.get().load(url)
-                .into(imageView)
     }
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
