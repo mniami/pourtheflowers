@@ -3,6 +3,8 @@ package guideme.bydgoszcz.pl.pourtheflower.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.support.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -14,12 +16,32 @@ object ImageUtils {
             throw NullPointerException("Context must not be null.")
 
         scaleImage(path, scaleImageSize, scaleImageSize) { scaledImage ->
-            cropImage(scaledImage, proportion) { croppedImage ->
-                saveToFile(croppedImage, path) {
-                    onSuccess()
+            rotateImage(path, scaledImage) { rotatedImage ->
+                cropImage(rotatedImage, proportion) { croppedImage ->
+                    saveToFile(croppedImage, path) {
+                        onSuccess()
+                    }
                 }
             }
         }
+    }
+
+    private fun rotateImage(path: String, source: Bitmap, onSuccess: (Bitmap) -> Unit) {
+        val ei = ExifInterface(path)
+        val orientation = ei.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED)
+        val angle = getAngle(orientation)
+        val matrix = Matrix()
+
+        matrix.postRotate(angle)
+
+        val rotatedImage = Bitmap.createBitmap(source, 0, 0, source.width, source.height,
+                matrix, true)
+
+        source.recycle()
+
+        onSuccess(rotatedImage)
     }
 
     private fun saveToFile(bitmap: Bitmap, path: String, onSuccess: () -> Unit) {
@@ -59,10 +81,19 @@ object ImageUtils {
                         newHeight
                 )
             }
+            onSuccess(dstBitmap)
         } finally {
             srcBmp.recycle()
         }
-        onSuccess(dstBitmap)
+    }
+
+    private fun getAngle(orientation: Int): Float {
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+            else -> 0f
+        }
     }
 
     private fun scaleImage(path: String, width: Int, height: Int, onSuccess: (Bitmap) -> Unit) {
