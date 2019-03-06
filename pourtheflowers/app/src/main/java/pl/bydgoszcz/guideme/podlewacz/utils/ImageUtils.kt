@@ -39,8 +39,6 @@ object ImageUtils {
         val rotatedImage = Bitmap.createBitmap(source, 0, 0, source.width, source.height,
                 matrix, true)
 
-        source.recycle()
-
         onSuccess(rotatedImage)
     }
 

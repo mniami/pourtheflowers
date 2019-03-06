@@ -39,7 +39,7 @@ object TakePicture {
                 photoFile.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                             activity,
-                            "guideme.bydgoszcz.pl.pourtheflower.fileprovider",
+                            "${activity.packageName}.fileprovider",
                             it ?: return@also
                     )
                     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
