@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 def localPropertiesFile = rootProject.file("local.properties")
 def localProperties = new Properties()
@@ -15,19 +17,19 @@ android {
         test {
             keyAlias localProperties['keyAlias']
             keyPassword localProperties['keyPassword']
-            storeFile file(localProperties.getProperty('storeFile'))
+            //storeFile file(localProperties.getProperty('storeFile'))
             storePassword localProperties['storePassword']
         }
         production {
             keyAlias localProperties['keyAlias']
             keyPassword localProperties['keyPassword']
-            storeFile file(localProperties.getProperty('storeFile'))
+            //storeFile file(localProperties.getProperty('storeFile'))
             storePassword localProperties['storePassword']
         }
     }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "guideme.bydgoszcz.pl.pourtheflower"
+        applicationId "pl.bydgoszcz.guideme.podlewacz"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 4
@@ -73,7 +75,9 @@ dependencies {
     // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation "com.android.support:recyclerview-v7:$android_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$android_version"
