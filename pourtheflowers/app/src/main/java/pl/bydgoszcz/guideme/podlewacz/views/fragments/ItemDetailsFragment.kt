@@ -20,9 +20,12 @@ import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
+    private val analyticsName = "Item details"
     private var animators : MutableList<ValueAnimator> = mutableListOf()
     private val viewChanger by lazy {
         (activity as MainActivityHelper).getViewChanger()
@@ -38,6 +41,8 @@ class ItemDetailsFragment : Fragment() {
     lateinit var removeItemFromUser: RemoveItemFromUser
     @Inject
     lateinit var pouredTheFlower: PouredTheFlower
+    @Inject
+    lateinit var analytics: Analytics
 
     private lateinit var uiItem: UiItem
 
@@ -86,6 +91,12 @@ class ItemDetailsFragment : Fragment() {
         }
         descriptionTextView?.text = uiItem.item.description
         initItem()
+        analytics.onViewCreated(BundleFactory.create()
+                .putName(analyticsName)
+                .putBoolean("NOTIFICATION_ENABLED", uiItem.item.notification.enabled)
+                .putInt("NOTIFICATION_DAYS_AMOUNT", uiItem.item.notification.repeatInTime.toDays())
+                .putBoolean("USER_ITEM", uiItem.isUser)
+                .build())
     }
 
     private fun initItem() {

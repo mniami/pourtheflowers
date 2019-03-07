@@ -17,22 +17,27 @@ import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import javax.inject.Inject
 
 class FlowerListFragment : Fragment() {
     private var listType: Int
         get() {
-            return arguments?.getInt(ARG_LIST_TYPE_NAME) ?: return ALL_LIST_TYPE
+            return arguments?.getInt(ARG_LIST_TYPE_NAME) ?: return LIBRARY_LIST_TYPE
         }
         set(value) {
             arguments?.putInt(ARG_LIST_TYPE_NAME, value)
         }
     private var listener: OnListFragmentInteractionListener? = null
+    private val analyticsName = "Flower List"
 
     @Inject
     lateinit var pouredTheFlower: PouredTheFlower
     @Inject
     lateinit var itemsProvider: ItemsProvider
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,9 @@ class FlowerListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadAdapter(recyclerView)
+        analytics.onViewCreated(BundleFactory()
+                .putName(analyticsName)
+                .putString(ARG_LIST_TYPE_NAME, getListTypeTitle()).build())
     }
 
     override fun onResume() {
@@ -66,12 +74,7 @@ class FlowerListFragment : Fragment() {
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }
         if (act is MainActivityHelper) {
-            when (listType) {
-                ALL_LIST_TYPE ->
-                    act.toolbar.title = getString(R.string.all_flowers_title)
-                USER_LIST_TYPE ->
-                    act.toolbar.title = getString(R.string.user_flowers_title)
-            }
+            act.toolbar.title = getListTypeTitle()
         }
     }
 
@@ -99,6 +102,16 @@ class FlowerListFragment : Fragment() {
         listener = null
     }
 
+    private fun getListTypeTitle() : String {
+        return when (listType) {
+            LIBRARY_LIST_TYPE ->
+                getString(R.string.all_flowers_title)
+            USER_LIST_TYPE ->
+                getString(R.string.user_flowers_title)
+            else -> ""
+        }
+    }
+
     private fun loadAdapter(view: RecyclerView) {
         val context = context ?: return
         view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), context, listener, pouredTheFlower)
@@ -112,7 +125,7 @@ class FlowerListFragment : Fragment() {
     companion object {
         const val BACK_STACK_NAME = "itemList"
         const val USER_LIST_TYPE = 1
-        const val ALL_LIST_TYPE = 2
+        const val LIBRARY_LIST_TYPE = 2
         const val ARG_LIST_TYPE_NAME = "list_type"
 
         @JvmStatic

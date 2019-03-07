@@ -12,14 +12,18 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.actions.SaveItem
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragmentFactory
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import javax.inject.Inject
 
 class EditDetailsFragment : Fragment() {
     @Inject
     lateinit var saveItem: SaveItem
+    @Inject
+    lateinit var analytics: Analytics
     private lateinit var uiItem: UiItem
     private lateinit var originalUiItem: UiItem
     private lateinit var binder: EditDetailsFragmentBinder
+    private val analyticsName = "Edit details"
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -52,6 +56,7 @@ class EditDetailsFragment : Fragment() {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+        analytics.onViewCreated(analyticsName)
     }
 
     override fun onPause() {

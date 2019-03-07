@@ -12,10 +12,9 @@ class ItemsProvider @Inject constructor(private val repository: ItemsRepository)
     fun getItems(listType: Int): List<UiItem> {
         val lib = repository.itemsStore
         val user = repository.user
-
-        var flowers: List<UiItem> = when (listType) {
+        val flowers: List<UiItem> = when (listType) {
             FlowerListFragment.USER_LIST_TYPE -> user.items
-            FlowerListFragment.ALL_LIST_TYPE -> lib
+            FlowerListFragment.LIBRARY_LIST_TYPE -> lib
             else -> lib
         }
         flowers.forEach { it.updateRemainingTime() }

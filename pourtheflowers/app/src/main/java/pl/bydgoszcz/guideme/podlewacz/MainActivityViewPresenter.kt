@@ -49,7 +49,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showAllItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
-                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.ALL_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
+                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.LIBRARY_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
     }
