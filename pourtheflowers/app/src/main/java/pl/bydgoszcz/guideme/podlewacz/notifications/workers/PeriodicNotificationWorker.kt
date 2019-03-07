@@ -15,6 +15,6 @@ class PeriodicNotificationWorker(private val context: Context, private val param
         } catch (ex: Exception) {
             Log.d("PeriodicNotWorker", ex.toString())
         }
-        return Result.SUCCESS
+        return Result.success()
     }
 }

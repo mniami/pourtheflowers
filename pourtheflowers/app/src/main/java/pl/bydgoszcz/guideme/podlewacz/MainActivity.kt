@@ -71,8 +71,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         if (savedInstanceState == null) {
-            WorkManager.initialize(baseContext, Configuration.Builder().build())
-
             (application as PourTheFlowerApplication).component.inject(this)
             dataLoader.load {
                 val user = repo.user

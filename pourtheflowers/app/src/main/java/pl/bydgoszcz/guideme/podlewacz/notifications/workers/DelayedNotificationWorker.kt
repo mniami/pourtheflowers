@@ -15,7 +15,7 @@ class DelayedNotificationWorker @Inject constructor(context: Context,
     private val tag = "DelayedWorker"
 
     override fun doWork(): Result {
-        val id = params.inputData.getString(NotificationScheduler.ID) ?: return Result.FAILURE
+        val id = params.inputData.getString(NotificationScheduler.ID) ?: return Result.failure()
         val repeat = params.inputData.getLong(NotificationScheduler.REPEAT, 0L)
 
         try {
@@ -24,6 +24,6 @@ class DelayedNotificationWorker @Inject constructor(context: Context,
             Log.d(tag, ex.toString())
         }
 
-        return Result.SUCCESS
+        return Result.failure()
     }
 }
