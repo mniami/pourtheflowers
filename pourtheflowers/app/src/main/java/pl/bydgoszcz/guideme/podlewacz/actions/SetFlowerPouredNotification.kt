@@ -1,6 +1,6 @@
 package pl.bydgoszcz.guideme.podlewacz.actions
 
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime

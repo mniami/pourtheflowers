@@ -3,6 +3,8 @@ package pl.bydgoszcz.guideme.podlewacz.features
 import pl.bydgoszcz.guideme.podlewacz.model.*
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.actions.SaveItem
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import java.util.*
 import javax.inject.Inject
 

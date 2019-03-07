@@ -1,4 +1,4 @@
-package pl.bydgoszcz.guideme.podlewacz.model
+package pl.bydgoszcz.guideme.podlewacz.views.fragments.providers
 
 object ShortDesriptionProvider {
     fun provide(description: String): String {

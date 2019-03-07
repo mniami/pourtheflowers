@@ -1,7 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.providers
 
-import pl.bydgoszcz.guideme.podlewacz.model.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import javax.inject.Inject

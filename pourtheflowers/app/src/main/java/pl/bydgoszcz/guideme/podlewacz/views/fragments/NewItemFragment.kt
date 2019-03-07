@@ -9,7 +9,7 @@ import android.view.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.features.AddNewItem
 import pl.bydgoszcz.guideme.podlewacz.model.Item
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.ImageUtils
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu

@@ -1,9 +1,10 @@
-package pl.bydgoszcz.guideme.podlewacz.model
+package pl.bydgoszcz.guideme.podlewacz.views.fragments.providers
 
 import android.content.Context
 import android.text.Html
 import android.text.Spanned
 import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 object RemainingDaysMessageProvider {
     fun provide(context: Context, item: UiItem): Spanned {

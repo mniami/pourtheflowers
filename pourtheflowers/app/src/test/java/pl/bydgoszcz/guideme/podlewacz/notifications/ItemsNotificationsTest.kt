@@ -2,7 +2,7 @@ package pl.bydgoszcz.guideme.podlewacz.notifications
 
 import pl.bydgoszcz.guideme.podlewacz.model.Item
 import pl.bydgoszcz.guideme.podlewacz.model.Notification
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime

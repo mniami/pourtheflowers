@@ -11,9 +11,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
-import pl.bydgoszcz.guideme.podlewacz.model.RemainingDaysMessageProvider
-import pl.bydgoszcz.guideme.podlewacz.model.ShortDesriptionProvider
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.RemainingDaysMessageProvider
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
@@ -69,10 +69,10 @@ class FlowerRecyclerViewAdapter(
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mView.setOnClickListener(mOnClickListener)
         holder.mBtnPouredFlower.setOnClickListener { view ->
-            val position = view.tag as Int
-            val itemClicked = items[position]
+            val itemPosition = view.tag as Int
+            val itemClicked = items[itemPosition]
             pouredTheFlower.pour(itemClicked, view) {
-                notifyItemChanged(position)
+                notifyItemChanged(itemPosition)
             }
         }
         holder.worker.onTick = {

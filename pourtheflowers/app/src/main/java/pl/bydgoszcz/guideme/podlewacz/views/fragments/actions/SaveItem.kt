@@ -1,8 +1,8 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.actions
 
 import pl.bydgoszcz.guideme.podlewacz.actions.SaveUserChanges
-import pl.bydgoszcz.guideme.podlewacz.model.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime

@@ -13,7 +13,7 @@ import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.features.AddItemToUser
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.features.RemoveItemFromUser
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu

@@ -2,8 +2,8 @@ package pl.bydgoszcz.guideme.podlewacz.features
 
 import android.content.Context
 import pl.bydgoszcz.guideme.podlewacz.actions.SaveUserChanges
-import pl.bydgoszcz.guideme.podlewacz.model.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationPresenter
 import javax.inject.Inject
 

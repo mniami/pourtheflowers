@@ -8,11 +8,9 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import androidx.work.Configuration
-import androidx.work.WorkManager
 import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
-import pl.bydgoszcz.guideme.podlewacz.model.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
 import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationChannelCreator
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture

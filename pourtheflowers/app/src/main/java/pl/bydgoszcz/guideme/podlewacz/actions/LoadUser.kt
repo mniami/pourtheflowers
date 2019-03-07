@@ -1,7 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.actions
 
 import pl.bydgoszcz.guideme.podlewacz.mappers.ItemUiMapper
-import pl.bydgoszcz.guideme.podlewacz.model.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.serialization.UserDataCache
 import javax.inject.Inject
 

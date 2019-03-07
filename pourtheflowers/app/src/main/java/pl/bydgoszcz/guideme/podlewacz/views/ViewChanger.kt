@@ -1,7 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.views
 
 import android.support.v4.app.Fragment
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 interface ViewChanger {
     fun showItem(uiItem: UiItem)

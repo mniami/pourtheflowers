@@ -1,11 +1,11 @@
 package pl.bydgoszcz.guideme.podlewacz
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import pl.bydgoszcz.guideme.podlewacz.dagger.AppComponent
 import pl.bydgoszcz.guideme.podlewacz.dagger.DaggerAppComponent
 import pl.bydgoszcz.guideme.podlewacz.dagger.ItemModule
 
-class PourTheFlowerApplication : Application() {
+class PourTheFlowerApplication : MultiDexApplication() {
     lateinit var component: AppComponent
     override fun onCreate() {
         super.onCreate()

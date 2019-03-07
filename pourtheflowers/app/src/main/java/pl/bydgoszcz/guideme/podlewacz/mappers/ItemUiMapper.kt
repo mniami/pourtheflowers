@@ -1,6 +1,9 @@
 package pl.bydgoszcz.guideme.podlewacz.mappers
 
 import pl.bydgoszcz.guideme.podlewacz.model.*
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UserUiItem
 import javax.inject.Inject
 
 class ItemUiMapper @Inject constructor() {

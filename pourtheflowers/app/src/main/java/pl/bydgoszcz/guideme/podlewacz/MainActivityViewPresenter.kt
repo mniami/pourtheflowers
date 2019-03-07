@@ -3,7 +3,7 @@ package pl.bydgoszcz.guideme.podlewacz
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ItemDetailsFragment

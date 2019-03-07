@@ -11,7 +11,7 @@ import pl.bydgoszcz.guideme.podlewacz.MainActivityHelper
 import pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider

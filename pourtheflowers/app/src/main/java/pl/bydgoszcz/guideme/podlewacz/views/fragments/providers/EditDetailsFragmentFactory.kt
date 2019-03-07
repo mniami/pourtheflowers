@@ -1,7 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.providers
 
 import android.os.Bundle
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.EditDetailsFragment
 
 object EditDetailsFragmentFactory {

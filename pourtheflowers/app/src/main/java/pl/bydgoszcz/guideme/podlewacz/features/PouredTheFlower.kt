@@ -5,7 +5,7 @@ import android.view.View
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.actions.SaveUserChanges
 import pl.bydgoszcz.guideme.podlewacz.actions.SetFlowerPouredNotification
-import pl.bydgoszcz.guideme.podlewacz.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.SlideDownAnimator

@@ -1,13 +1,11 @@
-package pl.bydgoszcz.guideme.podlewacz.loaders
+package pl.bydgoszcz.guideme.podlewacz.library
 
-import android.app.Application
 import pl.bydgoszcz.guideme.podlewacz.model.Item
-import pl.bydgoszcz.guideme.podlewacz.model.Tag
 import pl.bydgoszcz.guideme.podlewacz.utils.readJson
 import java.net.URL
 import javax.inject.Inject
 
-class ItemsResourcesLoader @Inject constructor(private val application: Application) {
+class GithubDataLoader @Inject constructor(){
     private val endpointUrl = "https://raw.githubusercontent.com/mniami/staticcontent/master/flowers.json"
 
     fun load(): List<Item> {
@@ -15,4 +13,3 @@ class ItemsResourcesLoader @Inject constructor(private val application: Applicat
         return items.data
     }
 }
-data class ItemList (val data : List<Item>, val tags : List<Tag>)
