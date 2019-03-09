@@ -1,6 +1,8 @@
 package pl.bydgoszcz.guideme.podlewacz.utils
 
 import pl.bydgoszcz.guideme.podlewacz.utils.TimeHelper.secondsInDay
+import pl.bydgoszcz.guideme.podlewacz.utils.TimeHelper.secondsInHour
+import pl.bydgoszcz.guideme.podlewacz.utils.TimeHelper.secondsInMinute
 import java.io.Serializable
 
 /**

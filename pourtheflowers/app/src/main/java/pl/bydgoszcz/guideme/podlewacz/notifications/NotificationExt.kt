@@ -3,10 +3,12 @@ package pl.bydgoszcz.guideme.podlewacz.notifications
 import android.content.Context
 import android.text.Html
 import android.text.Spanned
+import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.model.Notification
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.utils.DateTimePart.*
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 fun Notification.getRemainingTime(currentTime: SystemTime): NotificationTime {
     return if (lastNotificationTime.millis > 0 && repeatInTime.seconds > 0) {

@@ -9,15 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.RemainingDaysMessageProvider
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.notifications.getElapsedTime
+import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
-import kotlinx.android.synthetic.main.fragment_flower_item.view.*
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 class FlowerRecyclerViewAdapter(
         var items: List<UiItem>,

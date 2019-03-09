@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower.utils
+package pl.bydgoszcz.guideme.podlewacz.utils
 
 enum class DateTimePart {
     HOUR_OF_DAY,

@@ -1,10 +1,10 @@
-package guideme.bydgoszcz.pl.pourtheflower.notifications
+package pl.bydgoszcz.guideme.podlewacz.notifications
 
-import guideme.bydgoszcz.pl.pourtheflower.model.Notification
-import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import pl.bydgoszcz.guideme.podlewacz.model.Notification
+import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
+import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 
 class NotificationExtKtTest {
 

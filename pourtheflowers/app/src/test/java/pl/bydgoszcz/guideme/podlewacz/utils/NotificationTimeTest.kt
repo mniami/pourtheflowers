@@ -1,4 +1,4 @@
-package guideme.bydgoszcz.pl.pourtheflower.utils
+package pl.bydgoszcz.guideme.podlewacz.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
