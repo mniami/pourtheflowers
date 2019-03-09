@@ -1,6 +1,8 @@
 package guideme.bydgoszcz.pl.pourtheflower.utils
 
 import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper.secondsInDay
+import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper.secondsInHour
+import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper.secondsInMinute
 import java.io.Serializable
 
 /**
@@ -20,6 +22,10 @@ data class NotificationTime(private val value: Int) : Serializable {
         return NotificationTime(value - notificationTime.value)
     }
 
+    operator fun rem(notificationTime: NotificationTime): NotificationTime {
+        return NotificationTime(value % notificationTime.value)
+    }
+
     operator fun plus(notificationTime: NotificationTime): NotificationTime {
         return NotificationTime(value + notificationTime.value)
     }
@@ -29,15 +35,21 @@ data class NotificationTime(private val value: Int) : Serializable {
     }
 
     override fun toString(): String {
-        return "NotificationTime(value=$value)"
+        val days = value / TimeHelper.secondsInDay
+        val hours = (value / TimeHelper.secondsInHour) % TimeHelper.hoursInDay
+        val minutes = (value / TimeHelper.secondsInMinute) % TimeHelper.minutesInHour
+        val seconds = value % TimeHelper.secondsInMinute
+
+        return "$days $hours:$minutes:$seconds"
     }
 
     companion object {
         val ZERO: NotificationTime = NotificationTime(0)
 
-        fun fromHours(hours: Int) = NotificationTime(hours * secondsInDay)
         fun fromDays(days: Int) = NotificationTime(days * secondsInDay)
-        fun fromMillis(millis: Long) = NotificationTime((millis / TimeHelper.millisInSecond).toInt())
+        fun fromHours(hours: Int) = NotificationTime(hours * secondsInHour)
+        fun fromMinutes(minutes: Int) = NotificationTime(minutes * secondsInMinute)
         fun fromSeconds(seconds: Int): NotificationTime = NotificationTime(seconds)
+        fun fromMillis(millis: Long) = NotificationTime((millis / TimeHelper.millisInSecond).toInt())
     }
 }

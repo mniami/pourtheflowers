@@ -8,7 +8,7 @@
     <string name="nav_header_desc"></string>
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_flower">FlowerActivity</string>
-    <string name="flower_frequency_in_days_label"><![CDATA[NASTĘPNE ZA <b>%s</b> DNI]]></string>
+    <string name="flower_frequency_in_days_label"><![CDATA[PODLEJ ZA <b>%s</b> DNI]]></string>
     <string name="flower_frequency_in_days_header">PODLEJ ZA</string>
     <string name="flower_frequency_today_label"><![CDATA[PODLEJ <b>DZISIAJ</b>]]></string>
     <string name="flower_frequency_tomorrow_label"><![CDATA[PODLEJ <b>JUTRO</b>]]></string>

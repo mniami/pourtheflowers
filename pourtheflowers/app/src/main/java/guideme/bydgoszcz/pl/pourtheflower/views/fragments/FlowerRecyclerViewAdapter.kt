@@ -11,9 +11,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import guideme.bydgoszcz.pl.pourtheflower.R
 import guideme.bydgoszcz.pl.pourtheflower.features.PouredTheFlower
-import guideme.bydgoszcz.pl.pourtheflower.model.RemainingDaysMessageProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.ShortDesriptionProvider
 import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
+import guideme.bydgoszcz.pl.pourtheflower.notifications.getElapsedTime
+import guideme.bydgoszcz.pl.pourtheflower.notifications.getRemainingDaysMessage
 import guideme.bydgoszcz.pl.pourtheflower.notifications.updateRemainingTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.getColorFromResource
 import guideme.bydgoszcz.pl.pourtheflower.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
@@ -52,7 +53,7 @@ class FlowerRecyclerViewAdapter(
         holder.mDescriptionView.text = ShortDesriptionProvider.provide(item.item.description)
 
         if (showRemainingTime) {
-            holder.mFrequencyText.text = RemainingDaysMessageProvider.provide(mContext, item)
+            holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
             holder.mFrequencyText.visibility = View.VISIBLE
         } else {
             holder.mFrequencyText.visibility = View.GONE
@@ -106,9 +107,9 @@ class FlowerRecyclerViewAdapter(
 
         item.updateRemainingTime()
 
-        val color = if (item.remainingTime.toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
+        val color = if (item.item.notification.getElapsedTime().toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
 
-        holder.mFrequencyText.text = RemainingDaysMessageProvider.provide(mContext, item)
+        holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
         holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
         holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
 

@@ -6,7 +6,6 @@ import guideme.bydgoszcz.pl.pourtheflower.model.UiItem
 import guideme.bydgoszcz.pl.pourtheflower.utils.ContentProvider
 import guideme.bydgoszcz.pl.pourtheflower.utils.NotificationTime
 import guideme.bydgoszcz.pl.pourtheflower.utils.SystemTime
-import guideme.bydgoszcz.pl.pourtheflower.utils.TimeHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
@@ -14,9 +13,6 @@ import kotlin.math.absoluteValue
 @Singleton
 class ItemsNotifications @Inject constructor(private val contentProvider: ContentProvider,
                                              private val notificationScheduler: NotificationScheduler) {
-    companion object {
-        const val notificationTimeOnDay = TimeHelper.millisInSecond * TimeHelper.secondsInHour * 8 // every 8:00 o'clock
-    }
     fun setUpNotifications(items: List<UiItem>) {
         WorkManager.getInstance().cancelAllWork()
         items.filter {
@@ -36,6 +32,7 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
             val a = delay.seconds.absoluteValue
             val b = item.item.notification.repeatInTime.seconds
             val fx = b - a.rem(b)
+
             delay = NotificationTime(fx)
         }
 
