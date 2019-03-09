@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="guideme.bydgoszcz.pl.pourtheflower">
+    package="pl.bydgoszcz.guideme.podlewacz">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -17,12 +16,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_water_can"
         android:supportsRtl="true"
-        android:name=".PourTheFlowerApplication"
+        android:name="pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication"
         android:fullBackupContent="true"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name="pl.bydgoszcz.guideme.podlewacz.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -33,7 +32,7 @@
         </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="guideme.bydgoszcz.pl.pourtheflower.fileprovider"
+            android:authorities="pl.bydgoszcz.guideme.podlewacz.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
