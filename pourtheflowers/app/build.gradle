@@ -14,12 +14,6 @@ android {
         enabled = true
     }
     signingConfigs {
-        test {
-            keyAlias localProperties['keyAlias']
-            keyPassword localProperties['keyPassword']
-            storeFile file(localProperties.getProperty('storeFile'))
-            storePassword localProperties['storePassword']
-        }
         production {
             keyAlias localProperties['keyAlias']
             keyPassword localProperties['keyPassword']
@@ -32,40 +26,29 @@ android {
         applicationId "pl.bydgoszcz.guideme.podlewacz"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
         multiDexEnabled true
     }
     buildTypes {
-        releaseTest {
-            postprocessing {
-                removeUnusedCode true
-                removeUnusedResources true
-                obfuscate true
-                optimizeCode true
-                proguardFile 'proguard-rules.pro'
-                signingConfig signingConfigs.test
-            }
-        }
         release {
             postprocessing {
-                removeUnusedCode true
-                removeUnusedResources true
-                obfuscate true
-                optimizeCode true
+                //debuggable true
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
                 proguardFile 'proguard-rules.pro'
                 signingConfig signingConfigs.production
             }
         }
     }
-    productFlavors {
-    }
 }
 
 dependencies {
-    def lifecycle_version = "2.1.0-alpha02"
+    def lifecycle_version = "2.1.0-alpha04"
     def android_version = "28.0.0"
     def dagger_version = "2.15"
 
@@ -90,10 +73,10 @@ dependencies {
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-perf:16.2.3'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-perf:16.2.5'
 
-    implementation "android.arch.work:work-runtime-ktx:1.0.0"
+    implementation "android.arch.work:work-runtime-ktx:1.0.1"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 

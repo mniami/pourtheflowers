@@ -29,8 +29,12 @@ object TakePicture {
         )
     }
 
-    fun requestTakePicture(activity: FragmentActivity): File? {
+
+    fun requestTakePicture(activity: FragmentActivity?): File? {
         var photoFile: File? = null
+        val activity = activity
+                ?: throw IllegalStateException("Request take picture has no activity")
+
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(activity.packageManager)?.also {
                 photoFile = createImageFile(activity)

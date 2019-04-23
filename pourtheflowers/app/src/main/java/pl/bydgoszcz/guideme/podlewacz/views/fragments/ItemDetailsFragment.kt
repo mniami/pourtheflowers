@@ -9,19 +9,19 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.math.MathUtils
 import android.view.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_flower.*
 import pl.bydgoszcz.guideme.podlewacz.*
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import pl.bydgoszcz.guideme.podlewacz.features.AddItemToUser
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.features.RemoveItemFromUser
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower.*
-import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
-import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
@@ -31,7 +31,7 @@ class ItemDetailsFragment : Fragment() {
         (activity as MainActivityHelper).getViewChanger()
     }
     private val fullScreenImage by lazy {
-        val a = activity ?: return@lazy null
+        val a = activity ?: throw IllegalStateException("Item details, full screen has no activity")
         FullScreenImage(a)
     }
 
@@ -82,7 +82,7 @@ class ItemDetailsFragment : Fragment() {
 
         uiItem.updateRemainingTime()
 
-        val activity = activity ?: return
+        val activity = activity ?: throw IllegalStateException("Item details has no activity")
 
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
@@ -100,7 +100,8 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initItem() {
-        val activity = activity ?: return
+        val activity = activity
+                ?: throw IllegalStateException("Item details - init item has no activity")
         initRemainingBar()
         initFabButton(activity)
         initImage()
@@ -189,7 +190,7 @@ class ItemDetailsFragment : Fragment() {
     private fun initImage() {
         ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
         itemImage.setOnClickListener {
-            fullScreenImage?.open(uiItem)
+            fullScreenImage.open(uiItem)
         }
     }
 

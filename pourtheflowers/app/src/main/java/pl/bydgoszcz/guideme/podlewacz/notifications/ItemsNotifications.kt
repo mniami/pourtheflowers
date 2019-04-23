@@ -2,11 +2,10 @@ package pl.bydgoszcz.guideme.podlewacz.notifications
 
 import androidx.work.WorkManager
 import pl.bydgoszcz.guideme.podlewacz.R
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
-import pl.bydgoszcz.guideme.podlewacz.utils.TimeHelper
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
@@ -30,8 +29,8 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
 
         if (delay < NotificationTime.ZERO) {
             // pour time has elapsed
-            val a = delay.seconds.absoluteValue
-            val b = item.item.notification.repeatInTime.seconds
+            val a = delay.value.absoluteValue
+            val b = item.item.notification.repeatInTime.value
             val fx = b - a.rem(b)
 
             delay = NotificationTime(fx)

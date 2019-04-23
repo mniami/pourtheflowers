@@ -8,37 +8,37 @@ import java.io.Serializable
 /**
  * Value expressed in seconds
  */
-data class NotificationTime(private val value: Int) : Serializable {
+data class NotificationTime(private val _value: Int) : Serializable {
     fun toMillis(): Long {
-        return value.toLong() * TimeHelper.millisInSecond
+        return _value.toLong() * TimeHelper.millisInSecond
     }
 
-    val seconds: Int
-        get() = value
+    val value: Int
+        get() = _value
 
-    fun toDays(): Int = Math.round(value * 1f / secondsInDay)
+    fun toDays(): Int = Math.round(_value * 1f / secondsInDay)
 
     operator fun minus(notificationTime: NotificationTime): NotificationTime {
-        return NotificationTime(value - notificationTime.value)
+        return NotificationTime(_value - notificationTime._value)
     }
 
     operator fun rem(notificationTime: NotificationTime): NotificationTime {
-        return NotificationTime(value % notificationTime.value)
+        return NotificationTime(_value % notificationTime._value)
     }
 
     operator fun plus(notificationTime: NotificationTime): NotificationTime {
-        return NotificationTime(value + notificationTime.value)
+        return NotificationTime(_value + notificationTime._value)
     }
 
     operator fun compareTo(notificationTime: NotificationTime): Int {
-        return seconds.compareTo(notificationTime.seconds)
+        return value.compareTo(notificationTime.value)
     }
 
     override fun toString(): String {
-        val days = value / TimeHelper.secondsInDay
-        val hours = (value / TimeHelper.secondsInHour) % TimeHelper.hoursInDay
-        val minutes = (value / TimeHelper.secondsInMinute) % TimeHelper.minutesInHour
-        val seconds = value % TimeHelper.secondsInMinute
+        val days = _value / TimeHelper.secondsInDay
+        val hours = (_value / TimeHelper.secondsInHour) % TimeHelper.hoursInDay
+        val minutes = (_value / TimeHelper.secondsInMinute) % TimeHelper.minutesInHour
+        val seconds = _value % TimeHelper.secondsInMinute
 
         return "$days $hours:$minutes:$seconds"
     }

@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Podlewacz</string>
+    <string name="package_name">pl.bydgoszcz.guideme.podlewacz</string>
 
     <string name="navigation_drawer_open">Otwórz menu</string>
     <string name="navigation_drawer_close">Zamknij menu</string>
     <string name="nav_header_title">Powiadomienia o podlewaniu kwiatów</string>
-    <string name="nav_header_subtitle">Guide Me 2019</string>
+    <string name="nav_header_subtitle">GuideMe 2019</string>
     <string name="nav_header_desc"></string>
     <string name="action_settings">Ustawienia</string>
     <string name="title_activity_flower">FlowerActivity</string>
@@ -46,4 +47,5 @@
     <string name="dialog_button_yes">Zatwierdź</string>
     <string name="dialog_button_no">Anuluj</string>
     <string name="image_load_failed">Wystąpił problem z pobraniem zdjęcia</string>
+    <string name="click_to_see_photo"><u>Dodaj zdjęcie</u></string>
 </resources>

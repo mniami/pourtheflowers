@@ -24,27 +24,37 @@
                 android:id="@+id/ivImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
                 android:contentDescription="@string/flower_image_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvPhotoImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/click_to_see_photo"
+                android:textColor="@color/brokenWhite"
+                android:textSize="@dimen/headerTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:id="@+id/nameLabel"
             style="@style/LabelTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/name_label"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"/>
+            android:labelFor="@id/etName"
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
         <EditText
             android:id="@+id/etName"
@@ -52,20 +62,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:inputType="textPersonName"
+            android:autofillHints=""
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
         <TextView
+            android:id="@+id/descriptionLabel"
+            style="@style/LabelTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:id="@+id/descriptionLabel"
             android:text="@string/description_label"
-            style="@style/LabelTextViewStyle"
-            app:layout_constraintTop_toBottomOf="@+id/etName"/>
+            android:labelFor="@id/etDescription"
+            app:layout_constraintTop_toBottomOf="@+id/etName" />
 
         <EditText
             android:id="@+id/etDescription"
@@ -73,6 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:autofillHints=""
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
@@ -90,9 +104,9 @@
             android:layout_height="42dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:paddingLeft="4dp"
-            android:textSize="@dimen/descriptionTextSize"
+            android:paddingStart="4dp"
             android:text="@string/notification_label"
+            android:textSize="@dimen/descriptionTextSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +120,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="bottom"
-            android:paddingLeft="4dp"
+            android:paddingStart="4dp"
             android:text="@string/frequency_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,12 +128,12 @@
 
         <Spinner
             android:id="@+id/frequencySpinner"
+            style="@style/LabelTextViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/gray"
-            style="@style/LabelTextViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

@@ -15,7 +15,7 @@ object ImageLoader {
     private const val TAG = "ImageLoader"
 
     fun setImage(itemImage: ImageView, imageUrl: String, onError: () -> Unit = {}) {
-        val uri = if (URLUtil.isValidUrl(imageUrl)) Uri.parse(imageUrl) else Uri.fromFile(File(imageUrl))
+        val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
                 .error(R.drawable.watering_can_grey)
                 .into(itemImage, object : Callback {
@@ -30,7 +30,7 @@ object ImageLoader {
     }
 
     fun setImageWithCircle(itemImage: ImageView, imageUrl: String, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
-        val uri = if (URLUtil.isValidUrl(imageUrl)) Uri.parse(imageUrl) else Uri.fromFile(File(imageUrl))
+        val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
                 .error(R.drawable.watering_can_grey)
                 .transform(CircleTransform(borderColor, borderSize))
@@ -44,5 +44,13 @@ object ImageLoader {
                         // noop
                     }
                 })
+    }
+
+    private fun getImageUri(imageUrl: String): Uri {
+        return if (imageUrl.startsWith("android.resource") || URLUtil.isValidUrl(imageUrl)) {
+            Uri.parse(imageUrl)
+        } else {
+            Uri.fromFile(File(imageUrl))
+        }
     }
 }

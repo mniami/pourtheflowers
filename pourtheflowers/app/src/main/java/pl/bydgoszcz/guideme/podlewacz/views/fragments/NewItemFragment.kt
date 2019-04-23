@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.features.AddNewItem
 import pl.bydgoszcz.guideme.podlewacz.model.Item
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.ImageUtils
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower_edit.*
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import java.lang.String.format
 import javax.inject.Inject
 
 class NewItemFragment : Fragment(), TakingPictureThumbnail {
@@ -48,6 +49,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         }
 
         FabHelper(activity).hide()
+
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
         binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
         binder.bind {
@@ -60,50 +62,54 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
                 pourFrequencyVisible = notificationEnabled
             }
         }
-        val activity = activity ?: return
+        tvPhotoImage.setOnClickListener {
+            requestTakePicture()
+        }
+        ivImage.setOnClickListener {
+            requestTakePicture()
+        }
+        binder.notificationEnabled = true
+        binder.pourFrequencyVisible = true
+        val activity = activity
+                ?: throw IllegalStateException("New item on view created has no activity")
 
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
             activity.toolbar.title = getString(R.string.new_flower)
         }
         registerSave()
-        requestTakePicture()
     }
 
     private fun registerSave() {
         doOnBackPressed {
-            showConfirmationDialog(R.string.dialog_title_confirm_save, R.string.dialog_message_cofirm_save,
-                    onSuccess = {
-                        validate {
-                            saveItem {
-                                goBack()
-                            }
-                        }
-                    },
-                    onFailure = {
-                        goBack()
-                    })
+            validate {
+                saveItem {
+                    goBack()
+                }
+            }
             returnFalse()
         }
     }
 
     private fun validate(onSuccess: () -> Unit) {
         if (binder.name.isEmpty()) {
-            showSnack(R.string.name_cannot_be_empty_message)
+            goBack()
             return
         }
         return onSuccess()
     }
 
     private fun saveItem(onSuccess: () -> Unit) {
-        val filePath = photoFilePath ?: return
+        val filePath = photoFilePath
+                ?: format("android.resource://%s/drawable/flower", getString(R.string.package_name))
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
         addNewItem.add(binder.name, binder.description, emptyList(), filePath, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {
-        val activity = activity ?: return
+        val activity = activity
+                ?: throw IllegalStateException("Request take picture has no activity")
 
         if (checkSelfPermission(activity, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -111,6 +117,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         } else {
             try {
                 photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
+                tvPhotoImage.visibility = View.GONE
             } catch (ex: Exception) {
                 showSnack(R.string.image_file_not_found)
             }
@@ -125,7 +132,11 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-            TakePicture.requestTakePicture(requireActivity())
+            try {
+                photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
+            } catch (ex: Exception) {
+                showSnack(R.string.image_file_not_found)
+            }
         }
     }
 
@@ -138,7 +149,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     private fun showPicture() {
-        var imageFilePath = photoFilePath ?: return
+        val imageFilePath = photoFilePath ?: return
 
         // Compress bitmap
         val proportion = ivImage.width.toFloat() / ivImage.height.toFloat()

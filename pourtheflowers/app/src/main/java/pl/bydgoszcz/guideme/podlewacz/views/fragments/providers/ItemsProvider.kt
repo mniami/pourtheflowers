@@ -1,9 +1,9 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.providers
 
-import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +20,7 @@ class ItemsProvider @Inject constructor(private val repository: ItemsRepository)
         flowers.forEach { it.updateRemainingTime() }
         return flowers.sortedBy {
             if (it.isUser && it.item.notification.enabled) {
-                it.remainingTime.seconds
+                it.remainingTime.value
             } else {
                 Int.MAX_VALUE
             }

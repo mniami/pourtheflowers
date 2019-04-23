@@ -8,18 +8,18 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
-import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
 import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationChannelCreator
+import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.TakingPictureThumbnail
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         NotificationChannelCreator.createNotificationChannel(this)
     }
+
 
     override fun onBackPressed() {
         if (!onBackPressedCallback()) {

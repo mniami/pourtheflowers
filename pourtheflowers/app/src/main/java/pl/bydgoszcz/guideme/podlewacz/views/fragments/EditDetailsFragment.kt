@@ -3,16 +3,16 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import pl.bydgoszcz.guideme.podlewacz.*
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.actions.SaveItem
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragmentFactory
-import kotlinx.android.synthetic.main.fragment_flower_edit.*
-import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class EditDetailsFragment : Fragment() {
@@ -56,6 +56,7 @@ class EditDetailsFragment : Fragment() {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+        tvPhotoImage.visibility = View.GONE
         analytics.onViewCreated(analyticsName)
     }
 
@@ -75,17 +76,11 @@ class EditDetailsFragment : Fragment() {
 
     private fun attachOnBackClicked() {
         doOnBackPressed {
-            showConfirmationDialog(R.string.dialog_title_confirm_save, R.string.dialog_message_cofirm_save,
-                    onSuccess = {
-                        validate {
-                            saveItem {
-                                goBack()
-                            }
-                        }
-                    },
-                    onFailure = {
-                        goBack()
-                    })
+            validate {
+                saveItem {
+                    goBack()
+                }
+            }
             returnFalse()
         }
     }

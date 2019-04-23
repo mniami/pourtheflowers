@@ -1,16 +1,21 @@
 package pl.bydgoszcz.guideme.podlewacz.notifications
 
 import android.content.Context
+import android.util.Log
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import pl.bydgoszcz.guideme.podlewacz.notifications.workers.DelayedNotificationWorker
 import pl.bydgoszcz.guideme.podlewacz.notifications.workers.PeriodicNotificationWorker
+import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
+import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
+import java.lang.String.format
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NotificationScheduler @Inject constructor(val context: Context) {
+    val tag = "NotificationSched"
     companion object {
         private const val MAIN_TAG = "podlewacz"
 
@@ -23,6 +28,8 @@ class NotificationScheduler @Inject constructor(val context: Context) {
     }
 
     fun scheduleJob(id: String, title: String, text: String, delay: Long, repeat: Long) {
+        val scheduledTime = SystemTime.current().plus(NotificationTime.fromMillis(delay))
+        Log.d(tag, format("Schedule '%s' to '%s'", title, scheduledTime))
         val params = mapOf(
                 NotificationScheduler.ID to id,
                 NotificationScheduler.TITLE to title,

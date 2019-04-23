@@ -11,7 +11,7 @@ import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 fun Notification.getRemainingTime(currentTime: SystemTime): NotificationTime {
-    return if (lastNotificationTime.millis > 0 && repeatInTime.seconds > 0) {
+    return if (lastNotificationTime.millis > 0 && repeatInTime.value > 0) {
         val elapsedTime = currentTime - lastNotificationTime
         var remainTime = repeatInTime - elapsedTime % repeatInTime
         val notificationDateTime = currentTime + remainTime

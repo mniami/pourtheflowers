@@ -51,7 +51,7 @@ class ItemsSerializer {
                     getString(),
                     getString(),
                     tagSerializer.deserialize(byteBuffer),
-                    getInt(),
+                    int,
                     NotificationSerializer().deserialize(byteBuffer)
             )
         }
@@ -61,7 +61,7 @@ class ItemsSerializer {
 class NotificationSerializer {
     fun serialize(byteBuffer: ByteBuffer, notification: Notification) {
         byteBuffer.put(if (notification.enabled) 0x1.toByte() else 0x0.toByte())
-        byteBuffer.putInt(notification.repeatInTime.seconds)
+        byteBuffer.putInt(notification.repeatInTime.value)
         byteBuffer.putLong(notification.lastNotificationTime.millis)
     }
 

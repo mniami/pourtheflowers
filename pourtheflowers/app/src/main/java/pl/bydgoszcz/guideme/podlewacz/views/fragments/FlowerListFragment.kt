@@ -7,18 +7,18 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_flower_list.*
 import pl.bydgoszcz.guideme.podlewacz.MainActivityHelper
 import pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication
 import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower_list.*
-import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
-import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class FlowerListFragment : Fragment() {
@@ -66,7 +66,7 @@ class FlowerListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val act = activity ?: return
+        val act = activity ?: throw IllegalStateException("Flower list no activity")
         val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
         adapter.resume()
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
