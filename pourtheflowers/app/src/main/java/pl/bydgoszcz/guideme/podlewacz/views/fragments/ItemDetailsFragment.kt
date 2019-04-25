@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.math.MathUtils
+import android.text.Html
 import android.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
@@ -17,6 +18,7 @@ import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import pl.bydgoszcz.guideme.podlewacz.features.AddItemToUser
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.features.RemoveItemFromUser
+import pl.bydgoszcz.guideme.podlewacz.notifications.getNotificationDateTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
@@ -89,7 +91,7 @@ class ItemDetailsFragment : Fragment() {
             activity.toolbar.title = uiItem.item.name
             tvName.text = uiItem.item.name
         }
-        descriptionTextView?.text = uiItem.item.description
+        descriptionTextView?.text = Html.fromHtml(uiItem.item.description)
         initItem()
         analytics.onViewCreated(BundleFactory.create()
                 .putName(analyticsName)
@@ -165,7 +167,9 @@ class ItemDetailsFragment : Fragment() {
                 remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
             }
         }
-        remainingDaysTextView.setOnClickListener(onClickListener)
+        if (uiItem.item.notification.getNotificationDateTime().isToday()) {
+            remainingDaysTextView.setOnClickListener(onClickListener)
+        }
     }
 
     private fun animateRemainingBar() {

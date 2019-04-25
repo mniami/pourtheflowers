@@ -100,8 +100,8 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     private fun saveItem(onSuccess: () -> Unit) {
-        val filePath = photoFilePath
-                ?: format("android.resource://%s/drawable/flower", getString(R.string.package_name))
+        val photoFilePath = photoFilePath
+        val filePath = if (photoFilePath.isNullOrEmpty()) format("android.resource://%s/drawable/flower", getString(R.string.package_name)) else photoFilePath
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
         addNewItem.add(binder.name, binder.description, emptyList(), filePath, frequency, onSuccess)

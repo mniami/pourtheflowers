@@ -3,6 +3,7 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments
 import android.content.Context
 import android.os.Handler
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.notifications.getElapsedTime
+import pl.bydgoszcz.guideme.podlewacz.notifications.getNotificationDateTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
@@ -50,7 +52,7 @@ class FlowerRecyclerViewAdapter(
         item.updateRemainingTime()
 
         holder.mNameView.text = item.item.name
-        holder.mDescriptionView.text = ShortDesriptionProvider.provide(item.item.description)
+        holder.mDescriptionView.text = Html.fromHtml(ShortDesriptionProvider.provide(item.item.description))
 
         if (showRemainingTime) {
             holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
@@ -122,7 +124,7 @@ class FlowerRecyclerViewAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.remainingTime.toDays() <= 0
+    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.item.notification.getNotificationDateTime().isToday()
 
     fun resume() {
         stopped = false

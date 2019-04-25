@@ -11,6 +11,9 @@ class DataLoader @Inject constructor(private val loadFlowersFromResources: LoadI
     fun load(onFinished: () -> Unit) {
         runInBackground {
             loadFlowersFromResources.load()
+        }.onError {
+        }
+        runInBackground {
             loadUser.load()
 
             runOnUi {

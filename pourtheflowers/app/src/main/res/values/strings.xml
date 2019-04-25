@@ -48,4 +48,12 @@
     <string name="dialog_button_no">Anuluj</string>
     <string name="image_load_failed">Wystąpił problem z pobraniem zdjęcia</string>
     <string name="click_to_see_photo"><u>Dodaj zdjęcie</u></string>
+    <string name="sample_flower_name">Storczyk</string>
+    <string name="sample_flower_description"><![CDATA[
+    <b>Storczyk (Orchis L.)</b> – rodzaj bylin należących do rodziny storczykowatych (Orchidaceae).
+    <p>W zależności od ujęcia systematycznego klasyfikowanych jest do tego rodzaju od 17 do 33 gatunków, przy czym większa liczba podawana jest w starszych klasyfikacjach.</p>
+
+    <p>Po odkryciu w końcu lat 90. XX wieku polifiletycznego charakteru tradycyjnie definiowanego rodzaju, część zaliczanych tu gatunków przeniesiona została przez taksonomów do rodzaju koślaczek (Anacamptis) i Neotinea. Gatunkiem typowym jest storczyk kukawka (Orchis militaris L.)
+    </p>]]></string>
+    <string name="sample_flower_image_url">https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Orchis_militaris_110503a.jpg/1024px-Orchis_militaris_110503a.jpg</string>
 </resources>

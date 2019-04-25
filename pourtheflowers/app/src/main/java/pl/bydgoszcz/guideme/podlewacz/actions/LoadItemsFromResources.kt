@@ -9,10 +9,10 @@ class LoadItemsFromResources @Inject constructor(private val repo: ItemsReposito
                                                  private val resourcesLoader: GithubDataLoader,
                                                  private val uiMapper: ItemUiMapper) {
     fun load() {
-        if (!repo.isInitialized) {
+        if (!repo.isStoreLoaded) {
             val unSerializedFlowers = resourcesLoader.load().sortedBy { it.name }
             repo.itemsStore = uiMapper.mapToUi(unSerializedFlowers, false)
-            repo.isInitialized = true
+            repo.isStoreLoaded = true
         }
     }
 }

@@ -65,6 +65,14 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
         }
     }
 
+    fun isToday(): Boolean {
+        val current = SystemTime.current().toCalendar()
+        val that = toCalendar()
+
+        return current.get(Calendar.DAY_OF_YEAR) == that.get(Calendar.DAY_OF_YEAR) &&
+                current.get(Calendar.YEAR) == that.get(Calendar.YEAR)
+    }
+
     companion object {
         fun current(): SystemTime = SystemTime(timeProvider.current())
 
