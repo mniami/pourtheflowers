@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Plant watering</string>
+    <string name="package_name">pl.bydgoszcz.guideme.podlewacz</string>
+
+    <string name="navigation_drawer_open">Open menu</string>
+    <string name="navigation_drawer_close">Close menu</string>
+    <string name="nav_header_title">Notification about plants watering</string>
+    <string name="nav_header_subtitle">GuideMe 2019</string>
+    <string name="action_settings">Settings</string>
+    <string name="flower_frequency_in_days_label"><![CDATA[WATER IN <b>%s</b> DAYS]]></string>
+    <string name="flower_frequency_in_days_header">WATER IN</string>
+    <string name="flower_frequency_today_label"><![CDATA[WATER <b>TODAY</b>]]></string>
+    <string name="flower_frequency_tomorrow_label"><![CDATA[WATER <b>TOMORROW</b>]]></string>
+    <string name="flower_frequency_today_label_without_amount_header">WATER</string>
+    <string name="flower_frequency_today_label_without_amount_footer">TODAY</string>
+    <string name="flower_frequency_in_day_footer">DAY</string>
+    <string name="flower_frequency_late_days_label"><![CDATA[NOT WATER BY <b>%s</b> DAYS]]></string>
+    <string name="flower_frequency_late_days_label_without_amount"><![CDATA[NOT WATER FROM]]></string>
+    <string name="flower_frequency_late_yesterday_label"><![CDATA[WATER WAS YESTERDAY]]></string>
+
+    <string name="search_title">Search</string>
+    <string name="flower_information">Details</string>
+    <string name="flower_image_description">Plant</string>
+    <string name="all_flowers_title">Library</string>
+    <string name="user_flowers_title">My collection</string>
+    <string name="remove_item">Remove</string>
+    <string name="add_new_flower">New</string>
+    <string name="new_flower">New plant</string>
+    <string name="frequency_day_label">%s day</string>
+
+    <!-- Errors -->
+    <string name="image_file_not_found">Image save failed</string>
+    <string name="accept_menu_button">Confirm</string>
+    <string name="frequency_label">Notification frequency - in days</string>
+    <string name="edit_notification_label">Enable notification</string>
+    <string name="details_notification_label">Notification</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="notification_title">It is a time to water your plant</string>
+    <string name="item_added_to_the_list_information">Added to your collection</string>
+    <string name="name_label">Name</string>
+    <string name="description_label">Description</string>
+    <string name="flower_poured">Plant water, saved, next one in %s days</string>
+    <string name="name_cannot_be_empty_message">Name cannot be empty</string>
+    <string name="dialog_title_confirm_save">Confirm</string>
+    <string name="dialog_message_cofirm_save">Are you sure to save the changes?</string>
+    <string name="dialog_button_yes">Confirm</string>
+    <string name="dialog_button_no">Cancel</string>
+    <string name="image_load_failed">Image loading issue noticed</string>
+    <string name="click_to_see_photo"><u>Add image</u></string>
+    <string name="sample_flower_name">Orchis</string>
+    <string name="sample_flower_description"><![CDATA[
+    <p><b>Orchis</b> is a genus in the orchid family (Orchidaceae), occurring mainly in Europe and Northwest Africa, and ranging as far as Tibet, Mongolia, and Xinjiang.</p>
+    <p>The name is from the Ancient Greek ὄρχις orchis, meaning "testicle", from the appearance of the paired subterranean tuberoids.</p>]]></string>
+    <string name="sample_flower_image_url">https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Orchis_militaris_110503a.jpg/1024px-Orchis_militaris_110503a.jpg</string>
+    <string name="pour_the_flower_button">Water</string>
+</resources>

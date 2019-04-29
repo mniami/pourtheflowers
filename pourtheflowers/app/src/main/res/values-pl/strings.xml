@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Podlewacz</string>
+    <string name="package_name">pl.bydgoszcz.guideme.podlewacz</string>
+
+    <string name="navigation_drawer_open">Otwórz menu</string>
+    <string name="navigation_drawer_close">Zamknij menu</string>
+    <string name="nav_header_title">Powiadomienia o podlewaniu kwiatów</string>
+    <string name="nav_header_subtitle">GuideMe 2019</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="title_activity_flower">FlowerActivity</string>
+    <string name="flower_frequency_in_days_label"><![CDATA[PODLEJ ZA <b>%s</b> DNI]]></string>
+    <string name="flower_frequency_in_days_header">PODLEJ ZA</string>
+    <string name="flower_frequency_today_label"><![CDATA[PODLEJ <b>DZISIAJ</b>]]></string>
+    <string name="flower_frequency_tomorrow_label"><![CDATA[PODLEJ <b>JUTRO</b>]]></string>
+    <string name="flower_frequency_today_label_without_amount_header">PODLEJ</string>
+    <string name="flower_frequency_today_label_without_amount_footer">DZISIAJ</string>
+    <string name="flower_frequency_in_day_footer">DZIEŃ</string>
+    <string name="flower_frequency_late_days_label"><![CDATA[NIE PODLAŁEŚ OD <b>%s</b> DNI]]></string>
+    <string name="flower_frequency_late_days_label_without_amount"><![CDATA[NIE PODLAŁEŚ OD]]></string>
+    <string name="flower_frequency_late_yesterday_label"><![CDATA[MIAŁEŚ PODLAĆ WCZORAJ]]></string>
+
+    <string name="search_title">Szukaj</string>
+    <string name="flower_information">Informacje</string>
+    <string name="flower_image_description">Kwiat</string>
+    <string name="all_flowers_title">Biblioteka kwiatów</string>
+    <string name="user_flowers_title">Moje kwiaty</string>
+    <string name="remove_item">Usuń</string>
+    <string name="add_new_flower">Dodaj nowy</string>
+    <string name="new_flower">Nowy kwiat</string>
+    <string name="frequency_day_label">%s dzień</string>
+
+    <!-- Errors -->
+    <string name="image_file_not_found">Nie udało się zapisać zdjęcia</string>
+    <string name="accept_menu_button">Zaakceptuj</string>
+    <string name="frequency_label">Jak często podlewać (w dniach)</string>
+    <string name="edit_notification_label">Włącz przypomnienia o podlaniu</string>
+    <string name="details_notification_label">Powiadomienie</string>
+    <string name="privacy_policy">Polityka prywatności</string>
+    <string name="notification_title">Nadszedł czas podlania</string>
+    <string name="item_added_to_the_list_information">Dodano do Twojej listy</string>
+    <string name="name_label">Nazwa</string>
+    <string name="description_label">Opis</string>
+    <string name="flower_poured">Kwiat podlany, następne za %s dni</string>
+    <string name="name_cannot_be_empty_message">Nazwa nie może być pusta</string>
+    <string name="dialog_title_confirm_save">Zapis zmian</string>
+    <string name="dialog_message_cofirm_save">Czy zapisać zmiany?</string>
+    <string name="dialog_button_yes">Zatwierdź</string>
+    <string name="dialog_button_no">Anuluj</string>
+    <string name="image_load_failed">Wystąpił problem z pobraniem zdjęcia</string>
+    <string name="click_to_see_photo"><u>Dodaj zdjęcie</u></string>
+    <string name="sample_flower_name">Storczyk</string>
+    <string name="sample_flower_description"><![CDATA[
+    <b>Storczyk (Orchis L.)</b> – rodzaj bylin należących do rodziny storczykowatych (Orchidaceae).
+    <p>W zależności od ujęcia systematycznego klasyfikowanych jest do tego rodzaju od 17 do 33 gatunków, przy czym większa liczba podawana jest w starszych klasyfikacjach.</p>
+
+    <p>Po odkryciu w końcu lat 90. XX wieku polifiletycznego charakteru tradycyjnie definiowanego rodzaju, część zaliczanych tu gatunków przeniesiona została przez taksonomów do rodzaju koślaczek (Anacamptis) i Neotinea. Gatunkiem typowym jest storczyk kukawka (Orchis militaris L.)
+    </p>]]></string>
+    <string name="sample_flower_image_url">https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Orchis_militaris_110503a.jpg/1024px-Orchis_militaris_110503a.jpg</string>
+    <string name="pour_the_flower_button">Podlane</string>
+</resources>
