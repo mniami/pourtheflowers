@@ -101,7 +101,6 @@ class ItemDetailsFragment : Fragment() {
             tvNotificationTime?.text = remainingSystem.getTime()
             tvRemainingTime.text = uiItem.item.notification.getRemainingDaysMessage(activity)
             ivNotificationAlert.visibility = (timePassed && !timePassedToday).toVisibility()
-            btnWater.visibility = timePassed.toVisibility()
         }
 
         btnWater.setOnClickListener {

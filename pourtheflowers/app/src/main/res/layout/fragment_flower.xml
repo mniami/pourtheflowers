@@ -101,7 +101,7 @@
                     android:id="@+id/btnWater"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:backgroundTint="@color/blue"
                     android:drawableStart="@drawable/ic_water_drop"
                     android:drawableTint="@color/brokenWhite"
                     android:text="@string/pour_the_flower_button"
