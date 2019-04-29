@@ -46,7 +46,7 @@ class EditDetailsFragment : Fragment() {
         binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
         binder.bind {
             name = uiItem.item.name
-            description = uiItem.item.description
+            descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
             pourFrequencyInDays = uiItem.item.notification.repeatInTime.toDays()
@@ -96,7 +96,7 @@ class EditDetailsFragment : Fragment() {
     private fun saveItem(onSuccess: () -> Unit) {
         with(uiItem.item) {
             name = binder.name
-            description = binder.description
+            description = binder.descriptionPure
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
         }

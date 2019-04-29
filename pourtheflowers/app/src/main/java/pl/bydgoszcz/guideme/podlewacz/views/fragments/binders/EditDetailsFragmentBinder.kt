@@ -1,6 +1,8 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.binders
 
 import android.content.Context
+import android.text.Html
+import android.text.Spanned
 import android.view.View
 import android.widget.*
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
@@ -21,12 +23,19 @@ class EditDetailsFragmentBinder(
         set(value) {
             etName.setText(value)
         }
-    var description: String
+    var descriptionHtml: Spanned
         get() {
-            return etDescription.text.toString()
+            return etDescription.text
         }
         set(value) {
             etDescription.setText(value)
+        }
+    var descriptionPure: String
+        get() {
+            return etDescription.text.toString().replace("\n", "<br/>")
+        }
+        set(value) {
+            etDescription.setText(Html.fromHtml(value))
         }
     var pourFrequencyInDays: Int
         get() {

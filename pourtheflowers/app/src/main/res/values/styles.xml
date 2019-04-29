@@ -19,28 +19,35 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Card" parent="CardView">
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardElevation">1dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
     <style name="LabelTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/darker_gray</item>
+        <item name="android:textColor">@color/edit_text_color</item>
         <item name="android:textSize">@dimen/labelTextSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">8dp</item>
     </style>
     <style name="DescriptionTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/edit_text_color</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:lineSpacingExtra">1.5dp</item>
         <item name="android:inputType">textMultiLine|textWebEditText</item>
         <item name="android:scrollbars">none</item>
         <item name="android:scrollHorizontally">false</item>
         <item name="android:textSize">@dimen/descriptionTextSize</item>
+        <item name="android:background">@drawable/layerlist</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Form"></style>
-
-    <style name="Form.EditTextView" parent="android:Widget.EditText">
-    </style>
+    <style name="Form.EditTextView" parent="android:Widget.EditText" />
 
 </resources>

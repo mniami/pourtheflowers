@@ -54,7 +54,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
         binder.bind {
             name = uiItem.item.name
-            description = uiItem.item.description
+            descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
             onNotificationEnabled = {
@@ -104,7 +104,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         val filePath = if (photoFilePath.isNullOrEmpty()) format("android.resource://%s/drawable/flower", getString(R.string.package_name)) else photoFilePath
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name, binder.description, emptyList(), filePath, frequency, onSuccess)
+        addNewItem.add(binder.name, binder.descriptionPure, emptyList(), filePath, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {

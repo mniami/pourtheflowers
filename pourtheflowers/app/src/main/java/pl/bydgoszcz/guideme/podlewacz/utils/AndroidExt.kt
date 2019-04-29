@@ -28,3 +28,7 @@ fun Resources.getColorFromResource(colorId: Int): Int {
 fun Resources.getDrawableFromResources(drawableId: Int): Drawable? {
     return ResourcesCompat.getDrawable(this, drawableId, null)
 }
+
+fun Boolean.toVisibility(): Int {
+    return if (this) View.VISIBLE else View.GONE
+}

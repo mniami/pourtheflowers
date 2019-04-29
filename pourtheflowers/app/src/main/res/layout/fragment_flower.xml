@@ -1,138 +1,163 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.fragments.ItemDetailsFragment">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/gallery_background"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/itemImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:contentDescription="@string/flower_image_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/ic_garden_center_15" />
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemImage"
-                tools:text="Kwiat paproci" />
-        </android.support.constraint.ConstraintLayout>
-
         <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="280dp" />
 
-        <View
-            android:id="@+id/header_layout"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="0dp"
-            android:background="@drawable/side_nav_bar"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
-
-        <TextView
-            android:id="@+id/remainingDaysHeaderTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="10dp"
-            android:text="NASTĘPNE ZA"
-            android:textColor="@color/intenseLabelTextColor"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
-            app:layout_constraintEnd_toStartOf="@+id/remainingDaysTextView"
-            app:layout_constraintTop_toTopOf="@+id/remainingDaysTextView" />
-
-        <TextView
-            android:id="@+id/remainingDaysTextView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/ic_circle"
-            android:textColor="@color/labelTextColor"
-            android:textSize="27sp"
-            android:paddingBottom="2dp"
-            android:paddingEnd="1dp"
-            android:textAlignment="center"
-            android:text="3"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/header_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header_layout" />
-
         <ImageView
-            android:id="@+id/todayImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_water_drop"
-            android:paddingBottom="2dp"
-            android:paddingEnd="1dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/header_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header_layout" />
-
-        <TextView
-            android:id="@+id/remainingDaysFooterTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="DNI"
-            android:textColor="@color/intenseLabelTextColor"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
-            app:layout_constraintStart_toEndOf="@+id/remainingDaysTextView"
-            app:layout_constraintTop_toTopOf="@+id/remainingDaysTextView" />
-
-        <TextView
-            android:id="@+id/descriptionTextView"
-            style="@style/DescriptionTextViewStyle"
+            android:id="@+id/itemImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/flower_image_description"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_layout"
-            tools:text="This is a long description about flower. This is a long description about flower.This is a long description about flower. This is a long description about flower This is a long description about flower. This is a long description about flower" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@drawable/ic_garden_center_15" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvNotification"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    style="@style/LabelTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_notification_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvRemainingTime"
+                    style="@style/DescriptionTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    tools:text="Nie podlałeś od 2 dni" />
+
+                <ImageView
+                    android:id="@+id/ivNotificationAlert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:background="@android:drawable/ic_dialog_alert"
+                    android:backgroundTint="@color/warning_tint_background"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvRemainingTime"
+                    app:layout_constraintStart_toEndOf="@+id/tvRemainingTime"
+                    app:layout_constraintTop_toTopOf="@+id/tvRemainingTime" />
+
+                <TextView
+                    android:id="@+id/tvNotificationDate"
+                    style="@style/DescriptionTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime"
+                    tools:text="2019-02-22" />
+
+                <TextView
+                    android:id="@+id/tvNotificationTime"
+                    style="@style/DescriptionTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvNotificationDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime"
+                    tools:text="8:00" />
+
+                <Button
+                    android:id="@+id/btnWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:drawableStart="@drawable/ic_water_drop"
+                    android:drawableTint="@color/brokenWhite"
+                    android:text="@string/pour_the_flower_button"
+                    android:textColor="@color/brokenWhite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvNameDescription"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvNotification">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <TextView
+                    android:id="@+id/tvDescriptionLabel"
+                    style="@style/LabelTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:text="@string/description_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/DescriptionTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescriptionLabel"
+                    tools:text="Kwiat paproci" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    style="@style/DescriptionTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvName"
+                    tools:text="This is a long description about flower. This is a long description about flower.This is a long description about flower. This is a long description about flower This is a long description about flower. This is a long description about flower" />
+
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

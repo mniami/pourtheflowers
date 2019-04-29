@@ -14,6 +14,14 @@ class NotificationExtKtTest {
     }
 
     @Test
+    fun `minus one day`() {
+        getElapsedTime(
+                repeatTime = NotificationTime.fromDays(3),
+                lastTimeMinusCurrentTime = NotificationTime.fromDays(5),
+                expectedTime = NotificationTime.fromDays(-2))
+    }
+
+    @Test
     fun `two days`() {
         getElapsedTime(NotificationTime.fromDays(3), NotificationTime.fromDays(1), NotificationTime.fromDays(2))
     }
@@ -26,7 +34,7 @@ class NotificationExtKtTest {
         val notification = Notification(true,
                 repeatInTime = repeatTime,
                 lastNotificationTime = currentTime.minus(lastTimeMinusCurrentTime))
-        val actual = notification.getRemainingTime(currentTime)
+        val actual = notification.getRemainingNotificationTime(currentTime)
 
         assertEquals(expectedTime, actual)
     }

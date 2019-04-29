@@ -24,7 +24,7 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
 
     fun setUpNotification(item: UiItem) {
         val currentTime = SystemTime.current()
-        var delay = item.item.notification.getRemainingTime(currentTime)
+        var delay = item.item.notification.getRemainingNotificationTime(currentTime)
         val notificationTitle = contentProvider.getString(R.string.notification_title)
 
         if (delay < NotificationTime.ZERO) {

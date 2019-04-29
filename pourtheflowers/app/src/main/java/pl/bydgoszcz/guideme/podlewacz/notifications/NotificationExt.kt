@@ -10,10 +10,10 @@ import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
-fun Notification.getRemainingTime(currentTime: SystemTime): NotificationTime {
+fun Notification.getRemainingNotificationTime(currentTime: SystemTime): NotificationTime {
     return if (lastNotificationTime.millis > 0 && repeatInTime.value > 0) {
         val elapsedTime = currentTime - lastNotificationTime
-        var remainTime = repeatInTime - elapsedTime % repeatInTime
+        var remainTime = repeatInTime - elapsedTime
         val notificationDateTime = currentTime + remainTime
 
         cleanNotificationTimeToFixedTime(notificationDateTime)
@@ -25,14 +25,14 @@ fun Notification.getRemainingTime(currentTime: SystemTime): NotificationTime {
     }
 }
 
-fun Notification.getNotificationDateTime(): SystemTime {
+fun Notification.getRemainingSystemTime(): SystemTime {
     val currentTime = SystemTime.current()
-    return currentTime + getRemainingTime(currentTime)
+    return currentTime + getRemainingNotificationTime(currentTime)
 }
 
 fun Notification.getElapsedTime(): NotificationTime {
-    val notificationDateTime = getNotificationDateTime()
-    var currentDateTime = SystemTime.current()
+    val notificationDateTime = getRemainingSystemTime()
+    val currentDateTime = SystemTime.current()
 
     cleanNotificationTimeToFixedTime(currentDateTime)
 
@@ -40,7 +40,7 @@ fun Notification.getElapsedTime(): NotificationTime {
 }
 
 fun UiItem.updateRemainingTime() {
-    remainingTime = item.notification.getRemainingTime(SystemTime.current())
+    remainingTime = item.notification.getRemainingNotificationTime(SystemTime.current())
 }
 
 fun Notification.getRemainingDaysMessage(context: Context): Spanned {

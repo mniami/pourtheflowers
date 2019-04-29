@@ -17,7 +17,6 @@
         android:layout_width="101dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/nav_header_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:srcCompat="@drawable/ic_garden_center_15" />

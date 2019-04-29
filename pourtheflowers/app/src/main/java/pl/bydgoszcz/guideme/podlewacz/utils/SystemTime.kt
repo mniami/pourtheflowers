@@ -3,7 +3,7 @@ package pl.bydgoszcz.guideme.podlewacz.utils
 import java.io.Serializable
 import java.util.*
 
-private val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS")
+private val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.ENGLISH)
 
 /**
  * Value expressed in milliseconds
@@ -34,7 +34,7 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
         return dateFormat.format(Date(millis))
     }
 
-    fun isZero(): Boolean = this == SystemTime.ZERO
+    fun isZero(): Boolean = this == ZERO
 
     fun get(part: DateTimePart): Int? {
         val calendar = Calendar.getInstance()
@@ -71,6 +71,21 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
 
         return current.get(Calendar.DAY_OF_YEAR) == that.get(Calendar.DAY_OF_YEAR) &&
                 current.get(Calendar.YEAR) == that.get(Calendar.YEAR)
+    }
+
+    fun getDate(): String {
+        val calendar = toCalendar()
+        return "%04d-%02d-%02d".format(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH))
+    }
+
+    fun getTime(): String {
+        val calendar = toCalendar()
+        return "%02d:%02d".format(
+                calendar.get(Calendar.HOUR),
+                calendar.get(Calendar.MINUTE))
     }
 
     companion object {

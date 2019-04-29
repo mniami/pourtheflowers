@@ -1,13 +1,9 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
-import android.animation.ValueAnimator
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import android.support.v4.math.MathUtils
 import android.text.Html
 import android.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -18,17 +14,19 @@ import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import pl.bydgoszcz.guideme.podlewacz.features.AddItemToUser
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.features.RemoveItemFromUser
-import pl.bydgoszcz.guideme.podlewacz.notifications.getNotificationDateTime
+import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
+import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingNotificationTime
+import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingSystemTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
-import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
+import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
+import pl.bydgoszcz.guideme.podlewacz.utils.toVisibility
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class ItemDetailsFragment : Fragment() {
     private val analyticsName = "Item details"
-    private var animators : MutableList<ValueAnimator> = mutableListOf()
     private val viewChanger by lazy {
         (activity as MainActivityHelper).getViewChanger()
     }
@@ -64,20 +62,6 @@ class ItemDetailsFragment : Fragment() {
         setMenu(menu, inflater, menuResource)
     }
 
-    override fun onPause() {
-        super.onPause()
-        animators.forEach {
-            it.cancel()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        animators.forEach {
-            it.start()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         injector { inject(this@ItemDetailsFragment) }
@@ -91,7 +75,6 @@ class ItemDetailsFragment : Fragment() {
             activity.toolbar.title = uiItem.item.name
             tvName.text = uiItem.item.name
         }
-        descriptionTextView?.text = Html.fromHtml(uiItem.item.description)
         initItem()
         analytics.onViewCreated(BundleFactory.create()
                 .putName(analyticsName)
@@ -99,96 +82,36 @@ class ItemDetailsFragment : Fragment() {
                 .putInt("NOTIFICATION_DAYS_AMOUNT", uiItem.item.notification.repeatInTime.toDays())
                 .putBoolean("USER_ITEM", uiItem.isUser)
                 .build())
+
     }
 
     private fun initItem() {
         val activity = activity
                 ?: throw IllegalStateException("Item details - init item has no activity")
-        initRemainingBar()
+        tvDescription?.text = Html.fromHtml(uiItem.item.description)
+        cvNotification?.visibility = uiItem.item.notification.enabled.toVisibility()
+
+        if (uiItem.item.notification.enabled) {
+            val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.current())
+            val remainingSystem = uiItem.item.notification.getRemainingSystemTime()
+            val timePassed = remainingNotification.value < 0
+            val timePassedToday = remainingSystem.isToday()
+
+            tvNotificationDate?.text = remainingSystem.getDate()
+            tvNotificationTime?.text = remainingSystem.getTime()
+            tvRemainingTime.text = uiItem.item.notification.getRemainingDaysMessage(activity)
+            ivNotificationAlert.visibility = (timePassed && !timePassedToday).toVisibility()
+            btnWater.visibility = timePassed.toVisibility()
+        }
+
+        btnWater.setOnClickListener {
+            pouredTheFlower.pour(uiItem, btnWater) {
+                initItem()
+            }
+        }
+
         initFabButton(activity)
         initImage()
-    }
-
-    private fun initRemainingBar() {
-        val visible = if (uiItem.item.notification.enabled) View.VISIBLE else View.GONE
-
-        remainingDaysHeaderTextView.visibility = visible
-        remainingDaysFooterTextView.visibility = visible
-        remainingDaysTextView.visibility = visible
-        header_layout.visibility = visible
-        todayImageView.visibility = View.GONE
-
-        if (!uiItem.item.notification.enabled) {
-            return
-        }
-
-        val onClickListener = View.OnClickListener {
-            pouredTheFlower.pour(uiItem, it) { }
-        }
-
-        val remainingDays = uiItem.remainingTime.toDays()
-        when {
-            remainingDays < 0 -> {
-                header_layout.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-                remainingDaysTextView.background.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
-                remainingDaysTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_late_days_label_without_amount)
-                animateRemainingBar()
-                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.brokenWhite))
-                remainingDaysTextView?.text = (remainingDays * -1).toString()
-            }
-            remainingDays == 0 -> {
-                remainingDaysTextView.background.colorFilter = null
-                header_layout.background.colorFilter = null
-                remainingDaysFooterTextView.text = getString(R.string.flower_frequency_today_label_without_amount_footer)
-                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_today_label_without_amount_header)
-                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                todayImageView.visibility = View.VISIBLE
-                remainingDaysTextView.text = ""
-                todayImageView.setOnClickListener(onClickListener)
-            }
-            remainingDays == 1 -> {
-                remainingDaysTextView.background.colorFilter = null
-                header_layout.background.colorFilter = null
-                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                remainingDaysTextView.text = remainingDays.toString()
-                remainingDaysFooterTextView.text = getString(R.string.flower_frequency_in_day_footer)
-                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
-            }
-            else -> {
-                remainingDaysTextView.background.colorFilter = null
-                header_layout.background.colorFilter = null
-                remainingDaysFooterTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                remainingDaysHeaderTextView.setTextColor(resources.getColorFromResource(R.color.intenseLabelTextColor))
-                remainingDaysTextView?.text = remainingDays.toString()
-                remainingDaysHeaderTextView.text = getString(R.string.flower_frequency_in_days_header)
-            }
-        }
-        if (uiItem.item.notification.getNotificationDateTime().isToday()) {
-            remainingDaysTextView.setOnClickListener(onClickListener)
-        }
-    }
-
-    private fun animateRemainingBar() {
-        val min = 0f
-        val max = 0.13f
-        val middle = (max - min) / 2f
-
-        animators.add(ValueAnimator.ofFloat(min, max)
-                .apply {
-                    duration = 1000
-                    repeatCount = ValueAnimator.INFINITE
-                    addUpdateListener {
-                        val value = animatedValue as Float
-                        var scale = if (value > middle) max - value else value
-                        scale = MathUtils.clamp(scale, min, middle)
-                        remainingDaysTextView.scaleY = 1f + scale
-                        remainingDaysTextView.scaleX = 1f + scale
-                    }
-                })
     }
 
     private fun initImage() {
@@ -199,7 +122,7 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initFabButton(activity: FragmentActivity) {
-        val option = when(uiItem.isUser){
+        val option = when (uiItem.isUser) {
             true -> FabHelper.Option.EDIT
             false -> FabHelper.Option.ADD
         }

@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.notifications.getElapsedTime
-import pl.bydgoszcz.guideme.podlewacz.notifications.getNotificationDateTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
+import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingSystemTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
@@ -124,7 +124,7 @@ class FlowerRecyclerViewAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.item.notification.getNotificationDateTime().isToday()
+    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.item.notification.getRemainingSystemTime().isToday()
 
     fun resume() {
         stopped = false
