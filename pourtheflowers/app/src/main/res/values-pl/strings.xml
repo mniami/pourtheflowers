@@ -7,7 +7,6 @@
     <string name="nav_header_title">Powiadomienia o podlewaniu kwiatów</string>
     <string name="nav_header_subtitle">GuideMe 2019</string>
     <string name="action_settings">Ustawienia</string>
-    <string name="title_activity_flower">FlowerActivity</string>
     <string name="flower_frequency_in_days_label"><![CDATA[PODLEJ ZA <b>%s</b> DNI]]></string>
     <string name="flower_frequency_in_days_header">PODLEJ ZA</string>
     <string name="flower_frequency_today_label"><![CDATA[PODLEJ <b>DZISIAJ</b>]]></string>
@@ -57,4 +56,9 @@
     </p>]]></string>
     <string name="sample_flower_image_url">https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Orchis_militaris_110503a.jpg/1024px-Orchis_militaris_110503a.jpg</string>
     <string name="pour_the_flower_button">Podlane</string>
+    <string name="day">dzień</string>
+    <string name="days">dni</string>
+    <string name="flower_frequency_alert_message">Podlej jak najszybciej, zapomniałeś to zrobić ostatnio!</string>
+    <string name="flower_frequency_notification_remaining_label">Pozostało</string>
+    <string name="privacy_policy_url">https://sites.google.com/view/pour-the-flower-privacy-policy</string>
 </resources>

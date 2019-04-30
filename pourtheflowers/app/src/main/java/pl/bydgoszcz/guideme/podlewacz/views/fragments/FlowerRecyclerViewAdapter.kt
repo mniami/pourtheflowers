@@ -132,7 +132,7 @@ class FlowerRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View, isStopped: () -> Boolean) : RecyclerView.ViewHolder(mView) {
         val mNameView: TextView = mView.name
-        val mDescriptionView: TextView = mView.description
+        val mDescriptionView: TextView = mView.tvDescription
         val mFlowerImageView: ImageView = mView.flowerImage
         val mBtnPouredFlower: ImageButton = mView.btnPouredFlower
         val mFrequencyText: TextView = mView.remainingDaysTextView

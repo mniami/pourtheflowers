@@ -53,4 +53,9 @@
     <p>The name is from the Ancient Greek ὄρχις orchis, meaning "testicle", from the appearance of the paired subterranean tuberoids.</p>]]></string>
     <string name="sample_flower_image_url">https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Orchis_militaris_110503a.jpg/1024px-Orchis_militaris_110503a.jpg</string>
     <string name="pour_the_flower_button">Water</string>
+    <string name="day">day</string>
+    <string name="days">days</string>
+    <string name="privacy_policy_url">https://sites.google.com/view/pour-the-flower-privacy-policy</string>
+    <string name="flower_frequency_alert_message">Water as soon as possible, you missed that!</string>
+    <string name="flower_frequency_notification_remaining_label">Remaining</string>
 </resources>

@@ -1,85 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:layout_marginEnd="2dp"
     android:layout_marginBottom="1dp"
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_marginTop="@dimen/text_margin"
-        android:layout_marginBottom="@dimen/text_margin"
-        android:orientation="horizontal"
-        android:weightSum="10">
+    <ImageView
+        android:id="@+id/flowerImage"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/flower" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="3">
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:lines="1"
+        android:maxLength="26"
+        android:paddingBottom="3dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/flowerImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Lorem ipsum, lorem ipsum, lorem ispum" />
 
-            <ImageView
-                android:id="@+id/flowerImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="4dp"/>
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:lines="1"
+        android:maxLength="38"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/darker_gray"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/flowerImage"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:text="Lorem ipsum, lorem ipsum, lorem ispum" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/btnPouredFlower"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="@color/white"
+        android:tint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flowerImage"
+        app:srcCompat="@drawable/ic_water_drop" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:paddingBottom="3dp"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="18sp"
-                tools:text="Lorem ipsum, lorem ipsum, lorem ispum" />
+    <TextView
+        android:id="@+id/remainingDaysTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:lines="1"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+ 1" />
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:lines="1"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textColor="@color/darker_gray"
-                android:textSize="12sp"
-                tools:text="Lorem ipsum, lorem ipsum, lorem ispum" />
-
-            <TextView
-                android:id="@+id/remainingDaysTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:layout_marginTop="4dp"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12sp"
-                tools:text="1 dzień (2019-02-01 08:00)" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageButton
-                android:id="@+id/btnPouredFlower"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                app:srcCompat="@drawable/ic_water_drop" />
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

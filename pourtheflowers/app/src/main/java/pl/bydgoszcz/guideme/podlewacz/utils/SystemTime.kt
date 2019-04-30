@@ -1,9 +1,11 @@
 package pl.bydgoszcz.guideme.podlewacz.utils
 
 import java.io.Serializable
+import java.text.SimpleDateFormat
 import java.util.*
 
-private val dateFormat = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.ENGLISH)
+private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS")
+private val dateFormatHuman = SimpleDateFormat("EEEE d MMMM")
 
 /**
  * Value expressed in milliseconds
@@ -74,11 +76,7 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
     }
 
     fun getDate(): String {
-        val calendar = toCalendar()
-        return "%04d-%02d-%02d".format(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH))
+        return dateFormatHuman.format(Date(millis))
     }
 
     fun getTime(): String {

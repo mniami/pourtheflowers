@@ -95,14 +95,26 @@ class ItemDetailsFragment : Fragment() {
             val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.current())
             val remainingSystem = uiItem.item.notification.getRemainingSystemTime()
             val timePassed = remainingNotification.value < 0
+            val timeRemains = remainingNotification.value > 0
             val timePassedToday = remainingSystem.isToday()
+            val timePassedButNotToday = timePassed && !timePassedToday
+            val timePassedButNotTodayVisibility = timePassedButNotToday.toVisibility()
 
             tvNotificationDate?.text = remainingSystem.getDate()
             tvNotificationTime?.text = remainingSystem.getTime()
             tvRemainingTime.text = uiItem.item.notification.getRemainingDaysMessage(activity)
-            ivNotificationAlert.visibility = (timePassed && !timePassedToday).toVisibility()
+
+            if (timePassedButNotToday) {
+                tvRemainingTime.setTextColor(resources.getColor(R.color.red))
+            } else {
+                tvRemainingTime.setTextColor(resources.getColor(R.color.colorPrimary))
+            }
+            ivNotificationAlert.visibility = timePassedButNotTodayVisibility
+            tvAlertMessage.visibility = timePassedButNotTodayVisibility
+            tvNotificationRemainingLabel.visibility = timeRemains.toVisibility()
         }
 
+        btnWater.visibility = uiItem.isUser.toVisibility()
         btnWater.setOnClickListener {
             pouredTheFlower.pour(uiItem, btnWater) {
                 initItem()

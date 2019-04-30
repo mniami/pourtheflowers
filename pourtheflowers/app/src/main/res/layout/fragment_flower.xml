@@ -34,12 +34,47 @@
             app:layout_constraintVertical_bias="1.0"
             tools:srcCompat="@drawable/ic_garden_center_15" />
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/itemImage">
+
+            <ImageView
+                android:id="@+id/ivNotificationAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/ic_dialog_alert"
+                android:backgroundTint="@color/warning_tint_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnWater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue"
+                android:drawableStart="@drawable/ic_water_drop"
+                android:drawableTint="@color/brokenWhite"
+                android:text="@string/pour_the_flower_button"
+                android:textColor="@color/brokenWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
         <android.support.v7.widget.CardView
             android:id="@+id/cvNotification"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/guideline">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="8dp">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -47,67 +82,69 @@
                 android:layout_margin="8dp">
 
                 <TextView
-                    android:id="@+id/textView4"
-                    style="@style/LabelTextViewStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/details_notification_label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/tvRemainingTime"
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4"
-                    tools:text="Nie podlałeś od 2 dni" />
-
-                <ImageView
-                    android:id="@+id/ivNotificationAlert"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:drawable/ic_dialog_alert"
-                    android:backgroundTint="@color/warning_tint_background"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvRemainingTime"
-                    app:layout_constraintStart_toEndOf="@+id/tvRemainingTime"
-                    app:layout_constraintTop_toTopOf="@+id/tvRemainingTime" />
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="2 dni" />
 
                 <TextView
                     android:id="@+id/tvNotificationDate"
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime"
-                    tools:text="2019-02-22" />
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toEndOf="@+id/tvNotificationTime"
+                    app:layout_constraintTop_toTopOf="@+id/tvNotificationTime"
+                    tools:text="środa 1 maja" />
 
                 <TextView
                     android:id="@+id/tvNotificationTime"
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/tvNotificationDate"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
                     tools:text="8:00" />
 
-                <Button
-                    android:id="@+id/btnWater"
+                <TextView
+                    android:id="@+id/tvNotificationRemainingLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/blue"
-                    android:drawableStart="@drawable/ic_water_drop"
-                    android:drawableTint="@color/brokenWhite"
-                    android:text="@string/pour_the_flower_button"
-                    android:textColor="@color/brokenWhite"
+                    android:paddingLeft="8dp"
+                    android:text="@string/flower_frequency_notification_remaining_label"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="@string/details_notification_label"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAlertMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="@string/flower_frequency_alert_message"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -125,23 +162,14 @@
                 android:layout_margin="8dp">
 
                 <TextView
-                    android:id="@+id/tvDescriptionLabel"
-                    style="@style/LabelTextViewStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="@string/description_label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/tvName"
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDescriptionLabel"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Kwiat paproci" />
 
                 <TextView
@@ -149,7 +177,6 @@
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvName"

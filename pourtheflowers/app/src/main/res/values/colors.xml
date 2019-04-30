@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#59b53f</color>
+    <color name="colorPrimary">#59B53F</color>
     <color name="colorPrimaryTransparent">#b4ffffff</color>
     <color name="colorPrimaryDark">#329f30</color>
     <color name="colorAccent">#ffbc40</color>
@@ -22,4 +22,5 @@
     <color name="warning_tint_background">#A81818</color>
 
     <color name="blue">#2196F3</color>
+    <color name="red">#550000</color>
 </resources>
