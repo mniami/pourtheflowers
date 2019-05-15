@@ -112,9 +112,11 @@ class ItemDetailsFragment : Fragment() {
             ivNotificationAlert.visibility = timePassedButNotTodayVisibility
             tvAlertMessage.visibility = timePassedButNotTodayVisibility
             tvNotificationRemainingLabel.visibility = timeRemains.toVisibility()
+        } else {
+            ivNotificationAlert.visibility = View.GONE
         }
 
-        btnWater.visibility = uiItem.isUser.toVisibility()
+        btnWater.visibility = (uiItem.isUser && uiItem.item.notification.enabled).toVisibility()
         btnWater.setOnClickListener {
             pouredTheFlower.pour(uiItem, btnWater) {
                 initItem()

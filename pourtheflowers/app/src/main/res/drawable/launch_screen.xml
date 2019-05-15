@@ -10,8 +10,8 @@
         <bitmap
             android:layout_width="match_parent"
             android:gravity="center"
-            android:src="@drawable/flower" />
-
+            android:src="@drawable/watering_can"
+            android:tint="@color/colorAccent" />
     </item>
 
 </layer-list>

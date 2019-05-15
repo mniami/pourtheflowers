@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_list.*
@@ -15,7 +16,10 @@ import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
+import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
+import pl.bydgoszcz.guideme.podlewacz.threads.runOnUi
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
+import pl.bydgoszcz.guideme.podlewacz.utils.toVisibility
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
@@ -48,11 +52,9 @@ class FlowerListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_flower_list, container, false)
-        if (view !is RecyclerView) {
-            return view
-        }
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
-        view.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         return view
     }
 
@@ -67,8 +69,10 @@ class FlowerListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val act = activity ?: throw IllegalStateException("Flower list no activity")
-        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
-        adapter.resume()
+        emptyTextView.setOnClickListener {
+            listType = USER_LIST_TYPE
+            (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
+        }
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
             listType = USER_LIST_TYPE
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
@@ -76,6 +80,10 @@ class FlowerListFragment : Fragment() {
         if (act is MainActivityHelper) {
             act.toolbar.title = getListTypeTitle()
         }
+        refreshUi()
+
+        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
+        adapter.resume()
     }
 
     override fun onPause() {
@@ -111,11 +119,34 @@ class FlowerListFragment : Fragment() {
             else -> ""
         }
     }
-
     private fun loadAdapter(view: RecyclerView) {
         val context = context ?: return
-        view.adapter = FlowerRecyclerViewAdapter(itemsProvider.getItems(listType), context, listener, pouredTheFlower)
-        view.adapter?.notifyDataSetChanged()
+        Log.d(LOG_TAG, "load adapter")
+        runInBackground {
+            Log.d(LOG_TAG, "empty adapter set")
+            val items = itemsProvider.getItems(listType)
+            runOnUi {
+                Log.d(LOG_TAG, "setting adapter on ui")
+                if (!isVisible) {
+                    return@runOnUi
+                }
+                Log.d(LOG_TAG, "notifying adapter")
+                view.adapter = FlowerRecyclerViewAdapter(items, context, listener, pouredTheFlower)
+                view.adapter?.notifyDataSetChanged()
+
+                refreshUi()
+            }
+        }
+    }
+
+    private fun refreshUi() {
+        recyclerView.adapter ?: return
+
+        val adapter = (recyclerView.adapter as FlowerRecyclerViewAdapter)
+        val isEmpty = adapter.itemCount == 0 && listType == USER_LIST_TYPE
+
+        emptyTextView.visibility = isEmpty.toVisibility()
+        recyclerView.visibility = (!isEmpty).toVisibility()
     }
 
     interface OnListFragmentInteractionListener {
@@ -127,6 +158,7 @@ class FlowerListFragment : Fragment() {
         const val USER_LIST_TYPE = 1
         const val LIBRARY_LIST_TYPE = 2
         const val ARG_LIST_TYPE_NAME = "list_type"
+        const val LOG_TAG = "FlowerListF"
 
         @JvmStatic
         fun newInstance(listType: Int) =

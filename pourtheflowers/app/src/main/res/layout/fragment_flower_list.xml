@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyclerView"
-    android:name="guideme.bydgoszcz.pl.pourtheflower.FlowerFragment"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".views.fragments.FlowerListFragment"
-    tools:listitem="@layout/fragment_flower_item"/>
+    android:background="@color/gray">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerView"
+        android:name="guideme.bydgoszcz.pl.pourtheflower.FlowerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        tools:context=".views.fragments.FlowerListFragment"
+        tools:listitem="@layout/fragment_flower_item" />
+
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:cursorVisible="true"
+        android:linksClickable="false"
+        android:text="@string/add_first_flower">
+
+    </TextView>
+</RelativeLayout>

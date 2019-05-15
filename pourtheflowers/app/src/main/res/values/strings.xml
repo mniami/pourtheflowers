@@ -60,4 +60,5 @@
     <string name="pour_the_flower_button">Podlane</string>
     <string name="flower_frequency_alert_message">Podlej jak najszybciej, zapomniałeś to zrobić ostatnio.</string>
     <string name="flower_frequency_notification_remaining_label">Pozostało</string>
+    <string name="add_first_flower">Dodaj pierwszy kwiat</string>
 </resources>

@@ -72,12 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             (application as PourTheFlowerApplication).component.inject(this)
             dataLoader.load {
                 val user = repo.user
-                if (user.items.isEmpty()) {
-                    presenter.showAllItems()
-                } else {
-                    itemsNotifications.setUpNotifications(user.items)
-                    presenter.showUserItems()
-                }
+                itemsNotifications.setUpNotifications(user.items)
+                presenter.showUserItems()
             }
         }
         supportFragmentManager.addOnBackStackChangedListener {

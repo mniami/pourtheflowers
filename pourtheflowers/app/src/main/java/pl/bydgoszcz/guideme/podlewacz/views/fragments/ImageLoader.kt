@@ -7,7 +7,6 @@ import android.webkit.URLUtil
 import android.widget.ImageView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.utils.CircleTransform
 import java.io.File
 
@@ -17,7 +16,6 @@ object ImageLoader {
     fun setImage(itemImage: ImageView, imageUrl: String, onError: () -> Unit = {}) {
         val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
-                .error(R.drawable.watering_can_grey)
                 .into(itemImage, object : Callback {
                     override fun onError(e: Exception?) {
                         onError()
@@ -32,7 +30,6 @@ object ImageLoader {
     fun setImageWithCircle(itemImage: ImageView, imageUrl: String, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
         val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
-                .error(R.drawable.watering_can_grey)
                 .transform(CircleTransform(borderColor, borderSize))
                 .into(itemImage, object : Callback {
                     override fun onError(e: Exception?) {
