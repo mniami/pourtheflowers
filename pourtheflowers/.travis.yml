@@ -4,4 +4,4 @@ android:
     - build-tools-28.0.0
     - android-28
     - extra-google-google_play_services
-    - sys-img-x86-android-26
+    - sys-img-x86-android-28
