@@ -10,4 +10,5 @@
     <dimen name="headerTextSize">22sp</dimen>
     <dimen name="descriptionTextSize">16sp</dimen>
     <dimen name="labelTextSize">14sp</dimen>
+    <dimen name="form_view_margin_start_end">16dp</dimen>
 </resources>

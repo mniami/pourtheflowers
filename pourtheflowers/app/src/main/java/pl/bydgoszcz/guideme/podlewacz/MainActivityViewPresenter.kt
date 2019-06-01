@@ -25,6 +25,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction()
                     .replace(frameLayoutId, ItemDetailsFragment.create(uiItem), info)
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .addToBackStack(info)
                     .commit()
         }
@@ -34,6 +35,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
         val info = "edit" + uiItem.item.id
         handler.post {
             supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(frameLayoutId, EditDetailsFragmentFactory.create(uiItem), info)
                     .commit()
         }
@@ -42,6 +44,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showUserItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.USER_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
@@ -50,6 +53,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showAllItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(frameLayoutId, LibraryFragment(), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
@@ -58,6 +62,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showNewItemAdd() {
         handler.post {
             supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(frameLayoutId, NewItemFragment(), itemBackStackName)
                     .addToBackStack(itemBackStackName)
                     .commit()

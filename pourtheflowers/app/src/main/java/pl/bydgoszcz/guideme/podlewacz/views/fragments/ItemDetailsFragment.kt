@@ -57,7 +57,7 @@ class ItemDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_flower, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         val menuResource = if (uiItem.isUser) R.menu.menu_flower else R.menu.main
         setMenu(menu, inflater, menuResource)
     }
@@ -128,6 +128,8 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initImage() {
+        itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
+        guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
         itemImage.setOnClickListener {
             fullScreenImage.open(uiItem)
@@ -152,8 +154,8 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 activity?.goBack()
                 return true

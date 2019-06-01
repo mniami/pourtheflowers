@@ -55,6 +55,7 @@ class FlowerListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = FlowerRecyclerViewAdapter(emptyList(), context!!, listener, pouredTheFlower)
         return view
     }
 
@@ -69,7 +70,7 @@ class FlowerListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val act = activity ?: throw IllegalStateException("Flower list no activity")
-        emptyTextView.setOnClickListener {
+        bAddFirst.setOnClickListener {
             listType = USER_LIST_TYPE
             (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
         }
@@ -82,8 +83,11 @@ class FlowerListFragment : Fragment() {
         }
         refreshUi()
 
-        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
-        adapter.resume()
+        if (recyclerView.adapter == null) {
+            loadAdapter(recyclerView)
+        } else {
+            (recyclerView.adapter as FlowerRecyclerViewAdapter).resume()
+        }
     }
 
     override fun onPause() {
@@ -92,7 +96,7 @@ class FlowerListFragment : Fragment() {
         adapter.stop()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.main)
     }
 
@@ -110,7 +114,7 @@ class FlowerListFragment : Fragment() {
         listener = null
     }
 
-    private fun getListTypeTitle() : String {
+    private fun getListTypeTitle(): String {
         return when (listType) {
             LIBRARY_LIST_TYPE ->
                 getString(R.string.all_flowers_title)
@@ -119,6 +123,7 @@ class FlowerListFragment : Fragment() {
             else -> ""
         }
     }
+
     private fun loadAdapter(view: RecyclerView) {
         val context = context ?: return
         Log.d(LOG_TAG, "load adapter")
@@ -145,7 +150,7 @@ class FlowerListFragment : Fragment() {
         val adapter = (recyclerView.adapter as FlowerRecyclerViewAdapter)
         val isEmpty = adapter.itemCount == 0 && listType == USER_LIST_TYPE
 
-        emptyTextView.visibility = isEmpty.toVisibility()
+        bAddFirst.visibility = isEmpty.toVisibility()
         recyclerView.visibility = (!isEmpty).toVisibility()
     }
 

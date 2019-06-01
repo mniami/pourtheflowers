@@ -4,7 +4,6 @@
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.fragments.ItemDetailsFragment">
 
@@ -27,6 +26,7 @@
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/flower_image_description"
             android:scaleType="centerCrop"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_margin="10dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/itemImage">
 
@@ -55,14 +55,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
+                style="@style/Widget.MaterialComponents.Button"
                 android:id="@+id/btnWater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue"
-                android:drawableStart="@drawable/ic_water_drop"
-                android:drawableTint="@color/brokenWhite"
                 android:text="@string/pour_the_flower_button"
-                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,8 +71,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:layout_editor_absoluteX="8dp">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

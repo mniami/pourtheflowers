@@ -3,6 +3,7 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.*
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
@@ -51,9 +52,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         FabHelper(activity).hide()
 
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivImage)
         binder.bind {
-            name = uiItem.item.name
+            name = SpannableStringBuilder(uiItem.item.name)
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
@@ -92,7 +93,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.name.isEmpty()) {
+        if (binder.name.isNullOrEmpty()) {
             goBack()
             return
         }
@@ -104,7 +105,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         val filePath = if (photoFilePath.isNullOrEmpty()) format("android.resource://%s/drawable/flower", getString(R.string.package_name)) else photoFilePath
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name, binder.descriptionPure, emptyList(), filePath, frequency, onSuccess)
+        addNewItem.add(binder.name.toString(), binder.descriptionPure, emptyList(), filePath, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {
@@ -140,7 +141,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
     }
 

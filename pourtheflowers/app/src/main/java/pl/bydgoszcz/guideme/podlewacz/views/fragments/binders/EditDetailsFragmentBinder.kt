@@ -1,34 +1,36 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments.binders
 
 import android.content.Context
+import android.text.Editable
 import android.text.Html
-import android.text.Spanned
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.Switch
+import com.google.android.material.textfield.TextInputEditText
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.adapters.PourFrequencyAdapterFactory
 
 class EditDetailsFragmentBinder(
         private val context: Context,
-        private val etName: EditText,
-        private val etDescription: EditText,
+        private val etName: TextInputEditText,
+        private val etDescription: TextInputEditText,
         private val spinnerPourFrequency: Spinner,
         private val turnNotificationSwitch: Switch,
-        private val lbFrequency: TextView,
         private val ivImage: ImageView) {
-    var name: String
+    var name: Editable?
         get() {
-            return etName.text.toString()
+            return etName.text
         }
         set(value) {
-            etName.setText(value)
+            etName.text = value
         }
-    var descriptionHtml: Spanned
+    var descriptionHtml: Editable?
         get() {
             return etDescription.text
         }
         set(value) {
-            etDescription.setText(value)
+            etDescription.text = value
         }
     var descriptionPure: String
         get() {
@@ -60,11 +62,10 @@ class EditDetailsFragmentBinder(
         }
     var pourFrequencyVisible: Boolean
         get() {
-            return lbFrequency.visibility == View.VISIBLE
+            return spinnerPourFrequency.visibility == View.VISIBLE
         }
         set(value) {
             val visibility = if (value) View.VISIBLE else View.GONE
-            lbFrequency.visibility = visibility
             spinnerPourFrequency.visibility = visibility
         }
     var onNotificationEnabled: EditDetailsFragmentBinder.() -> Unit = {}

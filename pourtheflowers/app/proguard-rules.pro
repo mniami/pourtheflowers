@@ -59,6 +59,8 @@
 -keep class android.arch.** { *; }
 -dontwarn android.arch.**
 
+-keep class androidx.core.app.CoreComponentFactory { *; }
+
 # Work Manager
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.InputMerger

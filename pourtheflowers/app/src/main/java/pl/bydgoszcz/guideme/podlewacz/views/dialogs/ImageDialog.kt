@@ -44,7 +44,7 @@ class ImageDialog : DialogFragment() {
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.MATCH_PARENT
 
-        dialog.window?.setLayout(width, height)
+        dialog?.window?.setLayout(width, height)
     }
 
     override fun onResume() {

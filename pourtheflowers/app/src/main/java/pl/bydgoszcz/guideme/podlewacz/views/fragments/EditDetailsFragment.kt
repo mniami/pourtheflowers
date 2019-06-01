@@ -1,6 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
@@ -43,9 +44,9 @@ class EditDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         FabHelper(activity).hide()
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, tvFrequencyLabel, ivImage)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivImage)
         binder.bind {
-            name = uiItem.item.name
+            name = SpannableStringBuilder(uiItem.item.name)
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
@@ -70,7 +71,7 @@ class EditDetailsFragment : Fragment() {
         attachOnBackClicked()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, menuInflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
     }
 
@@ -86,7 +87,7 @@ class EditDetailsFragment : Fragment() {
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.name.isEmpty()) {
+        if (binder.name.isNullOrEmpty()) {
             showSnack(R.string.name_cannot_be_empty_message)
             return
         }
@@ -95,7 +96,7 @@ class EditDetailsFragment : Fragment() {
 
     private fun saveItem(onSuccess: () -> Unit) {
         with(uiItem.item) {
-            name = binder.name
+            name = binder.name.toString()
             description = binder.descriptionPure
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)

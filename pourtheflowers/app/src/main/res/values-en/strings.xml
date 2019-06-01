@@ -31,8 +31,8 @@
     <!-- Errors -->
     <string name="image_file_not_found">Image save failed</string>
     <string name="accept_menu_button">Confirm</string>
-    <string name="frequency_label">Notification frequency - in days</string>
-    <string name="edit_notification_label">Enable notification</string>
+    <string name="frequency_label">Frequency</string>
+    <string name="edit_notification_label">Notification</string>
     <string name="details_notification_label">Notification</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="notification_title">It is a time to water your plant</string>

@@ -37,6 +37,7 @@ class LibraryFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = TagsAdapter(emptyList())
         return view
     }
 
@@ -51,6 +52,5 @@ class LibraryFragment : Fragment() {
                 recyclerView.adapter = TagsAdapter(tags)
             }
         }
-
     }
 }
