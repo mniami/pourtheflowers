@@ -1,8 +1,8 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.*
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics

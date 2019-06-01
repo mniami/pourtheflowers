@@ -59,4 +59,5 @@
     <string name="flower_frequency_alert_message">Water as soon as possible, you missed that!</string>
     <string name="flower_frequency_notification_remaining_label">Remaining</string>
     <string name="add_first_flower">Add first flower</string>
+    <string name="item_tag_category">Category</string>
 </resources>

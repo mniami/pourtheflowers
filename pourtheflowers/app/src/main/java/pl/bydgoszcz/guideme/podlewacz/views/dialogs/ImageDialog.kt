@@ -1,14 +1,14 @@
 package pl.bydgoszcz.guideme.podlewacz.views.dialogs
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
-import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
 
 class ImageDialog : DialogFragment() {
     companion object {
@@ -31,7 +31,7 @@ class ImageDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         imageUrl?.let {
-            ImageLoader.setImage(imageView, it)
+            ImageLoader.setImage(vImage, it)
         }
         closeButton.setOnClickListener {
             dismiss()
@@ -52,7 +52,7 @@ class ImageDialog : DialogFragment() {
 
         scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
 
-        imageView.setOnTouchListener { _, motionView ->
+        vImage.setOnTouchListener { _, motionView ->
             scaleGestureDetector?.onTouchEvent(motionView)
             true
         }
@@ -63,8 +63,8 @@ class ImageDialog : DialogFragment() {
             val detector = scaleGestureDetector
             scaleFactor *= detector.scaleFactor
             scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f))
-            imageView.scaleX = scaleFactor
-            imageView.scaleY = scaleFactor
+            vImage.scaleX = scaleFactor
+            vImage.scaleY = scaleFactor
             return true
         }
     }

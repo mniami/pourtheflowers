@@ -1,9 +1,9 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import androidx.fragment.app.FragmentActivity
 import pl.bydgoszcz.guideme.podlewacz.views.dialogs.ImageDialog
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 class FullScreenImage(private val activity: FragmentActivity) {
     fun open(uiItem: UiItem) {

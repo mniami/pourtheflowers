@@ -15,9 +15,9 @@
     <color name="light_blue">#25469f</color>
     <color name="edit_text_color">#414141</color>
     <color name="orange">#ec6d24</color>
-    <color name="brokenWhite">#eaeae4</color>
+    <color name="brokenWhite">#7B7B79</color>
     <color name="labelTextColor">#363632</color>
-    <color name="intenseLabelTextColor">#2b2b2b</color>
+    <color name="intenseLabelTextColor">#2B2B2B</color>
     <color name="shadow_color">#E7E7E7</color>
     <color name="warning_tint_background">#A81818</color>
 

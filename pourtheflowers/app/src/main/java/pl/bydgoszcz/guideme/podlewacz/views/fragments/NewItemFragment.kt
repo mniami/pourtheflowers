@@ -3,9 +3,9 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.view.*
+import androidx.core.content.PermissionChecker.checkSelfPermission
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import pl.bydgoszcz.guideme.podlewacz.*

@@ -2,8 +2,8 @@ package pl.bydgoszcz.guideme.podlewacz.utils
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 
 fun <T : View> T.afterMeasured(f: T.() -> Unit) {
     postDelayed({

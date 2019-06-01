@@ -7,12 +7,10 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 def localPropertiesFile = rootProject.file("local.properties")
 def localProperties = new Properties()
+
 localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
-    dataBinding {
-        enabled = true
-    }
     signingConfigs {
         production {
             keyAlias localProperties['keyAlias']
@@ -28,7 +26,7 @@ android {
         targetSdkVersion 28
         versionCode 3
         versionName "0.3"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
         multiDexEnabled true
     }
@@ -49,7 +47,6 @@ android {
 
 dependencies {
     def lifecycle_version = "2.1.0-alpha04"
-    def android_version = "28.0.0"
     def dagger_version = "2.15"
 
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
@@ -60,14 +57,15 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
 
-    implementation "com.android.support:recyclerview-v7:$android_version"
-    implementation "com.android.support:appcompat-v7:$android_version"
-    implementation "com.android.support:design:$android_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation "com.android.support:support-v4:$android_version"
-    implementation "com.android.support:support-compat:$android_version"
-    implementation "com.android.support:support-annotations:$android_version"
-    implementation "com.android.support:exifinterface:$android_version"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "com.google.android.material:material:1.0.0-rc01"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation "androidx.exifinterface:exifinterface:1.0.0"
+    implementation "androidx.work:work-runtime-ktx:2.0.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.0.0"
 
     implementation 'com.google.android.gms:play-services-gcm:16.1.0'
 
@@ -76,9 +74,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-perf:16.2.3'
 
-    implementation "android.arch.work:work-runtime-ktx:1.0.0"
-    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
@@ -89,9 +84,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'exifinterface'
     }
 
-    implementation 'com.android.support:multidex:1.0.3'
-
-    implementation 'pl.droidsonroids:jspoon:1.3.2'
+    implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
@@ -99,8 +92,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.11.1'
     testImplementation 'io.mockk:mockk:1.9'
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

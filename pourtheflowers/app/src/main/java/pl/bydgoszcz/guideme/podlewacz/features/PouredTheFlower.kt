@@ -1,14 +1,14 @@
 package pl.bydgoszcz.guideme.podlewacz.features
 
-import android.support.design.widget.Snackbar
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.actions.SaveUserChanges
 import pl.bydgoszcz.guideme.podlewacz.actions.SetFlowerPouredNotification
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.SlideDownAnimator
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 class PouredTheFlower @Inject constructor(private val contentProvider: ContentProvider,

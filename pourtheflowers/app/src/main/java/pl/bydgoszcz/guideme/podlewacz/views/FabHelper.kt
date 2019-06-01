@@ -1,8 +1,8 @@
 package pl.bydgoszcz.guideme.podlewacz.views
 
 import android.content.res.ColorStateList
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.utils.getDrawableFromResources

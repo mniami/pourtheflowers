@@ -1,14 +1,15 @@
 package pl.bydgoszcz.guideme.podlewacz
 
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ItemDetailsFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.NewItemFragment
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.library.LibraryFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragmentFactory
+import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 class MainActivityViewPresenter(private val supportFragmentManager: FragmentManager,
                                 private val frameLayoutId: Int) : ViewChanger {
@@ -49,7 +50,7 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     override fun showAllItems() {
         handler.post {
             supportFragmentManager.beginTransaction()
-                    .replace(frameLayoutId, FlowerListFragment.newInstance(FlowerListFragment.LIBRARY_LIST_TYPE), FlowerListFragment.BACK_STACK_NAME)
+                    .replace(frameLayoutId, LibraryFragment(), FlowerListFragment.BACK_STACK_NAME)
                     .commit()
         }
     }

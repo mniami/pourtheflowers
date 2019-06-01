@@ -1,8 +1,6 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.content.Context
-import android.os.Handler
-import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
@@ -143,28 +142,4 @@ class FlowerRecyclerViewAdapter(
         }
     }
 
-    class Worker(val isStopped: () -> Boolean, val holder: ViewHolder) {
-        private val REFRESH_DELAY = 5000L
-        private val handler: Handler = Handler()
-
-        var onTick: (ViewHolder) -> Unit = {}
-
-        fun run() {
-            if (isStopped()) {
-                return
-            }
-            handler.postDelayed({
-                onTick(holder)
-                run()
-            }, REFRESH_DELAY)
-        }
-
-        companion object {
-            fun constructAndRun(isStopped: () -> Boolean, holder: ViewHolder): Worker {
-                val worker = Worker(isStopped, holder)
-                worker.run()
-                return worker
-            }
-        }
-    }
 }

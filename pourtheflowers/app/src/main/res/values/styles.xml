@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -29,7 +29,6 @@
     <style name="LabelTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/edit_text_color</item>
         <item name="android:textSize">@dimen/labelTextSize</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">8dp</item>
     </style>
     <style name="DescriptionTextViewStyle" parent="android:Widget.TextView">

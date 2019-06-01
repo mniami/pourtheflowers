@@ -7,11 +7,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.fragments.EditDetailsFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/gallery_background"
@@ -30,19 +30,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/tvPhotoImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/click_to_see_photo"
-                android:textColor="@color/brokenWhite"
-                android:textSize="@dimen/headerTextSize"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:tint="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/nameLabel"
@@ -53,7 +52,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:labelFor="@id/etName"
+            android:paddingLeft="0dp"
             android:text="@string/name_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <EditText
@@ -76,7 +78,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:labelFor="@id/etDescription"
+            android:paddingLeft="0dp"
             android:text="@string/description_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etName" />
 
         <EditText
@@ -88,10 +93,11 @@
             android:autofillHints=""
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionLabel" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,18 +106,19 @@
 
         <Switch
             android:id="@+id/turnNotificationSwitch"
-            android:layout_width="0dp"
+            android:layout_width="379dp"
             android:layout_height="42dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:text="@string/edit_notification_label"
+            android:textColor="@color/edit_text_color"
             android:textSize="@dimen/descriptionTextSize"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+            app:layout_constraintTop_toBottomOf="@id/spCategory" />
 
         <TextView
             android:id="@+id/tvFrequencyLabel"
@@ -125,6 +132,7 @@
             android:paddingEnd="4dp"
             android:text="@string/frequency_label"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/turnNotificationSwitch" />
 
@@ -132,18 +140,44 @@
             android:id="@+id/frequencySpinner"
             style="@style/LabelTextViewStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFrequencyLabel" />
+            app:layout_constraintTop_toBottomOf="@id/tvFrequencyLabel" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:layout_constraintTop_toBottomOf="@+id/frequencySpinner" />
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/frequencySpinner"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Spinner
+            android:id="@+id/spCategory"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:scrollbarSize="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+        <TextView
+            android:id="@+id/tvCategory"
+            style="@style/LabelTextViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:labelFor="@id/spCategory"
+            android:paddingLeft="0dp"
+            android:text="@string/item_tag_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

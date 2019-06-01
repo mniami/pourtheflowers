@@ -62,4 +62,5 @@
     <string name="flower_frequency_notification_remaining_label">Pozostało</string>
     <string name="privacy_policy_url">https://sites.google.com/view/pour-the-flower-privacy-policy</string>
     <string name="add_first_flower">Dodaj pierwszy kwiat</string>
+    <string name="item_tag_category">Kategoria</string>
 </resources>

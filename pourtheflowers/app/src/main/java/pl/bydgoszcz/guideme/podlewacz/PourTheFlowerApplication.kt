@@ -1,6 +1,6 @@
 package pl.bydgoszcz.guideme.podlewacz
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import pl.bydgoszcz.guideme.podlewacz.dagger.AppComponent
 import pl.bydgoszcz.guideme.podlewacz.dagger.DaggerAppComponent
 import pl.bydgoszcz.guideme.podlewacz.dagger.ItemModule

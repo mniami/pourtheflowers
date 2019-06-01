@@ -1,10 +1,10 @@
 package pl.bydgoszcz.guideme.podlewacz
 
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.snackbar.Snackbar
 import pl.bydgoszcz.guideme.podlewacz.dagger.AppComponent
 
 inline fun <reified T : Fragment> T.injector(d: AppComponent.() -> Unit) {
