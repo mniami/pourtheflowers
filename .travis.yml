@@ -7,5 +7,5 @@ script:
   - ./gradlew build -x lint
 android:
   components:
-    - build-tools-28.0.0
+    - build-tools-28.0.3
     - android-28
