@@ -3,6 +3,7 @@ dist: trusty
 
 script:
   - mv travis.local.properties local.properties
+  - mv app/travis.google-services.json app/google-services.json
   - chmod +x gradlew
   - ./gradlew build -x lint
 android:
