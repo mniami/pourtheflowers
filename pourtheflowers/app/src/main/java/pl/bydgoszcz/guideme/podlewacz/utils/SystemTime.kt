@@ -92,10 +92,10 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
         val ZERO: SystemTime = SystemTime(0)
         var timeProvider: TimeProvider = DefaultTimeProvider()
     }
+}
 
-    interface TimeProvider {
-        fun current(): Long = System.currentTimeMillis()
-    }
+class DefaultTimeProvider : TimeProvider
 
-    class DefaultTimeProvider : TimeProvider
+interface TimeProvider {
+    fun current(): Long = System.currentTimeMillis()
 }

@@ -51,25 +51,6 @@ fun Notification.getRemainingDaysMessage(context: Context): Spanned {
     var days = if (Math.abs(remainingDays) > 1) R.string.days else R.string.day
     var remainingDaysMessage: String = remainingDays.toString() + " " + context.getString(days)
     return Html.fromHtml(remainingDaysMessage)
-//    return Html.fromHtml(when {
-//        remainingDays == 0 -> {
-//            val messageId = R.string.flower_frequency_today_label
-//            context.getString(remainingDays)
-//        }
-//        remainingDays == -1 -> {
-//            val messageId = R.string.flower_frequency_late_yesterday_label
-//            context.getString(messageId)
-//        }
-//        remainingDays < -1 -> {
-//            val messageId = R.string.flower_frequency_late_days_label
-//            String.format(context.getString(messageId), remainingDays * -1)
-//        }
-//        remainingDays == 1 -> {
-//            context.getString(R.string.flower_frequency_tomorrow_label)
-//        }
-//        else ->
-//            String.format(context.getString(R.string.flower_frequency_in_days_label), remainingDays)
-//    })
 }
 
 fun cleanNotificationTimeToFixedTime(notificationDateTime: SystemTime) {

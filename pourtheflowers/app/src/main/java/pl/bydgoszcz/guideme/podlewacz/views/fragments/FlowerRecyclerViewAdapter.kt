@@ -16,6 +16,8 @@ import pl.bydgoszcz.guideme.podlewacz.notifications.getElapsedTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
 import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingSystemTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
+import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
+import pl.bydgoszcz.guideme.podlewacz.threads.runOnUi
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
@@ -106,15 +108,18 @@ class FlowerRecyclerViewAdapter(
         val position = holder.mView.tag as Int? ?: return
         val item = items[position]
 
-        item.updateRemainingTime()
+        runInBackground {
+            item.updateRemainingTime()
+            runOnUi {
+                val color = if (item.item.notification.getElapsedTime().toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
 
-        val color = if (item.item.notification.getElapsedTime().toDays() < 0) android.R.color.holo_red_dark else R.color.colorPrimary
+                holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
+                holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
+                holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
 
-        holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
-        holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
-        holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
-
-        loadImage(holder, item, color, position)
+                loadImage(holder, item, color, position)
+            }
+        }
     }
 
     fun stop() {

@@ -27,4 +27,8 @@ class ItemsProvider @Inject constructor(private val repository: ItemsRepository)
         }.toList()
     }
 
+    fun getItem(id: String): UiItem {
+        return repository.user.items.first { it.item.id == id }
+    }
+
 }

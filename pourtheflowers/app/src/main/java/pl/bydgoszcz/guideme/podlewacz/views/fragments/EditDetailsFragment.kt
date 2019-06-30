@@ -5,8 +5,12 @@ import android.text.SpannableStringBuilder
 import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
-import pl.bydgoszcz.guideme.podlewacz.*
+import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.goBack
+import pl.bydgoszcz.guideme.podlewacz.injector
+import pl.bydgoszcz.guideme.podlewacz.showSnack
+import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
@@ -16,7 +20,8 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragm
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
-class EditDetailsFragment : Fragment() {
+class EditDetailsFragment : Fragment(), BackButtonHandler {
+
     @Inject
     lateinit var saveItem: SaveItem
     @Inject
@@ -44,7 +49,7 @@ class EditDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         FabHelper(activity).hide()
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivImage)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
         binder.bind {
             name = SpannableStringBuilder(uiItem.item.name)
             descriptionPure = uiItem.item.description
@@ -52,37 +57,27 @@ class EditDetailsFragment : Fragment() {
             pourFrequencyVisible = notificationEnabled
             pourFrequencyInDays = uiItem.item.notification.repeatInTime.toDays()
             flowerImageUrl = uiItem.item.imageUrl
+            tags = uiItem.item.tags
             onNotificationEnabled = {
                 uiItem.item.notification.enabled = notificationEnabled
                 pourFrequencyVisible = notificationEnabled
             }
         }
-        tvPhotoImage.visibility = View.GONE
+        ivAddPhoto.visibility = View.GONE
         analytics.onViewCreated(analyticsName)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        doOnBackPressed { true }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        attachOnBackClicked()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
     }
 
-    private fun attachOnBackClicked() {
-        doOnBackPressed {
+    override fun onBack() {
+        runInBackground {
             validate {
                 saveItem {
                     goBack()
                 }
             }
-            returnFalse()
         }
     }
 
@@ -100,6 +95,7 @@ class EditDetailsFragment : Fragment() {
             description = binder.descriptionPure
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
+            tags = binder.tags
         }
         saveItem.saveItem(uiItem, onSuccess)
     }

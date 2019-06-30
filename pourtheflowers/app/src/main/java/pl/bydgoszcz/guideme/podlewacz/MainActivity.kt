@@ -17,6 +17,7 @@ import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationChannelCreator
 import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.BackButtonHandler
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.TakingPictureThumbnail
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        toggle.setToolbarNavigationClickListener {
+        toggle.toolbarNavigationClickListener = {
             onBackPressed()
         }
         drawer_layout.addDrawerListener(toggle)
@@ -89,7 +90,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onBackPressed() {
-        if (!onBackPressedCallback()) {
+        val currentFragment = supportFragmentManager.findFragmentById(frame_layout.id)
+
+        if (currentFragment is BackButtonHandler) {
+            currentFragment.onBack()
             return
         }
 

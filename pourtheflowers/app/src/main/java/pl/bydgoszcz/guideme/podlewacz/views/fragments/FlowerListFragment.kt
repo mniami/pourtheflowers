@@ -54,14 +54,18 @@ class FlowerListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_flower_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = FlowerRecyclerViewAdapter(emptyList(), context!!, listener, pouredTheFlower)
+        if (savedInstanceState == null) {
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            //recyclerView.adapter = FlowerRecyclerViewAdapter(emptyList(), context!!, listener, pouredTheFlower)
+        }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadAdapter(recyclerView)
+        if (recyclerView.adapter == null) {
+            loadAdapter(recyclerView)
+        }
         analytics.onViewCreated(BundleFactory()
                 .putName(analyticsName)
                 .putString(ARG_LIST_TYPE_NAME, getListTypeTitle()).build())
@@ -72,22 +76,20 @@ class FlowerListFragment : Fragment() {
         val act = activity ?: throw IllegalStateException("Flower list no activity")
         bAddFirst.setOnClickListener {
             listType = USER_LIST_TYPE
-            (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
+            val activity = activity as MainActivityHelper? ?: return@setOnClickListener
+            activity.getViewChanger().showNewItemAdd()
         }
         FabHelper(act).show(FabHelper.Option.ADD)?.setOnClickListener {
             listType = USER_LIST_TYPE
-            (activity as MainActivityHelper).getViewChanger().showNewItemAdd()
+            val activity = activity as MainActivityHelper? ?: return@setOnClickListener
+            activity.getViewChanger().showNewItemAdd()
         }
         if (act is MainActivityHelper) {
             act.toolbar.title = getListTypeTitle()
         }
-        refreshUi()
+        //refreshUi()
 
-        if (recyclerView.adapter == null) {
-            loadAdapter(recyclerView)
-        } else {
-            (recyclerView.adapter as FlowerRecyclerViewAdapter).resume()
-        }
+        (recyclerView.adapter as FlowerRecyclerViewAdapter?)?.resume()
     }
 
     override fun onPause() {
@@ -127,6 +129,7 @@ class FlowerListFragment : Fragment() {
     private fun loadAdapter(view: RecyclerView) {
         val context = context ?: return
         Log.d(LOG_TAG, "load adapter")
+        view.adapter = FlowerRecyclerViewAdapter(emptyList(), context, listener, pouredTheFlower)
         runInBackground {
             Log.d(LOG_TAG, "empty adapter set")
             val items = itemsProvider.getItems(listType)
@@ -175,7 +178,7 @@ class FlowerListFragment : Fragment() {
 
         fun changeListType(supportFragmentManager: FragmentManager, listType: Int) {
             val listFragment = supportFragmentManager.findFragmentByTag(BACK_STACK_NAME)
-            listFragment?.arguments?.putInt(FlowerListFragment.ARG_LIST_TYPE_NAME, listType)
+            listFragment?.arguments?.putInt(ARG_LIST_TYPE_NAME, listType)
         }
     }
 }

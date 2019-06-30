@@ -11,38 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/ivAddPhoto"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:tint="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+
+        <ImageView
+            android:id="@+id/ivPhoto"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/gallery_background"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/flower_image_description"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@drawable/ic_garden_center_15" />
 
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:contentDescription="@string/flower_image_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/tvPhotoImage"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:tint="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lName"
@@ -102,39 +97,49 @@
             app:layout_constraintTop_toBottomOf="@+id/lDescription">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipSun"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checkable="true"
                 android:checked="true"
+                android:tag="sun"
                 android:text="Słońce" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipShadow"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
+                android:tag="shadow"
                 android:text="Cień" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipRichIrrigation"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
+                android:tag="rich irrigation"
                 android:text="Obfite nawodnienie" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipOnStand"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
+                android:tag="on stand"
                 android:text="Na podstawke" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipSprinkle"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
+                android:tag="sprinkle"
                 android:text="Zraszać" />
         </com.google.android.material.chip.ChipGroup>
 

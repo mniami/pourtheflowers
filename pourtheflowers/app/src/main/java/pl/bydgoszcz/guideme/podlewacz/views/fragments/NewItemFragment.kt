@@ -52,21 +52,22 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         FabHelper(activity).hide()
 
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivImage)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
         binder.bind {
             name = SpannableStringBuilder(uiItem.item.name)
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
+            tags = uiItem.item.tags
             onNotificationEnabled = {
                 uiItem.item.notification.enabled = notificationEnabled
                 pourFrequencyVisible = notificationEnabled
             }
         }
-        tvPhotoImage.setOnClickListener {
+        ivAddPhoto.setOnClickListener {
             requestTakePicture()
         }
-        ivImage.setOnClickListener {
+        ivPhoto.setOnClickListener {
             requestTakePicture()
         }
         binder.notificationEnabled = true
@@ -105,7 +106,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         val filePath = if (photoFilePath.isNullOrEmpty()) format("android.resource://%s/drawable/flower", getString(R.string.package_name)) else photoFilePath
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name.toString(), binder.descriptionPure, emptyList(), filePath, frequency, onSuccess)
+        addNewItem.add(binder.name.toString(), binder.descriptionPure, binder.tags, filePath, frequency, onSuccess)
     }
 
     private fun requestTakePicture() {
@@ -118,7 +119,7 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         } else {
             try {
                 photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
-                tvPhotoImage.visibility = View.GONE
+                ivAddPhoto.visibility = View.GONE
             } catch (ex: Exception) {
                 showSnack(R.string.image_file_not_found)
             }
@@ -153,9 +154,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         val imageFilePath = photoFilePath ?: return
 
         // Compress bitmap
-        val proportion = ivImage.width.toFloat() / ivImage.height.toFloat()
+        val proportion = ivPhoto.width.toFloat() / ivPhoto.height.toFloat()
         ImageUtils.compressBitmapFile(activity?.baseContext, imageFilePath, proportion) {
-            ImageLoader.setImage(ivImage, imageFilePath, onError = {
+            ImageLoader.setImage(ivPhoto, imageFilePath, onError = {
                 showSnack(R.string.image_load_failed)
             })
         }

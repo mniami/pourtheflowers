@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         android:text="@string/add_first_flower">
 
     </Button>

@@ -81,7 +81,7 @@
                 <TextView
                     android:id="@+id/tvRemainingTime"
                     style="@style/DescriptionTextViewStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/colorPrimary"
@@ -96,12 +96,16 @@
                 <TextView
                     android:id="@+id/tvNotificationDate"
                     style="@style/DescriptionTextViewStyle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="22sp"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvNotificationTime"
+                    app:layout_constraintEnd_toStartOf="@+id/tvRemainingTime"
                     app:layout_constraintStart_toEndOf="@+id/tvNotificationTime"
                     app:layout_constraintTop_toTopOf="@+id/tvNotificationTime"
-                    tools:text="środa 1 maja" />
+                    tools:text="środa 22 wrzesien 2019" />
 
                 <TextView
                     android:id="@+id/tvNotificationTime"

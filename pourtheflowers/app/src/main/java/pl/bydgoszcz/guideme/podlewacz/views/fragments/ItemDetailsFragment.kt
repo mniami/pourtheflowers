@@ -22,6 +22,7 @@ import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.utils.toVisibility
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
@@ -39,6 +40,8 @@ class ItemDetailsFragment : Fragment() {
     lateinit var addItemToUser: AddItemToUser
     @Inject
     lateinit var removeItemFromUser: RemoveItemFromUser
+    @Inject
+    lateinit var itemsProvider: ItemsProvider
     @Inject
     lateinit var pouredTheFlower: PouredTheFlower
     @Inject
@@ -66,14 +69,13 @@ class ItemDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         injector { inject(this@ItemDetailsFragment) }
 
+        uiItem = itemsProvider.getItem(uiItem.item.id)
         uiItem.updateRemainingTime()
 
         val activity = activity ?: throw IllegalStateException("Item details has no activity")
 
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
-            activity.toolbar.title = uiItem.item.name
-            tvName.text = uiItem.item.name
         }
         initItem()
         analytics.onViewCreated(BundleFactory.create()
@@ -88,6 +90,9 @@ class ItemDetailsFragment : Fragment() {
     private fun initItem() {
         val activity = activity
                 ?: throw IllegalStateException("Item details - init item has no activity")
+
+        activity.toolbar.title = uiItem.item.name
+        tvName.text = uiItem.item.name
         tvDescription?.text = Html.fromHtml(uiItem.item.description)
         cvNotification?.visibility = uiItem.item.notification.enabled.toVisibility()
 
