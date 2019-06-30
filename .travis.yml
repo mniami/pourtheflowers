@@ -3,6 +3,7 @@ dist: trusty
 
 script:
   - mv travis.local.properties local.properties
+  - chmod +x gradlew
   - ./gradlew build -x lint
 android:
   components:
