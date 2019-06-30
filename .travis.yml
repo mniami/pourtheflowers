@@ -3,7 +3,7 @@ dist: trusty
 
 script:
   - mv travis.local.properties local.properties
-  - /home/travis/.gradle build -x lint
+  - .gradlew build -x lint
 android:
   components:
     - build-tools-28.0.0
