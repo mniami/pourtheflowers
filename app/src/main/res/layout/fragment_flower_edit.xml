@@ -12,18 +12,6 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivAddPhoto"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:tint="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
-
-        <ImageView
             android:id="@+id/ivPhoto"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,6 +26,19 @@
             app:layout_constraintVertical_bias="1.0"
             tools:srcCompat="@drawable/ic_garden_center_15" />
 
+
+        <ImageView
+            android:id="@+id/ivAddPhoto"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:tint="@color/colorPrimary"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lName"

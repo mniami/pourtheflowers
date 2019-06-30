@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return presenter
     }
 
-    internal var onBackPressedCallback: () -> Boolean = { true }
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var presenter: MainActivityViewPresenter
     @Inject

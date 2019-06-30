@@ -17,13 +17,6 @@ fun FragmentActivity.goBack() {
     supportFragmentManager?.popBackStack()
 }
 
-fun Fragment.doOnBackPressed(block: () -> Boolean) {
-    val activity = activity as MainActivity? ?: return
-    activity.onBackPressedCallback = {
-        block()
-    }
-}
-
 fun Fragment.showConfirmationDialog(titleId: Int, messageId: Int, onSuccess: () -> Unit, onFailure: () -> Unit) {
     context ?: return onFailure()
     showConfirmationDialog(getString(titleId), getString(messageId), onSuccess, onFailure)
@@ -31,7 +24,6 @@ fun Fragment.showConfirmationDialog(titleId: Int, messageId: Int, onSuccess: () 
 
 fun Fragment.goBack() {
     val activity = activity as MainActivity? ?: return
-    activity.onBackPressedCallback = { true }
     activity.goBack()
 }
 

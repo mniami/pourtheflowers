@@ -22,7 +22,8 @@ import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import java.lang.String.format
 import javax.inject.Inject
 
-class NewItemFragment : Fragment(), TakingPictureThumbnail {
+class NewItemFragment : Fragment(), TakingPictureThumbnail, BackButtonHandler {
+
     @Inject
     lateinit var addNewItem: AddNewItem
 
@@ -72,6 +73,9 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
         }
         binder.notificationEnabled = true
         binder.pourFrequencyVisible = true
+
+        ivAddPhoto.visibility = View.VISIBLE
+
         val activity = activity
                 ?: throw IllegalStateException("New item on view created has no activity")
 
@@ -79,17 +83,13 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail {
             activity.showBackButton(true)
             activity.toolbar.title = getString(R.string.new_flower)
         }
-        registerSave()
     }
 
-    private fun registerSave() {
-        doOnBackPressed {
-            validate {
-                saveItem {
-                    goBack()
-                }
+    override fun onBack() {
+        validate {
+            saveItem {
+                goBack()
             }
-            returnFalse()
         }
     }
 
