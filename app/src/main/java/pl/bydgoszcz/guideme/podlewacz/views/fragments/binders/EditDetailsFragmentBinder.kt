@@ -7,12 +7,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Switch
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import pl.bydgoszcz.guideme.podlewacz.model.Tag
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.adapters.PourFrequencyAdapterFactory
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.adapters.SpinnerItem
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.getTags
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.setTags
 
 class EditDetailsFragmentBinder(
         private val context: Context,
@@ -46,12 +48,13 @@ class EditDetailsFragmentBinder(
     var pourFrequencyInDays: Int
         get() {
             return if (spinnerPourFrequency.selectedItem != null) {
-                spinnerPourFrequency.selectedItem as Int
+                (spinnerPourFrequency.selectedItem as SpinnerItem).value
             } else 0
         }
         set(value) {
             for (i in 0 until spinnerPourFrequency.adapter.count) {
-                if (spinnerPourFrequency.adapter.getItem(i) == value) {
+                val item = spinnerPourFrequency.adapter.getItem(i) as SpinnerItem
+                if (item.value == value) {
                     spinnerPourFrequency.setSelection(i)
                     return
                 }
@@ -83,19 +86,10 @@ class EditDetailsFragmentBinder(
         }
     var tags: List<Tag>
         get() {
-            val result = mutableListOf<Tag>()
-            for (i in 0 until cgTags.childCount) {
-                val chip = cgTags.getChildAt(i) as Chip
-                if (chip.isChecked && chip.tag != null)
-                    result.add(Tag(value = chip.tag as String))
-            }
-            return result
+           return getTags(cgTags)
         }
         set(list) {
-            for (i in 0 until cgTags.childCount) {
-                val chip = cgTags.getChildAt(i) as Chip
-                chip.isChecked = list.contains(Tag(value = chip.tag as String))
-            }
+            setTags(cgTags, list)
         }
 
     fun bind(block: EditDetailsFragmentBinder.() -> Unit) {

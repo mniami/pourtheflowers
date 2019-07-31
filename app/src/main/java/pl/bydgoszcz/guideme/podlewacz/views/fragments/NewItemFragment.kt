@@ -9,6 +9,7 @@ import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
+import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.features.AddNewItem
 import pl.bydgoszcz.guideme.podlewacz.model.Item

@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
+import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.goBack

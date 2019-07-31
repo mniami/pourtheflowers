@@ -5,9 +5,11 @@ import android.text.Html
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
+import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
@@ -92,9 +94,9 @@ class ItemDetailsFragment : Fragment() {
                 ?: throw IllegalStateException("Item details - init item has no activity")
 
         activity.toolbar.title = uiItem.item.name
-        tvName.text = uiItem.item.name
         tvDescription?.text = Html.fromHtml(uiItem.item.description)
         cvNotification?.visibility = uiItem.item.notification.enabled.toVisibility()
+        setTags(cgTags, uiItem.item.tags, false)
 
         if (uiItem.item.notification.enabled) {
             val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.current())

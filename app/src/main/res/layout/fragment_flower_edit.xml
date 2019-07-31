@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -85,104 +86,59 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="280dp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cgTags"
-            android:layout_width="match_parent"
+        <include
+            layout="@layout/tags"
+            android:id="@+id/tagsLayoutContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/form_view_margin_start_end"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/form_view_margin_start_end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lDescription">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSun"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked="true"
-                android:tag="sun"
-                android:text="Słońce" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipShadow"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:tag="shadow"
-                android:text="Cień" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipRichIrrigation"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:tag="rich irrigation"
-                android:text="Obfite nawodnienie" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipOnStand"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:tag="on stand"
-                android:text="Na podstawke" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSprinkle"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:tag="sprinkle"
-                android:text="Zraszać" />
-        </com.google.android.material.chip.ChipGroup>
+            android:layout_margin="@dimen/form_view_margin_start_end"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lDescription" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvNotification"
             style="@style/Card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cgTags">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagsLayoutContainer">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:visibility="visible">
 
                 <Switch
                     android:id="@+id/turnNotificationSwitch"
-                    android:layout_width="379dp"
+                    android:layout_width="0dp"
                     android:layout_height="42dp"
-                    android:layout_marginStart="@dimen/form_view_margin_start_end"
-                    android:layout_marginEnd="@dimen/form_view_margin_start_end"
                     android:paddingStart="4dp"
                     android:text="@string/edit_notification_label"
                     android:textColor="@color/edit_text_color"
                     android:textSize="@dimen/descriptionTextSize"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/frequencySpinner"
                     style="@style/LabelTextViewStyle"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="@dimen/form_view_margin_start_end"
-                    android:layout_marginEnd="@dimen/form_view_margin_start_end"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/turnNotificationSwitch" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

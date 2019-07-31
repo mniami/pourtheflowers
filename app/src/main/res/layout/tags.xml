@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.chip.ChipGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cgTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/form_view_margin_start_end">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSun"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:checked="true"
+            android:tag="sun"
+            android:text="Słońce" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipShadow"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:tag="shadow"
+            android:text="Cień" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipRichIrrigation"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:tag="rich irrigation"
+            android:text="Obfite nawodnienie" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipOnStand"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:tag="on stand"
+            android:text="Na podstawke" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSprinkle"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:tag="sprinkle"
+            android:text="Zraszać" />
+    </com.google.android.material.chip.ChipGroup>
+</FrameLayout>
