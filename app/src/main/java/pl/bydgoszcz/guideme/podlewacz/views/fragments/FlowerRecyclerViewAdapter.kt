@@ -95,13 +95,18 @@ class FlowerRecyclerViewAdapter(
             return
         }
         holder.mFlowerImageView.tag = ImageItemTag(color, position)
-        ImageLoader.setImageWithCircle(holder.mFlowerImageView,
+        ImageLoader.setImage(holder.mFlowerImageView,
                 item.item.imageUrl,
-                mContext.resources.getColorFromResource(color),
-                borderSize = 4,
                 onError = {
                     // noop
                 })
+//        ImageLoader.setImageWithCircle(holder.mFlowerImageView,
+//                item.item.imageUrl,
+//                mContext.resources.getColorFromResource(color),
+//                borderSize = 4,
+//                onError = {
+//                    // noop
+//                })
     }
 
     private fun refresh(holder: ViewHolder) {

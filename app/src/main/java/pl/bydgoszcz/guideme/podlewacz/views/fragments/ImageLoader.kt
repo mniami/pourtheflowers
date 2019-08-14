@@ -16,6 +16,7 @@ object ImageLoader {
     fun setImage(itemImage: ImageView, imageUrl: String, onError: () -> Unit = {}) {
         val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
+                .fit().centerCrop()
                 .into(itemImage, object : Callback {
                     override fun onError(e: Exception?) {
                         onError()
