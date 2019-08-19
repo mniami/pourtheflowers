@@ -1,10 +1,14 @@
 package pl.bydgoszcz.guideme.podlewacz
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -22,6 +26,11 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.TakingPictureThumbnail
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
+import android.os.VibrationEffect
+import android.os.Build
+import android.os.Vibrator
+import kotlinx.coroutines.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
     override fun getViewChanger(): ViewChanger {
@@ -36,7 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var dataLoader: DataLoader
     @Inject
     lateinit var itemsNotifications: ItemsNotifications
-
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
     }
@@ -48,6 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
 
         presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
@@ -74,6 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val user = repo.user
                 itemsNotifications.setUpNotifications(user.items)
                 presenter.showUserItems()
+
             }
         }
         supportFragmentManager.addOnBackStackChangedListener {
