@@ -27,8 +27,12 @@ fun Fragment.goBack() {
     activity.goBack()
 }
 
-fun Fragment.returnFalse(): Boolean {
-    return false
+fun Any.returnTrue(): Boolean {
+    return true
+}
+
+fun Any.returnFalse(): Boolean {
+    return true
 }
 
 fun Fragment.showConfirmationDialog(title: String, message: String, onSuccess: () -> Unit, onFailure: () -> Unit) {

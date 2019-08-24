@@ -129,7 +129,7 @@ class FlowerListFragment : Fragment() {
     private fun loadAdapter(view: RecyclerView) {
         val context = context ?: return
         Log.d(LOG_TAG, "load adapter")
-        view.adapter = FlowerRecyclerViewAdapter(emptyList(), context, listener, pouredTheFlower)
+        view.adapter = FlowerRecyclerViewAdapter(emptyList(), context, listener)
         runInBackground {
             Log.d(LOG_TAG, "empty adapter set")
             val items = itemsProvider.getItems(listType)
@@ -139,7 +139,7 @@ class FlowerListFragment : Fragment() {
                     return@runOnUi
                 }
                 Log.d(LOG_TAG, "notifying adapter")
-                view.adapter = FlowerRecyclerViewAdapter(items, context, listener, pouredTheFlower)
+                view.adapter = FlowerRecyclerViewAdapter(items, context, listener)
                 view.adapter?.notifyDataSetChanged()
 
                 refreshUi()

@@ -31,11 +31,11 @@ class NotificationScheduler @Inject constructor(val context: Context) {
         val scheduledTime = SystemTime.current().plus(NotificationTime.fromMillis(delay))
         Log.d(tag, format("Schedule '%s' to '%s'", title, scheduledTime))
         val params = mapOf(
-                NotificationScheduler.ID to id,
-                NotificationScheduler.TITLE to title,
-                NotificationScheduler.TEXT to text,
-                NotificationScheduler.REPEAT to repeat,
-                NotificationScheduler.DELAY to delay
+                ID to id,
+                TITLE to title,
+                TEXT to text,
+                REPEAT to repeat,
+                DELAY to delay
         )
         val inputData = Data.Builder().putAll(params).build()
         NotificationPresenter.removeNotification(context, id)
@@ -43,6 +43,7 @@ class NotificationScheduler @Inject constructor(val context: Context) {
     }
 
     internal fun startPeriodicNotificationWorker(inputData: Data, repeat: Long, id: String) {
+        Log.d(tag, "Repeat: $repeat")
         val notificationWorker = PeriodicWorkRequestBuilder<PeriodicNotificationWorker>(repeat, TimeUnit.MILLISECONDS)
                 .addTag(id)
                 .addTag(MAIN_TAG)
@@ -52,6 +53,7 @@ class NotificationScheduler @Inject constructor(val context: Context) {
     }
 
     private fun startDelayedNotificationWorker(inputData: Data, delay: Long, id: String) {
+        Log.d(tag, "Delay: $delay")
         val notificationWorker = OneTimeWorkRequestBuilder<DelayedNotificationWorker>()
                 .addTag(id)
                 .addTag(MAIN_TAG)

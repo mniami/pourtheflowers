@@ -5,7 +5,6 @@ import android.text.Html
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower.*
@@ -27,6 +26,7 @@ import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
+import kotlin.math.abs
 
 class ItemDetailsFragment : Fragment() {
     private val analyticsName = "Item details"
@@ -94,6 +94,7 @@ class ItemDetailsFragment : Fragment() {
                 ?: throw IllegalStateException("Item details - init item has no activity")
 
         activity.toolbar.title = uiItem.item.name
+        tvDescription?.visibility = uiItem.item.description.isNotEmpty().toVisibility()
         tvDescription?.text = Html.fromHtml(uiItem.item.description)
         cvNotification?.visibility = uiItem.item.notification.enabled.toVisibility()
         setTags(cgTags, uiItem.item.tags, false)
@@ -138,8 +139,20 @@ class ItemDetailsFragment : Fragment() {
         itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
-        itemImage.setOnClickListener {
-            fullScreenImage.open(uiItem)
+        var eventDown = Pair(0f, 0f)
+        itemImage.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                eventDown = Pair(event.x, event.y)
+            }
+            else if (event.action == MotionEvent.ACTION_UP) {
+                val mouseMoveRange = v.width * 0.05f
+                if (abs(event.x - eventDown.first) < mouseMoveRange &&
+                        abs(event.y - eventDown.second) < mouseMoveRange) {
+                    fullScreenImage.open(uiItem)
+                    returnTrue()
+                }
+            }
+            returnFalse()
         }
     }
 

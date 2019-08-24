@@ -20,6 +20,7 @@ class DelayedNotificationWorker @Inject constructor(context: Context,
 
         try {
             notificationScheduler.startPeriodicNotificationWorker(params.inputData, repeat, id)
+            return Result.success()
         } catch (ex: Exception) {
             Log.d(tag, ex.toString())
         }

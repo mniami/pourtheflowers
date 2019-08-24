@@ -30,7 +30,7 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/flowerImage"
-        app:layout_constraintEnd_toStartOf="@+id/btnPouredFlower"
+        app:layout_constraintEnd_toStartOf="@+id/remainingDaysTextView"
         app:layout_constraintStart_toEndOf="@+id/flowerImage"
         app:layout_constraintTop_toTopOf="@+id/flowerImage"
         app:layout_constraintVertical_bias="0.516"
@@ -52,26 +52,18 @@
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="Lorem ipsum, lorem ipsum, lorem ispum" />
 
-    <ImageButton
-        android:id="@+id/btnPouredFlower"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="40dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flowerImage"
-        app:srcCompat="@drawable/ic_water_drop" />
-
     <TextView
         android:id="@+id/remainingDaysTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
         android:lines="1"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="+ 1" />

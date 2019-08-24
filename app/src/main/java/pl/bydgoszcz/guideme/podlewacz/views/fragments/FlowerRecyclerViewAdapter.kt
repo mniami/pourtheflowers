@@ -26,8 +26,7 @@ import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 class FlowerRecyclerViewAdapter(
         var items: List<UiItem>,
         private val mContext: Context,
-        private val mListener: OnListFragmentInteractionListener?,
-        private val pouredTheFlower: PouredTheFlower)
+        private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<FlowerRecyclerViewAdapter.ViewHolder>() {
     private val mOnClickListener: View.OnClickListener
     private var stopped = false
@@ -66,19 +65,10 @@ class FlowerRecyclerViewAdapter(
 
         holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
         holder.mView.tag = position
-        holder.mBtnPouredFlower.tag = position
 
         loadImage(holder, item, color, position)
 
-        holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
         holder.mView.setOnClickListener(mOnClickListener)
-        holder.mBtnPouredFlower.setOnClickListener { view ->
-            val itemPosition = view.tag as Int
-            val itemClicked = items[itemPosition]
-            pouredTheFlower.pour(itemClicked, view) {
-                notifyItemChanged(itemPosition)
-            }
-        }
         holder.worker.onTick = {
             refresh(it)
         }
@@ -100,13 +90,6 @@ class FlowerRecyclerViewAdapter(
                 onError = {
                     // noop
                 })
-//        ImageLoader.setImageWithCircle(holder.mFlowerImageView,
-//                item.item.imageUrl,
-//                mContext.resources.getColorFromResource(color),
-//                borderSize = 4,
-//                onError = {
-//                    // noop
-//                })
     }
 
     private fun refresh(holder: ViewHolder) {
@@ -120,7 +103,6 @@ class FlowerRecyclerViewAdapter(
 
                 holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
                 holder.mFrequencyText.setTextColor(mContext.resources.getColorFromResource(color))
-                holder.mBtnPouredFlower.visibility = if (isPourButtonVisible(item)) View.VISIBLE else View.GONE
 
                 loadImage(holder, item, color, position)
             }
@@ -133,8 +115,6 @@ class FlowerRecyclerViewAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    private fun isPourButtonVisible(item: UiItem): Boolean = item.item.notification.enabled && item.item.notification.getRemainingSystemTime().isToday()
-
     fun resume() {
         stopped = false
     }
@@ -143,7 +123,6 @@ class FlowerRecyclerViewAdapter(
         val mNameView: TextView = mView.name
         val mDescriptionView: TextView = mView.tvDescription
         val mFlowerImageView: ImageView = mView.flowerImage
-        val mBtnPouredFlower: ImageButton = mView.btnPouredFlower
         val mFrequencyText: TextView = mView.remainingDaysTextView
         val worker: Worker = Worker.constructAndRun(isStopped, this)
 
