@@ -139,20 +139,8 @@ class ItemDetailsFragment : Fragment() {
         itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
-        var eventDown = Pair(0f, 0f)
-        itemImage.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                eventDown = Pair(event.x, event.y)
-            }
-            else if (event.action == MotionEvent.ACTION_UP) {
-                val mouseMoveRange = v.width * 0.05f
-                if (abs(event.x - eventDown.first) < mouseMoveRange &&
-                        abs(event.y - eventDown.second) < mouseMoveRange) {
-                    fullScreenImage.open(uiItem)
-                    returnTrue()
-                }
-            }
-            returnFalse()
+        itemImage.onClick {
+            fullScreenImage.open(uiItem)
         }
     }
 

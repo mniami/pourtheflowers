@@ -6,11 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import kotlinx.android.synthetic.main.tags.*
-import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
-import pl.bydgoszcz.guideme.podlewacz.goBack
-import pl.bydgoszcz.guideme.podlewacz.injector
-import pl.bydgoszcz.guideme.podlewacz.showSnack
 import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
@@ -64,7 +61,10 @@ class EditDetailsFragment : Fragment(), BackButtonHandler {
                 pourFrequencyVisible = notificationEnabled
             }
         }
+        // TODO: refactoring needed to add possibility to change picture
+        // all the code is enclosed in NewItemFragment
         ivAddPhoto.visibility = View.GONE
+
         analytics.onViewCreated(analyticsName)
     }
 

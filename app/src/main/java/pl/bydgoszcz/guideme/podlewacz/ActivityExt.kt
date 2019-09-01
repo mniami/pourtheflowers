@@ -1,11 +1,14 @@
 package pl.bydgoszcz.guideme.podlewacz
 
+import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import pl.bydgoszcz.guideme.podlewacz.dagger.AppComponent
+import kotlin.math.abs
 
 inline fun <reified T : Fragment> T.injector(d: AppComponent.() -> Unit) {
     val component = (activity?.application as PourTheFlowerApplication).component
@@ -52,4 +55,21 @@ fun Fragment.showSnack(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
 
 fun Fragment.showSnack(messageId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
     Snackbar.make(view ?: return, messageId, duration).show()
+}
+fun View.onClick(action: ()->Unit) {
+    var eventDown = Pair(0f, 0f)
+    setOnTouchListener { v, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            eventDown = Pair(event.x, event.y)
+        }
+        else if (event.action == MotionEvent.ACTION_UP) {
+            val mouseMoveRange = v.width * 0.05f
+            if (abs(event.x - eventDown.first) < mouseMoveRange &&
+                    abs(event.y - eventDown.second) < mouseMoveRange) {
+                action()
+                returnTrue()
+            }
+        }
+        returnFalse()
+    }
 }
