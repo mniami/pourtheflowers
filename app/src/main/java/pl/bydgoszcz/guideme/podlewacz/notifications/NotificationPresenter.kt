@@ -8,7 +8,6 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.work.WorkerParameters
 import pl.bydgoszcz.guideme.podlewacz.MainActivity
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
@@ -16,15 +15,11 @@ import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 object NotificationPresenter {
     private const val notificationId = 19222
 
-    fun showNotification(context: Context, params: WorkerParameters) {
-        val title = params.inputData.getString(NotificationScheduler.TITLE) ?: return
-        val text = params.inputData.getString(NotificationScheduler.TEXT) ?: return
-        val id = params.inputData.getString(NotificationScheduler.ID) ?: return
-
+    fun showNotification(context: Context, title: String, text: String, id: String) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, ALARM_REQUEST_CODE, intent, 0)
         val notificationBuilder = NotificationCompat.Builder(context, NotificationScheduler.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)

@@ -32,7 +32,7 @@
     <string name="image_file_not_found">Image save failed</string>
     <string name="accept_menu_button">Confirm</string>
     <string name="frequency_label">Frequency</string>
-    <string name="edit_notification_label">Notification</string>
+    <string name="edit_notification_title">Notification</string>
     <string name="details_notification_label">Notification</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="notification_title">It is a time to water your plant</string>
@@ -61,4 +61,5 @@
     <string name="add_first_flower">Add first flower</string>
     <string name="item_tag_category">Category</string>
     <string name="notification_alert">Alert</string>
+    <string name="edit_notification_time_label">Repeat every:</string>
 </resources>

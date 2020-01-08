@@ -2,6 +2,7 @@ package pl.bydgoszcz.guideme.podlewacz.dagger
 
 import dagger.Component
 import pl.bydgoszcz.guideme.podlewacz.MainActivity
+import pl.bydgoszcz.guideme.podlewacz.notifications.AlarmReceiver
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.EditDetailsFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ItemDetailsFragment
@@ -21,4 +22,5 @@ interface AppComponent {
     fun inject(target: EditDetailsFragment)
     fun inject(target: NewItemFragment)
     fun inject(target: LibraryFragment)
+    fun inject(target: AlarmReceiver)
 }

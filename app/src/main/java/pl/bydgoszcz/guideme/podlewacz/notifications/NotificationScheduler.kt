@@ -1,65 +1,39 @@
 package pl.bydgoszcz.guideme.podlewacz.notifications
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.util.Log
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import pl.bydgoszcz.guideme.podlewacz.notifications.workers.DelayedNotificationWorker
-import pl.bydgoszcz.guideme.podlewacz.notifications.workers.PeriodicNotificationWorker
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
-import java.lang.String.format
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class NotificationScheduler @Inject constructor(val context: Context) {
-    val tag = "NotificationSched"
-    companion object {
-        private const val MAIN_TAG = "podlewacz"
+const val ALARM_REQUEST_CODE = 1223
+const val ALARM_DATA_EXTRA_INTENT = "AlarmData"
 
-        internal const val REPEAT = "notification_repeat"
-        internal const val DELAY = "notification_delay"
+class NotificationScheduler @Inject constructor(val context: Context) {
+
+    private var pendingIntent: PendingIntent? = null
+
+    companion object {
+        const val TAG = "NotificationSched"
+
         internal const val ID = "notification_id"
         internal const val CHANNEL_ID = "podlewacz"
         internal const val TITLE = "notification_title"
-        internal const val TEXT = "notification_text"
     }
 
-    fun scheduleJob(id: String, title: String, text: String, delay: Long, repeat: Long) {
-        val scheduledTime = SystemTime.current().plus(NotificationTime.fromMillis(delay))
-        Log.d(tag, format("Schedule '%s' to '%s'", title, scheduledTime))
-        val params = mapOf(
-                ID to id,
-                TITLE to title,
-                TEXT to text,
-                REPEAT to repeat,
-                DELAY to delay
-        )
-        val inputData = Data.Builder().putAll(params).build()
-        NotificationPresenter.removeNotification(context, id)
-        startDelayedNotificationWorker(inputData, delay, id)
-    }
+    fun scheduleJob(delay: Long, repeat: Long) {
+        Log.d(TAG, "Schedule every day morning alarm")
 
-    internal fun startPeriodicNotificationWorker(inputData: Data, repeat: Long, id: String) {
-        Log.d(tag, "Repeat: $repeat")
-        val notificationWorker = PeriodicWorkRequestBuilder<PeriodicNotificationWorker>(repeat, TimeUnit.MILLISECONDS)
-                .addTag(id)
-                .addTag(MAIN_TAG)
-                .setInputData(inputData)
-                .build()
-        WorkManager.getInstance().enqueue(notificationWorker)
-    }
+        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val delayScheduledTime = SystemTime.current().plus(NotificationTime.fromMillis(delay)).millis
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.action = ALARM_DATA_EXTRA_INTENT
 
-    private fun startDelayedNotificationWorker(inputData: Data, delay: Long, id: String) {
-        Log.d(tag, "Delay: $delay")
-        val notificationWorker = OneTimeWorkRequestBuilder<DelayedNotificationWorker>()
-                .addTag(id)
-                .addTag(MAIN_TAG)
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .setInputData(inputData)
-                .build()
-        WorkManager.getInstance().enqueue(notificationWorker)
+        pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delayScheduledTime, repeat, pendingIntent)
     }
 }

@@ -1,8 +1,5 @@
 package pl.bydgoszcz.guideme.podlewacz.notifications
 
-import androidx.work.WorkManager
-import pl.bydgoszcz.guideme.podlewacz.R
-import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
@@ -11,10 +8,8 @@ import javax.inject.Singleton
 import kotlin.math.absoluteValue
 
 @Singleton
-class ItemsNotifications @Inject constructor(private val contentProvider: ContentProvider,
-                                             private val notificationScheduler: NotificationScheduler) {
+class ItemsNotifications @Inject constructor(private val notificationScheduler: NotificationScheduler) {
     fun setUpNotifications(items: List<UiItem>) {
-        WorkManager.getInstance().cancelAllWork()
         items.filter {
             it.item.notification.enabled
         }.forEach {
@@ -25,7 +20,6 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
     fun setUpNotification(item: UiItem) {
         val currentTime = SystemTime.current()
         var delay = item.item.notification.getRemainingNotificationTime(currentTime)
-        val notificationTitle = contentProvider.getString(R.string.notification_title)
 
         if (delay < NotificationTime.ZERO) {
             // pour time has elapsed
@@ -37,10 +31,7 @@ class ItemsNotifications @Inject constructor(private val contentProvider: Conten
         }
 
         notificationScheduler.scheduleJob(
-                item.item.id,
-                item.item.name,
-                notificationTitle,
                 delay.toMillis(),
-                item.item.notification.repeatInTime.toMillis())
+                NotificationTime.fromDays(1).toMillis()) // repeat everyday
     }
 }

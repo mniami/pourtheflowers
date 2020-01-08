@@ -12,6 +12,9 @@ data class NotificationTime(private val _value: Int) : Serializable {
     fun toMillis(): Long {
         return _value.toLong() * TimeHelper.millisInSecond
     }
+    fun toSeconds(): Int {
+        return value
+    }
 
     val value: Int
         get() = _value
@@ -35,12 +38,11 @@ data class NotificationTime(private val _value: Int) : Serializable {
     }
 
     override fun toString(): String {
-        val days = _value / TimeHelper.secondsInDay
-        val hours = (_value / TimeHelper.secondsInHour) % TimeHelper.hoursInDay
-        val minutes = (_value / TimeHelper.secondsInMinute) % TimeHelper.minutesInHour
-        val seconds = _value % TimeHelper.secondsInMinute
-
-        return "$days $hours:$minutes:$seconds"
+        val days = _value / secondsInDay
+        val hours = (_value / secondsInHour) % TimeHelper.hoursInDay
+        val minutes = (_value / secondsInMinute) % TimeHelper.minutesInHour
+        val seconds = _value % secondsInMinute
+        return "${days}d:${hours}h:${minutes}m:${seconds}s"
     }
 
     companion object {

@@ -1,14 +1,11 @@
 package pl.bydgoszcz.guideme.podlewacz
 
-import android.content.Context
 import android.content.Intent
-import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -26,10 +23,6 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.TakingPictureThumbnail
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
-import android.os.VibrationEffect
-import android.os.Build
-import android.os.Vibrator
-import kotlinx.coroutines.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
@@ -45,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var dataLoader: DataLoader
     @Inject
     lateinit var itemsNotifications: ItemsNotifications
+
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
     }
@@ -54,9 +48,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        try {
+            setContentView(R.layout.activity_main)
+        } catch (e: Exception) {
+            Log.e("MainActivity", e.toString())
+        }
         setSupportActionBar(toolbar)
-
 
         presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
 
@@ -97,7 +94,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NotificationChannelCreator.createNotificationChannel(this)
     }
 
-
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(frame_layout.id)
 
@@ -125,6 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 currentFragment.onPictureCaptured()
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

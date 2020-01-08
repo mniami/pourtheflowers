@@ -32,7 +32,7 @@
     <string name="image_file_not_found">Nie udało się zapisać zdjęcia</string>
     <string name="accept_menu_button">Zaakceptuj</string>
     <string name="frequency_label">Częstotliwość</string>
-    <string name="edit_notification_label">Przypomnienie</string>
+    <string name="edit_notification_title">Przypomnienie</string>
     <string name="details_notification_label">Powiadomienie</string>
     <string name="privacy_policy">Polityka prywatności</string>
     <string name="notification_title">Nadszedł czas podlania</string>
@@ -64,4 +64,5 @@
     <string name="add_first_flower">Dodaj pierwszy kwiat</string>
     <string name="item_tag_category">Kategoria</string>
     <string name="notification_alert">Alert</string>
+    <string name="edit_notification_time_label">Repeat every:</string>
 </resources>
