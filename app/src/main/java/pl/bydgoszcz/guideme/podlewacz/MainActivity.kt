@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
-import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
+import pl.bydgoszcz.guideme.podlewacz.notifications.ItemAlarmScheduler
 import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationChannelCreator
 import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @Inject
     lateinit var dataLoader: DataLoader
     @Inject
-    lateinit var itemsNotifications: ItemsNotifications
+    lateinit var itemAlarmScheduler: ItemAlarmScheduler
 
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
@@ -76,11 +76,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (savedInstanceState == null) {
             (application as PourTheFlowerApplication).component.inject(this)
+            itemAlarmScheduler.schedule()
             dataLoader.load {
-                val user = repo.user
-                itemsNotifications.setUpNotifications(user.items)
                 presenter.showUserItems()
-
             }
         }
         supportFragmentManager.addOnBackStackChangedListener {

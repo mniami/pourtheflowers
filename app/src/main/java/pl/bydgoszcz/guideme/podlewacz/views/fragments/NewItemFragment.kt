@@ -1,41 +1,32 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.*
-import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import kotlinx.android.synthetic.main.tags.*
-import pl.bydgoszcz.guideme.podlewacz.*
+import pl.bydgoszcz.guideme.podlewacz.MainActivityHelper
+import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.features.AddNewItem
+import pl.bydgoszcz.guideme.podlewacz.goBack
+import pl.bydgoszcz.guideme.podlewacz.injector
 import pl.bydgoszcz.guideme.podlewacz.model.Item
-import pl.bydgoszcz.guideme.podlewacz.utils.ImageUtils
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
-import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import java.lang.String.format
 import javax.inject.Inject
 
-class NewItemFragment : Fragment(), TakingPictureThumbnail, BackButtonHandler {
+class NewItemFragment : PictureFragment(), BackButtonHandler {
 
     @Inject
     lateinit var addNewItem: AddNewItem
 
     private lateinit var uiItem: UiItem
     private lateinit var binder: EditDetailsFragmentBinder
-
-    private var photoFilePath: String? = null
-
-    companion object {
-        const val MY_CAMERA_REQUEST_CODE = 100
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -104,62 +95,18 @@ class NewItemFragment : Fragment(), TakingPictureThumbnail, BackButtonHandler {
 
     private fun saveItem(onSuccess: () -> Unit) {
         val photoFilePath = photoFilePath
-        val filePath = if (photoFilePath.isNullOrEmpty()) format("android.resource://%s/drawable/flower", getString(R.string.package_name)) else photoFilePath
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
-        addNewItem.add(binder.name.toString(), binder.descriptionPure, binder.tags, filePath, frequency, onSuccess)
-    }
-
-    private fun requestTakePicture() {
-        val activity = activity
-                ?: throw IllegalStateException("Request take picture has no activity")
-
-        if (checkSelfPermission(activity, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA), MY_CAMERA_REQUEST_CODE)
-        } else {
-            try {
-                photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
-                ivAddPhoto.visibility = View.GONE
-            } catch (ex: Exception) {
-                showSnack(R.string.image_file_not_found)
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("photoFilePath", photoFilePath)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == MY_CAMERA_REQUEST_CODE) {
-            try {
-                photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
-            } catch (ex: Exception) {
-                showSnack(R.string.image_file_not_found)
-            }
-        }
+        addNewItem.add(
+                binder.name.toString(),
+                binder.descriptionPure,
+                binder.tags,
+                ImageLoader.getPhotoFilePath(photoFilePath, context),
+                frequency,
+                onSuccess)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.edit_item_menu)
-    }
-
-    override fun onPictureCaptured() {
-        showPicture()
-    }
-
-    private fun showPicture() {
-        val imageFilePath = photoFilePath ?: return
-
-        // Compress bitmap
-        val proportion = ivPhoto.width.toFloat() / ivPhoto.height.toFloat()
-        ImageUtils.compressBitmapFile(activity?.baseContext, imageFilePath, proportion) {
-            ImageLoader.setImage(ivPhoto, imageFilePath, onError = {
-                showSnack(R.string.image_load_failed)
-            })
-        }
     }
 }

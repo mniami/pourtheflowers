@@ -69,6 +69,6 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
     }
 
     override fun getCurrentFragment(): Fragment? {
-        return supportFragmentManager.findFragmentByTag(itemBackStackName)
+        return supportFragmentManager.findFragmentById(frameLayoutId)
     }
 }

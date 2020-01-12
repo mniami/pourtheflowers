@@ -10,6 +10,7 @@ import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
 import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.utils.ContentProvider
+import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime.Companion.now
 import javax.inject.Inject
 
 const val WAKELOCK_TIMEOUT = 10L
@@ -28,7 +29,7 @@ class AlarmReceiver : BroadcastReceiver() {
         if (intent.action != ALARM_DATA_EXTRA_INTENT) {
             return
         }
-        val wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, NotificationScheduler.TAG)
+        val wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, AlarmScheduler.TAG)
 
         wl.acquire(WAKELOCK_TIMEOUT)
         try {
@@ -42,8 +43,10 @@ class AlarmReceiver : BroadcastReceiver() {
         dataLoader.load {
             val notificationTitle = contentProvider.getString(R.string.notification_title)
             repo.user.items.filter {
-                Log.d(NotificationScheduler.TAG, "Analyzing '${it.item.name}'")
-                it.item.notification.getRemainingSystemTime().isToday()
+                Log.d(AlarmScheduler.TAG, "Analyzing '${it.item.name}'")
+                val remainingTime = it.item.notification.getRemainingSystemTime()
+                remainingTime.isToday() || remainingTime < now()
+                true
             }.forEach {
                 NotificationPresenter.showNotification(context,
                         title = notificationTitle,

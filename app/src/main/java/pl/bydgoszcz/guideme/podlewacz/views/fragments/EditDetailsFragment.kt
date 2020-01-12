@@ -18,7 +18,7 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragm
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
-class EditDetailsFragment : Fragment(), BackButtonHandler {
+class EditDetailsFragment : PictureFragment(), BackButtonHandler {
 
     @Inject
     lateinit var saveItem: SaveItem
@@ -65,6 +65,9 @@ class EditDetailsFragment : Fragment(), BackButtonHandler {
         // all the code is enclosed in NewItemFragment
         ivAddPhoto.visibility = View.GONE
 
+        ivPhoto.setOnClickListener {
+            requestTakePicture()
+        }
         analytics.onViewCreated(analyticsName)
     }
 
@@ -97,6 +100,7 @@ class EditDetailsFragment : Fragment(), BackButtonHandler {
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
             tags = binder.tags
+            imageUrl = ImageLoader.getPhotoFilePath(photoFilePath, context)
         }
         saveItem.saveItem(uiItem, onSuccess)
     }

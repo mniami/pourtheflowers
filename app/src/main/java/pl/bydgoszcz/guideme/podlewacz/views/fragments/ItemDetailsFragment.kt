@@ -26,7 +26,6 @@ import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
-import kotlin.math.abs
 
 class ItemDetailsFragment : Fragment() {
     private val analyticsName = "Item details"
@@ -100,7 +99,7 @@ class ItemDetailsFragment : Fragment() {
         setTags(cgTags, uiItem.item.tags, false)
 
         if (uiItem.item.notification.enabled) {
-            val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.current())
+            val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.now())
             val remainingSystem = uiItem.item.notification.getRemainingSystemTime()
             val timePassed = remainingNotification.value < 0
             val timeRemains = remainingNotification.value > 0

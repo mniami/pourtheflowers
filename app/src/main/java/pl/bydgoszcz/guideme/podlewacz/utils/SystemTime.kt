@@ -32,6 +32,10 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
         return SystemTime(timeInMillis + notificationTime.toMillis())
     }
 
+    operator fun compareTo(time: SystemTime) : Int {
+        return timeInMillis.compareTo(time.millis)
+    }
+
     override fun toString(): String {
         return dateFormat.format(Date(millis))
     }
@@ -68,7 +72,7 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
     }
 
     fun isToday(): Boolean {
-        val current = SystemTime.current().toCalendar()
+        val current = now().toCalendar()
         val that = toCalendar()
 
         return current.get(Calendar.DAY_OF_YEAR) == that.get(Calendar.DAY_OF_YEAR) &&
@@ -87,7 +91,7 @@ data class SystemTime(private var timeInMillis: Long) : Serializable {
     }
 
     companion object {
-        fun current(): SystemTime = SystemTime(timeProvider.current())
+        fun now(): SystemTime = SystemTime(timeProvider.current())
 
         val ZERO: SystemTime = SystemTime(0)
         var timeProvider: TimeProvider = DefaultTimeProvider()

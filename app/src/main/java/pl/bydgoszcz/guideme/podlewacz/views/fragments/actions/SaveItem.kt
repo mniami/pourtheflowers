@@ -3,12 +3,12 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments.actions
 import pl.bydgoszcz.guideme.podlewacz.actions.SaveUserChanges
 import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
-import pl.bydgoszcz.guideme.podlewacz.notifications.ItemsNotifications
+import pl.bydgoszcz.guideme.podlewacz.notifications.ItemAlarmScheduler
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import javax.inject.Inject
 
-class SaveItem @Inject constructor(private val itemsNotifications: ItemsNotifications,
+class SaveItem @Inject constructor(private val itemAlarmScheduler: ItemAlarmScheduler,
                                    private val saveUserChanges: SaveUserChanges,
                                    private val repository: ItemsRepository) {
     fun saveItem(uiItem: UiItem,
@@ -17,7 +17,7 @@ class SaveItem @Inject constructor(private val itemsNotifications: ItemsNotifica
         val notification = uiItem.item.notification
         if (notification.enabled) {
             if (notification.lastNotificationTime.isZero()) {
-                notification.lastNotificationTime = SystemTime.current().minus(NotificationTime.fromSeconds(1))
+                notification.lastNotificationTime = SystemTime.now().minus(NotificationTime.fromSeconds(1))
             }
         } else {
             notification.lastNotificationTime = SystemTime.ZERO
@@ -29,7 +29,6 @@ class SaveItem @Inject constructor(private val itemsNotifications: ItemsNotifica
         }
         repository.user.items.add(uiItem)
         saveUserChanges.save {
-            itemsNotifications.setUpNotifications(repository.user.items)
             onSaved()
         }
         return true

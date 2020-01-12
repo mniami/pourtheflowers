@@ -20,7 +20,7 @@ object NotificationPresenter {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, ALARM_REQUEST_CODE, intent, 0)
-        val notificationBuilder = NotificationCompat.Builder(context, NotificationScheduler.CHANNEL_ID)
+        val notificationBuilder = NotificationCompat.Builder(context, AlarmScheduler.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setDefaults(Notification.DEFAULT_ALL)

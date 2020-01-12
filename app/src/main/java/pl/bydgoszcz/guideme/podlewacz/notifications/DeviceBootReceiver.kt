@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class DeviceBootReceiver @Inject constructor() : BroadcastReceiver() {
     @Inject
-    lateinit var itemsNotifications: ItemsNotifications
+    lateinit var itemAlarmScheduler: ItemAlarmScheduler
     @Inject
     lateinit var dataLoader: DataLoader
     @Inject
@@ -20,7 +20,7 @@ class DeviceBootReceiver @Inject constructor() : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
             dataLoader.load {
-                itemsNotifications.setUpNotifications(repo.user.items)
+                itemAlarmScheduler.schedule()
             }
         }
     }

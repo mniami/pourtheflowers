@@ -1,5 +1,6 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
@@ -7,6 +8,7 @@ import android.webkit.URLUtil
 import android.widget.ImageView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.utils.CircleTransform
 import java.io.File
 
@@ -42,6 +44,10 @@ object ImageLoader {
                         // noop
                     }
                 })
+    }
+
+    fun getPhotoFilePath(path: String?, context: Context?) : String {
+        return if (path.isNullOrEmpty()) java.lang.String.format("android.resource://%s/drawable/flower", context?.getString(R.string.package_name)) else path
     }
 
     private fun getImageUri(imageUrl: String): Uri {

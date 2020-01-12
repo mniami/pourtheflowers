@@ -27,7 +27,7 @@ class NotificationExtKtTest {
     }
 
     private fun getElapsedTime(repeatTime: NotificationTime, lastTimeMinusCurrentTime: NotificationTime, expectedTime: NotificationTime) {
-        val currentTime = SystemTime.current()
+        val currentTime = SystemTime.now()
 
         cleanNotificationTimeToFixedTime(currentTime)
 
