@@ -33,6 +33,7 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
         super.setArguments(args)
         originalUiItem = arguments?.getSerializable(EditDetailsFragmentFactory.ITEM_PARAM_NAME) as UiItem
         uiItem = originalUiItem.copy()
+        photoFilePath = uiItem.item.imageUrl
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

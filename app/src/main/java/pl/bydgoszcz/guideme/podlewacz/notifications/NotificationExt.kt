@@ -26,7 +26,7 @@ fun Notification.getRemainingSystemTime(currentTime: SystemTime = now()): System
         cleanNotificationTimeToFixedTime(notificationDateTime)
         notificationDateTime
     } else {
-        throw IllegalArgumentException("Last notification time or repeat in time values cannot be 0")
+        currentTime
     }
 }
 
