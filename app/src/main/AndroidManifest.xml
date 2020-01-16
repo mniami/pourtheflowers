@@ -41,11 +41,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <receiver android:process=":remote" android:name=".notifications.AlarmReceiver"/>
+
+        <receiver android:name=".notifications.AlarmReceiver" />
         <receiver android:name=".notifications.DeviceBootReceiver"
-            android:enabled="false">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>

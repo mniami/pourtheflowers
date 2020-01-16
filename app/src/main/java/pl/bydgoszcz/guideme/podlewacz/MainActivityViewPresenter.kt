@@ -7,6 +7,7 @@ import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ItemDetailsFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.NewItemFragment
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.SettingsFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.library.LibraryFragment
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.EditDetailsFragmentFactory
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
@@ -70,5 +71,14 @@ class MainActivityViewPresenter(private val supportFragmentManager: FragmentMana
 
     override fun getCurrentFragment(): Fragment? {
         return supportFragmentManager.findFragmentById(frameLayoutId)
+    }
+
+    override fun showSettings() {
+        handler.post {
+            supportFragmentManager.beginTransaction()
+                    .replace(frameLayoutId, SettingsFragment(), itemBackStackName)
+                    .addToBackStack(itemBackStackName)
+                    .commit()
+        }
     }
 }

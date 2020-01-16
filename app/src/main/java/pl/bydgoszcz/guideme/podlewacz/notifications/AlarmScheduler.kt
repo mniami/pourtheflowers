@@ -31,6 +31,7 @@ class AlarmScheduler @Inject constructor(val context: Context) {
 
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        manager.cancel(pendingIntent)
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delayScheduledTime, repeat, pendingIntent)
     }
 }

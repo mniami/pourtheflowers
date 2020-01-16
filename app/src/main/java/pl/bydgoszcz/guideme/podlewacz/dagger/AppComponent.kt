@@ -3,10 +3,8 @@ package pl.bydgoszcz.guideme.podlewacz.dagger
 import dagger.Component
 import pl.bydgoszcz.guideme.podlewacz.MainActivity
 import pl.bydgoszcz.guideme.podlewacz.notifications.AlarmReceiver
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.EditDetailsFragment
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.ItemDetailsFragment
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.NewItemFragment
+import pl.bydgoszcz.guideme.podlewacz.notifications.DeviceBootReceiver
+import pl.bydgoszcz.guideme.podlewacz.views.fragments.*
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.library.LibraryFragment
 import javax.inject.Singleton
 
@@ -23,4 +21,6 @@ interface AppComponent {
     fun inject(target: NewItemFragment)
     fun inject(target: LibraryFragment)
     fun inject(target: AlarmReceiver)
+    fun inject(target: DeviceBootReceiver)
+    fun inject(target: SettingsFragment)
 }

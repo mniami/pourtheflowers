@@ -64,4 +64,7 @@
     <string name="item_tag_category">Kategoria</string>
     <string name="notification_alert">Alert</string>
     <string name="edit_notification_time_label">Powtórz co:</string>
+    <string name="autostart_label">Notifications</string>
+    <string name="autostart_description">If you noticed an issue with Notifications, please click the button below and verify if the app has enabled Autostart option</string>
+    <string name="autostart_button">Turn on autostart option</string>
 </resources>

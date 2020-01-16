@@ -10,4 +10,5 @@ interface ViewChanger {
     fun showAllItems()
     fun showNewItemAdd()
     fun getCurrentFragment(): Fragment?
+    fun showSettings()
 }

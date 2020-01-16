@@ -17,6 +17,10 @@
             android:id="@+id/navAddNew"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/add_new_flower"/>
+        <item
+            android:id="@+id/navSettings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/action_settings"/>
     </group>
 
     <!--<item android:title="Społeczność">-->

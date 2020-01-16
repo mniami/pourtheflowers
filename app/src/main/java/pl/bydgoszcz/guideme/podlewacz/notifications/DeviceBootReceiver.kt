@@ -3,8 +3,8 @@ package pl.bydgoszcz.guideme.podlewacz.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
-import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import android.util.Log
+import pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,16 +12,12 @@ import javax.inject.Singleton
 class DeviceBootReceiver @Inject constructor() : BroadcastReceiver() {
     @Inject
     lateinit var itemAlarmScheduler: ItemAlarmScheduler
-    @Inject
-    lateinit var dataLoader: DataLoader
-    @Inject
-    lateinit var repo: ItemsRepository
 
     override fun onReceive(context: Context, intent: Intent) {
+        (context.applicationContext as PourTheFlowerApplication).component.inject(this)
+        Log.w("podlewacz", "[Device boot receiver] onReceive, action: ${intent.action}")
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
-            dataLoader.load {
-                itemAlarmScheduler.schedule()
-            }
+            itemAlarmScheduler.schedule()
         }
     }
 }

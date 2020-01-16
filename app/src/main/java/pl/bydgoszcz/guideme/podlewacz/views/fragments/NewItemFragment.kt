@@ -17,7 +17,6 @@ import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
-import java.lang.String.format
 import javax.inject.Inject
 
 class NewItemFragment : PictureFragment(), BackButtonHandler {

@@ -48,11 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         super.onCreate(savedInstanceState)
 
-        try {
-            setContentView(R.layout.activity_main)
-        } catch (e: Exception) {
-            Log.e("MainActivity", e.toString())
-        }
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
@@ -133,6 +129,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.navAddNew -> {
                 presenter.showNewItemAdd()
+            }
+            R.id.navSettings -> {
+                presenter.showSettings()
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)

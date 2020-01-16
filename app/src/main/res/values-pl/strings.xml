@@ -65,4 +65,7 @@
     <string name="item_tag_category">Kategoria</string>
     <string name="notification_alert">Alert</string>
     <string name="edit_notification_time_label">Repeat every:</string>
+    <string name="autostart_description">Jeśli zauważyłeś, że nie przychodzą powiadomienia z aplikacji, proszę wciśniej poniższy przycisk i włącz funkcję Autostart dla aplikacji</string>
+    <string name="autostart_label">Autostart</string>
+    <string name="autostart_button">Włącz opcję autostart</string>
 </resources>
