@@ -50,13 +50,13 @@
             android:layout_marginEnd="@dimen/form_view_margin_start_end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guideline">
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            android:hint="@string/name_label">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name_label" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,13 +69,13 @@
             android:layout_marginEnd="@dimen/form_view_margin_start_end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lName">
+            app:layout_constraintTop_toBottomOf="@+id/lName"
+            android:hint="@string/description_label" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description_label" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
