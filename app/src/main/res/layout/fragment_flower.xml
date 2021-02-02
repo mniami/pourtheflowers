@@ -65,18 +65,14 @@
                     android:id="@+id/tvNotificationDate"
                     style="@style/DescriptionTextViewStyle"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:gravity="bottom"
-                    android:maxLines="1"
-                    android:padding="6dp"
-                    android:textAlignment="gravity"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvNotificationTime"
                     app:layout_constraintEnd_toStartOf="@+id/tvRemainingTime"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/tvNotificationTime"
                     app:layout_constraintTop_toTopOf="@+id/tvRemainingTime"
-                    tools:text="środa 22 wrzesien 2019" />
+                    tools:text="poniedziałek 22 wrzesien 2019 i jeszcze cos" />
 
                 <TextView
                     android:id="@+id/tvNotificationTime"
@@ -123,7 +119,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRemainingTime" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvNotificationDate" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

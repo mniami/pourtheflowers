@@ -5,22 +5,18 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_flower_item.view.*
 import pl.bydgoszcz.guideme.podlewacz.R
-import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.notifications.getElapsedTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingDaysMessage
-import pl.bydgoszcz.guideme.podlewacz.notifications.getRemainingSystemTime
 import pl.bydgoszcz.guideme.podlewacz.notifications.updateRemainingTime
 import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.threads.runOnUi
 import pl.bydgoszcz.guideme.podlewacz.utils.getColorFromResource
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.FlowerListFragment.OnListFragmentInteractionListener
-import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ShortDesriptionProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 
 class FlowerRecyclerViewAdapter(
@@ -51,8 +47,7 @@ class FlowerRecyclerViewAdapter(
 
         item.updateRemainingTime()
 
-        holder.mNameView.text = item.item.name
-        holder.mDescriptionView.text = Html.fromHtml(ShortDesriptionProvider.provide(item.item.description))
+        holder.mNameView.text = Html.fromHtml(item.item.name)
 
         if (showRemainingTime) {
             holder.mFrequencyText.text = item.item.notification.getRemainingDaysMessage(mContext)
@@ -85,7 +80,7 @@ class FlowerRecyclerViewAdapter(
             return
         }
         holder.mFlowerImageView.tag = ImageItemTag(color, position)
-        ImageLoader.setImage(holder.mFlowerImageView,
+        ImageLoader.setImageWithCircle(holder.mFlowerImageView,
                 item.item.imageUrl,
                 onError = {
                     // noop
@@ -95,7 +90,9 @@ class FlowerRecyclerViewAdapter(
     private fun refresh(holder: ViewHolder) {
         val position = holder.mView.tag as Int? ?: return
         val item = items[position]
-
+        if (!item.item.notification.enabled) {
+            return
+        }
         runInBackground {
             item.updateRemainingTime()
             runOnUi {
@@ -121,7 +118,6 @@ class FlowerRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View, isStopped: () -> Boolean) : RecyclerView.ViewHolder(mView) {
         val mNameView: TextView = mView.name
-        val mDescriptionView: TextView = mView.tvDescription
         val mFlowerImageView: ImageView = mView.flowerImage
         val mFrequencyText: TextView = mView.remainingDaysTextView
         val worker: Worker = Worker.constructAndRun(isStopped, this)

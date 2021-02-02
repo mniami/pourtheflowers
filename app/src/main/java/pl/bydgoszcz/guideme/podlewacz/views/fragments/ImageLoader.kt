@@ -30,13 +30,13 @@ object ImageLoader {
                 })
     }
 
-    fun setImageWithCircle(itemImage: ImageView, imageUrl: String, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit) {
+    fun setImageWithCircle(itemImage: ImageView, imageUrl: String, borderColor: Int = Color.WHITE, borderSize: Int = 7, onError: () -> Unit = {}) {
         val uri = getImageUri(imageUrl)
         Picasso.get().load(uri)
                 .transform(CircleTransform(borderColor, borderSize))
                 .into(itemImage, object : Callback {
                     override fun onError(e: Exception?) {
-                        Log.e(TAG, e?.message)
+                        Log.e(TAG, e?.message ?: "")
                         onError()
                     }
 

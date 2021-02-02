@@ -40,7 +40,9 @@ fun Notification.getElapsedTime(): NotificationTime {
 }
 
 fun UiItem.updateRemainingTime() {
-    remainingTime = item.notification.getRemainingNotificationTime(now())
+    if (item.notification.enabled) {
+        remainingTime = item.notification.getRemainingNotificationTime(now())
+    }
 }
 
 fun Notification.getRemainingDaysMessage(context: Context): Spanned {

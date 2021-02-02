@@ -1,9 +1,7 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.*
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.*
@@ -48,9 +46,9 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
         super.onViewCreated(view, savedInstanceState)
 
         FabHelper(activity).hide()
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, textView2, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
         binder.bind {
-            name = SpannableStringBuilder(uiItem.item.name)
+            namePure = uiItem.item.name
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
@@ -87,7 +85,7 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.name.isNullOrEmpty()) {
+        if (binder.namePure.isNullOrEmpty()) {
             showSnack(R.string.name_cannot_be_empty_message)
             return
         }
@@ -96,7 +94,7 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
 
     private fun saveItem(onSuccess: () -> Unit) {
         with(uiItem.item) {
-            name = binder.name.toString()
+            name = binder.namePure
             description = binder.descriptionPure
             notification.enabled = binder.notificationEnabled
             notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)

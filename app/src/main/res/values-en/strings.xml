@@ -39,7 +39,7 @@
     <string name="item_added_to_the_list_information">Added to your collection</string>
     <string name="name_label">Name</string>
     <string name="description_label">Description</string>
-    <string name="flower_poured">Plant water, saved, next one in %s days</string>
+    <string name="flower_poured">Plant watered, next one in %s days</string>
     <string name="name_cannot_be_empty_message">Name cannot be empty</string>
     <string name="dialog_title_confirm_save">Confirm</string>
     <string name="dialog_message_cofirm_save">Are you sure to save the changes?</string>
@@ -65,4 +65,9 @@
     <string name="autostart_label">Notifications</string>
     <string name="autostart_description">If you noticed an issue with Notifications, please click the button below and verify if the app has enabled Autostart option</string>
     <string name="autostart_button">Turn on autostart option</string>
+    <string name="tags_likes_sun">Likes sun</string>
+    <string name="tags_sprinkle">Sprinkle</string>
+    <string name="tags_on_stand">On stand</string>
+    <string name="tags_massive_watering">Plentiful irrigation</string>
+    <string name="tags_shadow">Likes shadow</string>
 </resources>

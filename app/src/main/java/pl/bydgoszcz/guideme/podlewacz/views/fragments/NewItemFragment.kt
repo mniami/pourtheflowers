@@ -44,9 +44,9 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
         FabHelper(activity).hide()
 
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
-        binder = EditDetailsFragmentBinder(requireContext(), etName, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
+        binder = EditDetailsFragmentBinder(requireContext(), etName, textView2, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
         binder.bind {
-            name = SpannableStringBuilder(uiItem.item.name)
+            namePure = uiItem.item.name
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
             pourFrequencyVisible = notificationEnabled
@@ -85,7 +85,7 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.name.isNullOrEmpty()) {
+        if (binder.namePure.isNullOrEmpty()) {
             goBack()
             return
         }
@@ -97,7 +97,7 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
         val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
 
         addNewItem.add(
-                binder.name.toString(),
+                binder.namePure,
                 binder.descriptionPure,
                 binder.tags,
                 ImageLoader.getPhotoFilePath(photoFilePath, context),

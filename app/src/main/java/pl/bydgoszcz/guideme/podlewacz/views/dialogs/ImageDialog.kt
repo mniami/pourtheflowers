@@ -31,7 +31,7 @@ class ImageDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         imageUrl?.let {
-            ImageLoader.setImage(vImage, it)
+            ImageLoader.setImageWithCircle(vImage, it)
         }
         closeButton.setOnClickListener {
             dismiss()

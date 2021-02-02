@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Podlewacz</string>
+    <string name="app_name">Podlewanie roślin</string>
     <string name="package_name">pl.bydgoszcz.guideme.podlewacz</string>
 
     <string name="navigation_drawer_open">Otwórz menu</string>
     <string name="navigation_drawer_close">Zamknij menu</string>
-    <string name="nav_header_title">Powiadomienia o podlewaniu kwiatów</string>
+    <string name="nav_header_title">Powiadomienia o podlewaniu roślin</string>
     <string name="nav_header_subtitle">GuideMe 2019</string>
     <string name="action_settings">Ustawienia</string>
     <string name="flower_frequency_in_days_label"><![CDATA[PODLEJ ZA <b>%s</b> DNI]]></string>
@@ -23,11 +23,11 @@
     <string name="search_title">Szukaj</string>
     <string name="flower_information">Informacje</string>
     <string name="flower_image_description">Kwiat</string>
-    <string name="all_flowers_title">Biblioteka kwiatów</string>
-    <string name="user_flowers_title">Moje kwiaty</string>
+    <string name="all_flowers_title">Biblioteka roślin</string>
+    <string name="user_flowers_title">Moje rośliny</string>
     <string name="remove_item">Usuń</string>
-    <string name="add_new_flower">Dodaj nowy</string>
-    <string name="new_flower">Nowy kwiat</string>
+    <string name="add_new_flower">Dodaj nową</string>
+    <string name="new_flower">Nowa roślina</string>
     <string name="frequency_day_label">%s dzień</string>
 
     <!-- Errors -->
@@ -41,7 +41,7 @@
     <string name="item_added_to_the_list_information">Dodano do Twojej listy</string>
     <string name="name_label">Nazwa</string>
     <string name="description_label">Opis</string>
-    <string name="flower_poured">Kwiat podlany, następne za %s dni</string>
+    <string name="flower_poured">Roślina podlana, następne za %s dni</string>
     <string name="name_cannot_be_empty_message">Nazwa nie może być pusta</string>
     <string name="dialog_title_confirm_save">Zapis zmian</string>
     <string name="dialog_message_cofirm_save">Czy zapisać zmiany?</string>
@@ -60,11 +60,16 @@
     <string name="pour_the_flower_button">Podlane</string>
     <string name="flower_frequency_alert_message">Podlej jak najszybciej, zapomniałeś to zrobić ostatnio.</string>
     <string name="flower_frequency_notification_remaining_label">Pozostało</string>
-    <string name="add_first_flower">Dodaj pierwszy kwiat</string>
+    <string name="add_first_flower">Dodaj pierwszą roślinę</string>
     <string name="item_tag_category">Kategoria</string>
     <string name="notification_alert">Alert</string>
     <string name="edit_notification_time_label">Powtórz co:</string>
     <string name="autostart_label">Notifications</string>
     <string name="autostart_description">If you noticed an issue with Notifications, please click the button below and verify if the app has enabled Autostart option</string>
     <string name="autostart_button">Turn on autostart option</string>
+    <string name="tags_shadow">Cień</string>
+    <string name="tags_massive_watering">Obfite nawodnienie</string>
+    <string name="tags_on_stand">Na podstawkę</string>
+    <string name="tags_sprinkle">Zraszać</string>
+    <string name="tags_likes_sun">Słońce</string>
 </resources>

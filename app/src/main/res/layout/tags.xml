@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.material.chip.ChipGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.chip.ChipGroup
         android:id="@+id/cgTags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
             android:checkable="true"
             android:checked="true"
             android:tag="sun"
-            android:text="Słońce" />
+            android:text="@string/tags_likes_sun" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipShadow"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:tag="shadow"
-            android:text="Cień" />
+            android:text="@string/tags_shadow" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipRichIrrigation"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:tag="rich irrigation"
-            android:text="Obfite nawodnienie" />
+            android:text="@string/tags_massive_watering" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipOnStand"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:tag="on stand"
-            android:text="Na podstawke" />
+            android:text="@string/tags_on_stand" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipSprinkle"
@@ -53,6 +53,6 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:tag="sprinkle"
-            android:text="Zraszać" />
+            android:text="@string/tags_sprinkle" />
     </com.google.android.material.chip.ChipGroup>
 </FrameLayout>

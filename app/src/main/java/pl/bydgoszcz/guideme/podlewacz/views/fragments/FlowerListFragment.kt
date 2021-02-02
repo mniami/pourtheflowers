@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -55,7 +56,7 @@ class FlowerListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
-            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
             //recyclerView.adapter = FlowerRecyclerViewAdapter(emptyList(), context!!, listener, pouredTheFlower)
         }
         return view
@@ -85,9 +86,8 @@ class FlowerListFragment : Fragment() {
             activity.getViewChanger().showNewItemAdd()
         }
         if (act is MainActivityHelper) {
-            act.toolbar.title = getListTypeTitle()
+            act.title = getListTypeTitle()
         }
-        //refreshUi()
 
         (recyclerView.adapter as FlowerRecyclerViewAdapter?)?.resume()
     }

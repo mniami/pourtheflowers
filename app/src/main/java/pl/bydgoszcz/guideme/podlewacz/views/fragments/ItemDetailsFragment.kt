@@ -116,11 +116,8 @@ class ItemDetailsFragment : Fragment() {
             } else {
                 tvRemainingTime.setTextColor(resources.getColor(R.color.colorPrimary))
             }
-            ivNotificationAlert.visibility = timePassedButNotTodayVisibility
             tvAlertMessage.visibility = timePassedButNotTodayVisibility
             tvNotificationRemainingLabel.visibility = timeRemains.toVisibility()
-        } else {
-            ivNotificationAlert.visibility = View.GONE
         }
 
         btnWater.visibility = (uiItem.isUser && uiItem.item.notification.enabled).toVisibility()
@@ -137,7 +134,7 @@ class ItemDetailsFragment : Fragment() {
     private fun initImage() {
         itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
         guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
-        ImageLoader.setImage(itemImage, uiItem.item.imageUrl)
+        ImageLoader.setImageWithCircle(itemImage, uiItem.item.imageUrl)
         itemImage.onClick {
             fullScreenImage.open(uiItem)
         }

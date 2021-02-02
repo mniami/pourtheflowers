@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.TextView
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import pl.bydgoszcz.guideme.podlewacz.model.Tag
@@ -19,24 +20,18 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.setTags
 class EditDetailsFragmentBinder(
         private val context: Context,
         private val etName: TextInputEditText,
+        private val tvRepeatLabel: TextView,
         private val etDescription: TextInputEditText,
         private val spinnerPourFrequency: Spinner,
         private val turnNotificationSwitch: Switch,
         private val ivImage: ImageView,
         private val cgTags: ChipGroup) {
-    var name: Editable?
+    var namePure: String
         get() {
-            return etName.text
+            return etName.text.toString().replace("\n", "<br/>")
         }
         set(value) {
-            etName.text = value
-        }
-    var descriptionHtml: Editable?
-        get() {
-            return etDescription.text
-        }
-        set(value) {
-            etDescription.text = value
+            etName.setText(Html.fromHtml(value))
         }
     var descriptionPure: String
         get() {
@@ -74,6 +69,7 @@ class EditDetailsFragmentBinder(
         set(value) {
             val visibility = if (value) View.VISIBLE else View.GONE
             spinnerPourFrequency.visibility = visibility
+            tvRepeatLabel.visibility = visibility
         }
     var onNotificationEnabled: EditDetailsFragmentBinder.() -> Unit = {}
     var flowerImageUrl: String
@@ -82,7 +78,7 @@ class EditDetailsFragmentBinder(
         }
         set(value) {
             ivImage.tag = value
-            ImageLoader.setImage(ivImage, value)
+            ImageLoader.setImageWithCircle(ivImage, value)
         }
     var tags: List<Tag>
         get() {

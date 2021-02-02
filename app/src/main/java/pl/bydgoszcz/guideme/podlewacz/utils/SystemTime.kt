@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS")
-private val dateFormatHuman = SimpleDateFormat("EEEE d MMMM")
+private val dateFormatHuman = SimpleDateFormat("EEEE d MMMM YYYY")
 
 /**
  * Value expressed in milliseconds

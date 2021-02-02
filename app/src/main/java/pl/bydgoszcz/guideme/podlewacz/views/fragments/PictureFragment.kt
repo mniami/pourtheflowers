@@ -61,7 +61,7 @@ open class PictureFragment : Fragment(), TakingPictureThumbnail {
         // Compress bitmap
         val proportion = ivPhoto.width.toFloat() / ivPhoto.height.toFloat()
         ImageUtils.compressBitmapFile(activity?.baseContext, imageFilePath, proportion) {
-            ImageLoader.setImage(ivPhoto, imageFilePath, onError = {
+            ImageLoader.setImageWithCircle(ivPhoto, imageFilePath, onError = {
                 showSnack(R.string.image_load_failed)
             })
         }
