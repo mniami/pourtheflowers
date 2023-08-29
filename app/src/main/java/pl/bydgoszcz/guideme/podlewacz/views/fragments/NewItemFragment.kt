@@ -1,13 +1,11 @@
 package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower_edit.*
-import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.MainActivityHelper
 import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerEditBinding
 import pl.bydgoszcz.guideme.podlewacz.features.AddNewItem
 import pl.bydgoszcz.guideme.podlewacz.goBack
 import pl.bydgoszcz.guideme.podlewacz.injector
@@ -15,6 +13,7 @@ import pl.bydgoszcz.guideme.podlewacz.model.Item
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
+import pl.bydgoszcz.guideme.podlewacz.views.IToolbarTitleContainer
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.binders.EditDetailsFragmentBinder
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
@@ -25,11 +24,18 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
     lateinit var addNewItem: AddNewItem
 
     private lateinit var uiItem: UiItem
-    private lateinit var binder: EditDetailsFragmentBinder
+    private lateinit var deprecatedCustomeBinder: EditDetailsFragmentBinder
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_flower_edit, container, false)
+        Log.w(TAG, "Created view")
+        _binder = FragmentFlowerEditBinding.inflate(inflater, container, false)
+        return binder.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binder = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,8 +50,16 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
         FabHelper(activity).hide()
 
         uiItem = UiItem(Item(), true, NotificationTime.ZERO, "")
-        binder = EditDetailsFragmentBinder(requireContext(), etName, textView2, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
-        binder.bind {
+        deprecatedCustomeBinder = EditDetailsFragmentBinder(
+            requireContext(),
+            binder.etName,
+            binder.textView2,
+            binder.etDescription,
+            binder.frequencySpinner,
+            binder.turnNotificationSwitch,
+            binder.ivPhoto,
+            binder.tagsLayoutContainer.cgTags)
+        deprecatedCustomeBinder.bind {
             namePure = uiItem.item.name
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
@@ -56,36 +70,42 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
                 pourFrequencyVisible = notificationEnabled
             }
         }
-        ivAddPhoto.setOnClickListener {
+        val act = activity ?: throw IllegalStateException("Flower list no activity")
+        FabHelper(act).show(FabHelper.Option.SAVE)?.setOnClickListener {
+            validate {
+                saveItem {
+                    goBack()
+                }
+            }
+        }
+        binder.ivAddPhoto.setOnClickListener {
             requestTakePicture()
         }
-        ivPhoto.setOnClickListener {
+        binder.ivPhoto.setOnClickListener {
             requestTakePicture()
         }
-        binder.notificationEnabled = true
-        binder.pourFrequencyVisible = true
+        deprecatedCustomeBinder.notificationEnabled = true
+        deprecatedCustomeBinder.pourFrequencyVisible = true
 
-        ivAddPhoto.visibility = View.VISIBLE
+        binder.ivAddPhoto.visibility = View.VISIBLE
 
         val activity = activity
                 ?: throw IllegalStateException("New item on view created has no activity")
 
         if (activity is MainActivityHelper) {
             activity.showBackButton(true)
-            activity.toolbar.title = getString(R.string.new_flower)
+        }
+        if (activity is IToolbarTitleContainer){
+            activity.toolbarTitle = getString(R.string.new_flower)
         }
     }
 
     override fun onBack() {
-        validate {
-            saveItem {
-                goBack()
-            }
-        }
+        goBack()
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.namePure.isNullOrEmpty()) {
+        if (deprecatedCustomeBinder.namePure.isEmpty()) {
             goBack()
             return
         }
@@ -94,12 +114,12 @@ class NewItemFragment : PictureFragment(), BackButtonHandler {
 
     private fun saveItem(onSuccess: () -> Unit) {
         val photoFilePath = photoFilePath
-        val frequency = if (binder.notificationEnabled) NotificationTime.fromDays(binder.pourFrequencyInDays) else NotificationTime.ZERO
+        val frequency = if (deprecatedCustomeBinder.notificationEnabled) NotificationTime.fromDays(deprecatedCustomeBinder.pourFrequencyInDays) else NotificationTime.ZERO
 
         addNewItem.add(
-                binder.namePure,
-                binder.descriptionPure,
-                binder.tags,
+                deprecatedCustomeBinder.namePure,
+                deprecatedCustomeBinder.descriptionPure,
+                deprecatedCustomeBinder.tags,
                 ImageLoader.getPhotoFilePath(photoFilePath, context),
                 frequency,
                 onSuccess)

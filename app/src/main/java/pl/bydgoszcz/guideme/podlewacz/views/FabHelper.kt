@@ -23,11 +23,16 @@ class FabHelper(val activity: FragmentActivity?) {
         }
         val backgroundColor = when(option){
             Option.ADD, Option.EDIT -> R.color.colorAccent
-            Option.SAVE -> R.color.colorPrimary
+            Option.SAVE -> R.color.colorAccent
+        }
+        val foregroundTintColor = when(option) {
+            Option.SAVE -> R.color.white
+            else -> activity.resources.getColorFromResource(backgroundColor)
         }
 
         fab.setImageDrawable(activity.resources.getDrawableFromResources(fabDrawableId))
         fab.backgroundTintList = ColorStateList.valueOf(activity.resources.getColorFromResource(backgroundColor))
+        fab.supportBackgroundTintList = ColorStateList.valueOf(activity.resources.getColorFromResource(backgroundColor))
         fab.hide()
         fab.show()
         return fab

@@ -6,9 +6,9 @@ import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.Spinner
-import android.widget.Switch
 import android.widget.TextView
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import pl.bydgoszcz.guideme.podlewacz.model.Tag
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
@@ -18,14 +18,14 @@ import pl.bydgoszcz.guideme.podlewacz.views.fragments.getTags
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.setTags
 
 class EditDetailsFragmentBinder(
-        private val context: Context,
-        private val etName: TextInputEditText,
-        private val tvRepeatLabel: TextView,
-        private val etDescription: TextInputEditText,
-        private val spinnerPourFrequency: Spinner,
-        private val turnNotificationSwitch: Switch,
-        private val ivImage: ImageView,
-        private val cgTags: ChipGroup) {
+    private val context: Context,
+    private val etName: TextInputEditText,
+    private val tvRepeatLabel: TextView,
+    private val etDescription: TextInputEditText,
+    private val spinnerPourFrequency: Spinner,
+    private val turnNotificationSwitch: SwitchMaterial,
+    private val ivImage: ImageView,
+    private val cgTags: ChipGroup) {
     var namePure: String
         get() {
             return etName.text.toString().replace("\n", "<br/>")

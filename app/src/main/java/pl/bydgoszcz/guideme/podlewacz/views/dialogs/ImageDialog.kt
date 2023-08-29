@@ -6,8 +6,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.fullscreen_image_dialog.*
-import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.databinding.FullscreenImageDialogBinding
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.ImageLoader
 
 class ImageDialog : DialogFragment() {
@@ -18,22 +17,32 @@ class ImageDialog : DialogFragment() {
     private var scaleFactor = 1.0f
     private var scaleGestureDetector: ScaleGestureDetector? = null
     private var imageUrl: String? = null
+    private var _binding: FullscreenImageDialogBinding? = null
+    private val binding get() = _binding!!
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         imageUrl = args?.getString(IMAGE_URL)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fullscreen_image_dialog, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FullscreenImageDialogBinding.inflate(inflater, container, false);
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null;
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         imageUrl?.let {
-            ImageLoader.setImageWithCircle(vImage, it)
+            ImageLoader.setImageWithCircle(binding.vImage, it)
         }
-        closeButton.setOnClickListener {
+        binding.closeButton.setOnClickListener {
             dismiss()
         }
     }
@@ -50,9 +59,9 @@ class ImageDialog : DialogFragment() {
     override fun onResume() {
         super.onResume()
 
-        scaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
+        scaleGestureDetector = ScaleGestureDetector(binding.root.context, ScaleListener())
 
-        vImage.setOnTouchListener { _, motionView ->
+        binding.vImage.setOnTouchListener { _, motionView ->
             scaleGestureDetector?.onTouchEvent(motionView)
             true
         }
@@ -63,8 +72,8 @@ class ImageDialog : DialogFragment() {
             val detector = scaleGestureDetector
             scaleFactor *= detector.scaleFactor
             scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 10.0f))
-            vImage.scaleX = scaleFactor
-            vImage.scaleY = scaleFactor
+            binding.vImage.scaleX = scaleFactor
+            binding.vImage.scaleY = scaleFactor
             return true
         }
     }

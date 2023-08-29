@@ -3,19 +3,17 @@ package pl.bydgoszcz.guideme.podlewacz
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import pl.bydgoszcz.guideme.podlewacz.databinding.ActivityMainBinding
 import pl.bydgoszcz.guideme.podlewacz.loaders.DataLoader
 import pl.bydgoszcz.guideme.podlewacz.notifications.ItemAlarmScheduler
 import pl.bydgoszcz.guideme.podlewacz.notifications.NotificationChannelCreator
 import pl.bydgoszcz.guideme.podlewacz.repositories.ItemsRepository
+import pl.bydgoszcz.guideme.podlewacz.views.IToolbarTitleContainer
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 import pl.bydgoszcz.guideme.podlewacz.views.ViewChanger
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.BackButtonHandler
@@ -25,7 +23,7 @@ import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
+class MainActivity : AppCompatActivity(), IToolbarTitleContainer, NavigationView.OnNavigationItemSelectedListener, FlowerListFragment.OnListFragmentInteractionListener, MainActivityHelper {
     override fun getViewChanger(): ViewChanger {
         return presenter
     }
@@ -38,7 +36,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var dataLoader: DataLoader
     @Inject
     lateinit var itemAlarmScheduler: ItemAlarmScheduler
+    private lateinit var binding: ActivityMainBinding
 
+    override var toolbarTitle
+        get() = binding.appBarMain.toolbar.title
+        set(value) { binding.appBarMain.toolbar.title = value }
     override fun onListFragmentInteraction(item: UiItem) {
         presenter.showItem(item)
     }
@@ -46,25 +48,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_Main)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setContentView(view)
+        setSupportActionBar(binding.appBarMain.toolbar)
 
-        presenter = MainActivityViewPresenter(supportFragmentManager, frame_layout.id)
+        presenter = MainActivityViewPresenter(supportFragmentManager, binding.appBarMain.contentMain.frameLayout.id)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                this, binding.drawerLayout, binding.appBarMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.setToolbarNavigationClickListener {
             onBackPressed()
         }
-        drawer_layout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        privacyPolicyLink.setOnClickListener {
+        binding.privacyPolicyLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(getString(R.string.privacy_policy_url))
             startActivity(intent)
@@ -84,20 +89,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        nav_view.setNavigationItemSelectedListener(this)
+        binding.navView.setNavigationItemSelectedListener(this)
         NotificationChannelCreator.createNotificationChannel(this)
     }
 
     override fun onBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(frame_layout.id)
+        val currentFragment = supportFragmentManager.findFragmentById(binding.appBarMain.contentMain.frameLayout.id)
 
         if (currentFragment is BackButtonHandler) {
             currentFragment.onBack()
             return
         }
 
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             if (supportFragmentManager.backStackEntryCount == 0) {
                 finish()
@@ -134,7 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 presenter.showSettings()
             }
         }
-        drawer_layout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 

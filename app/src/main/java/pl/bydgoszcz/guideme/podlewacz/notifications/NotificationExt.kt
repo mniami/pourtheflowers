@@ -20,7 +20,7 @@ fun Notification.getRemainingNotificationTime(currentTime: SystemTime): Notifica
 fun Notification.getRemainingSystemTime(currentTime: SystemTime = now()): SystemTime {
     return if (lastNotificationTime.millis > 0 && repeatInTime.value > 0) {
         val elapsedTime = currentTime - lastNotificationTime
-        var remainTime = repeatInTime - elapsedTime
+        val remainTime = repeatInTime - elapsedTime
         val notificationDateTime = currentTime + remainTime
 
         cleanNotificationTimeToFixedTime(notificationDateTime)

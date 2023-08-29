@@ -12,9 +12,6 @@ const val ALARM_REQUEST_CODE = 1223
 const val ALARM_DATA_EXTRA_INTENT = "AlarmData"
 
 class AlarmScheduler @Inject constructor(val context: Context) {
-
-    private var pendingIntent: PendingIntent? = null
-
     companion object {
         const val TAG = "AlarmSched"
 
@@ -29,7 +26,11 @@ class AlarmScheduler @Inject constructor(val context: Context) {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.action = ALARM_DATA_EXTRA_INTENT
 
-        pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            ALARM_REQUEST_CODE,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         manager.cancel(pendingIntent)
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delayScheduledTime, repeat, pendingIntent)

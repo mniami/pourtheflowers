@@ -6,17 +6,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_flower_edit.*
 import pl.bydgoszcz.guideme.podlewacz.R
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerEditBinding
 import pl.bydgoszcz.guideme.podlewacz.showSnack
 import pl.bydgoszcz.guideme.podlewacz.utils.ImageUtils
 import pl.bydgoszcz.guideme.podlewacz.views.TakePicture
 
-open class PictureFragment : Fragment(), TakingPictureThumbnail {
+abstract class PictureFragment : Fragment(), TakingPictureThumbnail {
     protected var photoFilePath: String? = null
+    protected var _binder: FragmentFlowerEditBinding? = null
+    protected val binder get() = _binder!!
 
     companion object {
         const val MY_CAMERA_REQUEST_CODE = 100
+        const val TAG = "PictureFragment"
     }
 
     protected fun requestTakePicture() {
@@ -28,7 +31,7 @@ open class PictureFragment : Fragment(), TakingPictureThumbnail {
         } else {
             try {
                 photoFilePath = TakePicture.requestTakePicture(activity)?.absolutePath
-                ivAddPhoto.visibility = View.GONE
+                binder.ivAddPhoto.visibility = View.GONE
             } catch (ex: Exception) {
                 showSnack(R.string.image_file_not_found)
             }
@@ -59,9 +62,9 @@ open class PictureFragment : Fragment(), TakingPictureThumbnail {
         val imageFilePath = photoFilePath ?: return
 
         // Compress bitmap
-        val proportion = ivPhoto.width.toFloat() / ivPhoto.height.toFloat()
+        val proportion = binder.ivPhoto.width.toFloat() / binder.ivPhoto.height.toFloat()
         ImageUtils.compressBitmapFile(activity?.baseContext, imageFilePath, proportion) {
-            ImageLoader.setImageWithCircle(ivPhoto, imageFilePath, onError = {
+            ImageLoader.setImageWithCircle(binder.ivPhoto, imageFilePath, onError = {
                 showSnack(R.string.image_load_failed)
             })
         }

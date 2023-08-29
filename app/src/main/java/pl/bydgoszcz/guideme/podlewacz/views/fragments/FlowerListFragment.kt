@@ -9,13 +9,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower_list.*
 import pl.bydgoszcz.guideme.podlewacz.MainActivityHelper
 import pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerListBinding
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.threads.runOnUi
@@ -43,6 +42,8 @@ class FlowerListFragment : Fragment() {
     lateinit var itemsProvider: ItemsProvider
     @Inject
     lateinit var analytics: Analytics
+    private var _binder: FragmentFlowerListBinding? = null
+    private val binder get() = _binder!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +53,8 @@ class FlowerListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_flower_list, container, false)
+        _binder = FragmentFlowerListBinding.inflate(inflater, container, false)
+        val view = binder.root
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
@@ -62,10 +64,15 @@ class FlowerListFragment : Fragment() {
         return view
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binder = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (recyclerView.adapter == null) {
-            loadAdapter(recyclerView)
+        if (binder.recyclerView.adapter == null) {
+            loadAdapter(binder.recyclerView)
         }
         analytics.onViewCreated(BundleFactory()
                 .putName(analyticsName)
@@ -75,7 +82,7 @@ class FlowerListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val act = activity ?: throw IllegalStateException("Flower list no activity")
-        bAddFirst.setOnClickListener {
+        binder.bAddFirst.setOnClickListener {
             listType = USER_LIST_TYPE
             val activity = activity as MainActivityHelper? ?: return@setOnClickListener
             activity.getViewChanger().showNewItemAdd()
@@ -89,15 +96,14 @@ class FlowerListFragment : Fragment() {
             act.title = getListTypeTitle()
         }
 
-        (recyclerView.adapter as FlowerRecyclerViewAdapter?)?.resume()
+        (binder.recyclerView.adapter as FlowerRecyclerViewAdapter?)?.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        val adapter = recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
+        val adapter = binder.recyclerView.adapter as FlowerRecyclerViewAdapter? ?: return
         adapter.stop()
     }
-
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         setMenu(menu, menuInflater, R.menu.main)
     }
@@ -148,13 +154,13 @@ class FlowerListFragment : Fragment() {
     }
 
     private fun refreshUi() {
-        recyclerView.adapter ?: return
+        binder.recyclerView.adapter ?: return
 
-        val adapter = (recyclerView.adapter as FlowerRecyclerViewAdapter)
+        val adapter = (binder.recyclerView.adapter as FlowerRecyclerViewAdapter)
         val isEmpty = adapter.itemCount == 0 && listType == USER_LIST_TYPE
 
-        bAddFirst.visibility = isEmpty.toVisibility()
-        recyclerView.visibility = (!isEmpty).toVisibility()
+        binder.bAddFirst.visibility = isEmpty.toVisibility()
+        binder.recyclerView.visibility = (!isEmpty).toVisibility()
     }
 
     interface OnListFragmentInteractionListener {

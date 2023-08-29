@@ -6,12 +6,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_flower.*
-import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerBinding
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerItemBinding
 import pl.bydgoszcz.guideme.podlewacz.features.AddItemToUser
 import pl.bydgoszcz.guideme.podlewacz.features.PouredTheFlower
 import pl.bydgoszcz.guideme.podlewacz.features.RemoveItemFromUser
@@ -23,6 +22,7 @@ import pl.bydgoszcz.guideme.podlewacz.utils.SystemTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
 import pl.bydgoszcz.guideme.podlewacz.utils.toVisibility
 import pl.bydgoszcz.guideme.podlewacz.views.FabHelper
+import pl.bydgoszcz.guideme.podlewacz.views.IToolbarTitleContainer
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.ItemsProvider
 import pl.bydgoszcz.guideme.podlewacz.views.model.UiItem
 import javax.inject.Inject
@@ -49,6 +49,8 @@ class ItemDetailsFragment : Fragment() {
     lateinit var analytics: Analytics
 
     private lateinit var uiItem: UiItem
+    private var _binding: FragmentFlowerBinding? = null
+    private val binding get() = _binding!!
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -58,7 +60,8 @@ class ItemDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_flower, container, false)
+        _binding = FragmentFlowerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -92,11 +95,13 @@ class ItemDetailsFragment : Fragment() {
         val activity = activity
                 ?: throw IllegalStateException("Item details - init item has no activity")
 
-        activity.toolbar.title = uiItem.item.name
-        tvDescription?.visibility = uiItem.item.description.isNotEmpty().toVisibility()
-        tvDescription?.text = Html.fromHtml(uiItem.item.description)
-        cvNotification?.visibility = uiItem.item.notification.enabled.toVisibility()
-        setTags(cgTags, uiItem.item.tags, false)
+        if (activity is IToolbarTitleContainer) {
+            activity.toolbarTitle = uiItem.item.name
+        }
+        binding.tvDescription.visibility = uiItem.item.description.isNotEmpty().toVisibility()
+        binding.tvDescription.text = Html.fromHtml(uiItem.item.description)
+        binding.cvNotification.visibility = uiItem.item.notification.enabled.toVisibility()
+        setTags(binding.tagsLayout.cgTags, uiItem.item.tags, false)
 
         if (uiItem.item.notification.enabled) {
             val remainingNotification = uiItem.item.notification.getRemainingNotificationTime(SystemTime.now())
@@ -107,22 +112,22 @@ class ItemDetailsFragment : Fragment() {
             val timePassedButNotToday = timePassed && !timePassedToday
             val timePassedButNotTodayVisibility = timePassedButNotToday.toVisibility()
 
-            tvNotificationDate?.text = remainingSystem.getDate()
-            tvNotificationTime?.text = remainingSystem.getTime()
-            tvRemainingTime.text = uiItem.item.notification.getRemainingDaysMessage(activity)
+            binding.tvNotificationDate.text = remainingSystem.getDate()
+            binding.tvNotificationTime.text = remainingSystem.getTime()
+            binding.tvRemainingTime.text = uiItem.item.notification.getRemainingDaysMessage(activity)
 
             if (timePassedButNotToday) {
-                tvRemainingTime.setTextColor(resources.getColor(R.color.red))
+                binding.tvRemainingTime.setTextColor(resources.getColor(R.color.red))
             } else {
-                tvRemainingTime.setTextColor(resources.getColor(R.color.colorPrimary))
+                binding.tvRemainingTime.setTextColor(resources.getColor(R.color.colorPrimary))
             }
-            tvAlertMessage.visibility = timePassedButNotTodayVisibility
-            tvNotificationRemainingLabel.visibility = timeRemains.toVisibility()
+            binding.tvAlertMessage.visibility = timePassedButNotTodayVisibility
+            binding.tvNotificationRemainingLabel.visibility = timeRemains.toVisibility()
         }
 
-        btnWater.visibility = (uiItem.isUser && uiItem.item.notification.enabled).toVisibility()
-        btnWater.setOnClickListener {
-            pouredTheFlower.pour(uiItem, btnWater) {
+        binding.btnWater.visibility = (uiItem.isUser && uiItem.item.notification.enabled).toVisibility()
+        binding.btnWater.setOnClickListener {
+            pouredTheFlower.pour(uiItem, binding.btnWater) {
                 initItem()
             }
         }
@@ -132,10 +137,10 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun initImage() {
-        itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
-        guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
-        ImageLoader.setImageWithCircle(itemImage, uiItem.item.imageUrl)
-        itemImage.onClick {
+        binding.itemImage.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
+        binding.guideline.visibility = uiItem.item.imageUrl.isNotEmpty().toVisibility()
+        ImageLoader.setImageWithCircle(binding.itemImage, uiItem.item.imageUrl)
+        binding.itemImage.onClick {
             fullScreenImage.open(uiItem)
         }
     }

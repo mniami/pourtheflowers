@@ -2,10 +2,9 @@ package pl.bydgoszcz.guideme.podlewacz.views.fragments
 
 import android.os.Bundle
 import android.view.*
-import kotlinx.android.synthetic.main.fragment_flower_edit.*
-import kotlinx.android.synthetic.main.tags.*
 import pl.bydgoszcz.guideme.podlewacz.*
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerEditBinding
 import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.utils.NotificationTime
 import pl.bydgoszcz.guideme.podlewacz.utils.setMenu
@@ -24,7 +23,7 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
     lateinit var analytics: Analytics
     private lateinit var uiItem: UiItem
     private lateinit var originalUiItem: UiItem
-    private lateinit var binder: EditDetailsFragmentBinder
+    private lateinit var deprecatedCustomBinder: EditDetailsFragmentBinder
     private val analyticsName = "Edit details"
 
     override fun setArguments(args: Bundle?) {
@@ -37,7 +36,13 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_flower_edit, container, false)
+        _binder = FragmentFlowerEditBinding.inflate(inflater, container, false)
+        return binder.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binder = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +50,16 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
 
         super.onViewCreated(view, savedInstanceState)
 
-        FabHelper(activity).hide()
-        binder = EditDetailsFragmentBinder(requireContext(), etName, textView2, etDescription, frequencySpinner, turnNotificationSwitch, ivPhoto, cgTags)
-        binder.bind {
+        FabHelper(activity).show(FabHelper.Option.SAVE)?.setOnClickListener {
+            validate {
+                saveItem {
+                    goBack()
+                }
+            }
+        }
+        deprecatedCustomBinder = EditDetailsFragmentBinder(requireContext(),
+            binder.etName, binder.textView2, binder.etDescription, binder.frequencySpinner, binder.turnNotificationSwitch, binder.ivPhoto, binder.tagsLayoutContainer.cgTags)
+        deprecatedCustomBinder.bind {
             namePure = uiItem.item.name
             descriptionPure = uiItem.item.description
             notificationEnabled = uiItem.item.notification.enabled
@@ -62,9 +74,9 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
         }
         // TODO: refactoring needed to add possibility to change picture
         // all the code is enclosed in NewItemFragment
-        ivAddPhoto.visibility = View.GONE
+        binder.ivAddPhoto.visibility = View.GONE
 
-        ivPhoto.setOnClickListener {
+        binder.ivPhoto.setOnClickListener {
             requestTakePicture()
         }
         analytics.onViewCreated(analyticsName)
@@ -75,17 +87,11 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
     }
 
     override fun onBack() {
-        runInBackground {
-            validate {
-                saveItem {
-                    goBack()
-                }
-            }
-        }
+        goBack()
     }
 
     private fun validate(onSuccess: () -> Unit) {
-        if (binder.namePure.isNullOrEmpty()) {
+        if (deprecatedCustomBinder.namePure.isEmpty()) {
             showSnack(R.string.name_cannot_be_empty_message)
             return
         }
@@ -94,11 +100,11 @@ class EditDetailsFragment : PictureFragment(), BackButtonHandler {
 
     private fun saveItem(onSuccess: () -> Unit) {
         with(uiItem.item) {
-            name = binder.namePure
-            description = binder.descriptionPure
-            notification.enabled = binder.notificationEnabled
-            notification.repeatInTime = NotificationTime.fromDays(binder.pourFrequencyInDays)
-            tags = binder.tags
+            name = deprecatedCustomBinder.namePure
+            description = deprecatedCustomBinder.descriptionPure
+            notification.enabled = deprecatedCustomBinder.notificationEnabled
+            notification.repeatInTime = NotificationTime.fromDays(deprecatedCustomBinder.pourFrequencyInDays)
+            tags = deprecatedCustomBinder.tags
             imageUrl = ImageLoader.getPhotoFilePath(photoFilePath, context)
         }
         saveItem.saveItem(uiItem, onSuccess)

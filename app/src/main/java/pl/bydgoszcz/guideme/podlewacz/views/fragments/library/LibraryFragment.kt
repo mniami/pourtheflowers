@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_flower_list.*
 import pl.bydgoszcz.guideme.podlewacz.PourTheFlowerApplication
 import pl.bydgoszcz.guideme.podlewacz.R
 import pl.bydgoszcz.guideme.podlewacz.analytics.Analytics
 import pl.bydgoszcz.guideme.podlewacz.analytics.BundleFactory
+import pl.bydgoszcz.guideme.podlewacz.databinding.FragmentFlowerListBinding
 import pl.bydgoszcz.guideme.podlewacz.threads.runInBackground
 import pl.bydgoszcz.guideme.podlewacz.threads.runOnUi
 import pl.bydgoszcz.guideme.podlewacz.views.fragments.providers.TagsProvider
@@ -24,6 +24,8 @@ class LibraryFragment : Fragment() {
     lateinit var tagsProvider: TagsProvider
 
     private val analyticsName = "Library"
+    private var _binding: FragmentFlowerListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +35,18 @@ class LibraryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_flower_list, container, false)
+        _binding = FragmentFlowerListBinding.inflate(inflater, container, false)
+        val view = binding.root
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         setHasOptionsMenu(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = TagsAdapter(emptyList())
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +57,7 @@ class LibraryFragment : Fragment() {
         runInBackground {
             val tags = tagsProvider.getTags()
             runOnUi {
-                recyclerView.adapter = TagsAdapter(tags)
+                binding.recyclerView.adapter = TagsAdapter(tags)
             }
         }
     }
